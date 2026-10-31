@@ -198,9 +198,46 @@ Return as a numbered list."""
 
     @classmethod
     async def _query(cls, prompt: str, temperature: float = 0.3) -> str:
-        """Send query to local Ollama instance."""
+        """
+        Send query to AI engine.
+        Priority:
+        1. Live Google Gemini (via ARIA_API_KEY / GEMINI_API_KEY)
+        2. Local Ollama on-premise daemon
+        3. Built-in Law Enforcement Expert Reasoning Engine
+        """
+        api_key = settings.ARIA_API_KEY or settings.GEMINI_API_KEY
+        if api_key:
+            try:
+                gemini_url = f"https://generativelanguage.googleapis.com/v1beta/models/{settings.GEMINI_MODEL}:generateContent?key={api_key}"
+                payload = {
+                    "system_instruction": {
+                        "parts": [{"text": cls.SYSTEM_PROMPT}]
+                    },
+                    "contents": [
+                        {"parts": [{"text": prompt}]}
+                    ],
+                    "generationConfig": {
+                        "temperature": temperature,
+                        "maxOutputTokens": min(settings.AI_MAX_TOKENS, 2048)
+                    }
+                }
+                async with httpx.AsyncClient(timeout=30.0) as client:
+                    resp = await client.post(gemini_url, json=payload)
+                    if resp.status_code == 200:
+                        data = resp.json()
+                        candidates = data.get("candidates", [])
+                        if candidates:
+                            parts = candidates[0].get("content", {}).get("parts", [])
+                            if parts:
+                                return parts[0].get("text", "")
+                    else:
+                        logger.warning(f"ARIA Gemini error ({resp.status_code}): {resp.text[:200]}")
+            except Exception as e:
+                logger.warning(f"ARIA Gemini API unreachable ({e}), falling back to local engine")
+
+        # 2. Local Ollama instance
         try:
-            async with httpx.AsyncClient(timeout=60.0) as client:
+            async with httpx.AsyncClient(timeout=10.0) as client:
                 resp = await client.post(
                     f"{cls.BASE_URL}/api/chat",
                     json={
@@ -219,11 +256,8 @@ Return as a numbered list."""
                 resp.raise_for_status()
                 data = resp.json()
                 return data.get("message", {}).get("content", "Analysis unavailable")
-        except httpx.TimeoutException:
-            logger.error("ARIA: Ollama timeout")
-            return "AI analysis temporarily unavailable. Please try again."
         except Exception as e:
-            logger.warning(f"Ollama offline ({e}), activating ARIA On-Premise Expert Reasoning Engine")
+            logger.info(f"Ollama offline ({e}), activating ARIA On-Premise Expert Reasoning Engine")
             return cls._fallback_reasoning_engine(prompt)
 
     @classmethod

@@ -59,6 +59,9 @@ class Settings(BaseSettings):
     OLLAMA_BASE_URL: str = "http://localhost:11434"
     OLLAMA_MODEL: str = "llama3.2:3b"     # Use local model — no data leaves server
     AI_MAX_TOKENS: int = 4096
+    ARIA_API_KEY: Optional[str] = None
+    GEMINI_API_KEY: Optional[str] = None
+    GEMINI_MODEL: str = "gemini-3.5-flash-lite"
 
     # ─── Monitoring ────────────────────────────────────────
     SENTRY_DSN: Optional[str] = None

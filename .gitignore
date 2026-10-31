@@ -20,6 +20,7 @@ venv.bak/
 *.sqlite3
 *.db-journal
 *.sqlite3-journal
+!backend/shield_dev.db
 
 # Logs
 *.log

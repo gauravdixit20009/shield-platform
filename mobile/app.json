@@ -1,0 +1,69 @@
+{
+  "expo": {
+    "name": "SHIELD Officer",
+    "slug": "shield-officer",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "dark",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#06090e"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "in.gov.shield.officer",
+      "infoPlist": {
+        "UIBackgroundModes": ["location", "audio", "fetch", "processing"],
+        "NSLocationWhenInUseUsageDescription": "SHIELD requires location services while on duty to map tactical officer deployment.",
+        "NSLocationAlwaysAndWhenInUseUsageDescription": "Continuous background location is mandated during officer on-duty shifts for squad safety and incident dispatch.",
+        "NSCameraUsageDescription": "SHIELD requires camera access for on-duty incident recording and digital evidence capture.",
+        "NSMicrophoneUsageDescription": "SHIELD requires microphone access for audio statement logging and emergency panic broadcasting.",
+        "NSFaceIDUsageDescription": "Biometric authentication is required to unlock confidential case records."
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#06090e"
+      },
+      "package": "in.gov.shield.officer",
+      "permissions": [
+        "ACCESS_COARSE_LOCATION",
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_BACKGROUND_LOCATION",
+        "FOREGROUND_SERVICE",
+        "FOREGROUND_SERVICE_LOCATION",
+        "FOREGROUND_SERVICE_MICROPHONE",
+        "FOREGROUND_SERVICE_CAMERA",
+        "CAMERA",
+        "RECORD_AUDIO",
+        "USE_BIOMETRIC",
+        "USE_FINGERPRINT",
+        "WAKE_LOCK",
+        "RECEIVE_BOOT_COMPLETED"
+      ]
+    },
+    "plugins": [
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "Allow SHIELD to access device location during active police duty."
+        }
+      ],
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Allow SHIELD to record photos and video evidence."
+        }
+      ],
+      [
+        "expo-local-authentication",
+        {
+          "faceIDPermission": "Allow SHIELD to use FaceID/Fingerprint for officer verification."
+        }
+      ]
+    ]
+  }
+}

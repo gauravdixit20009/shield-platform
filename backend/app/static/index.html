@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SHIELD — Law Enforcement Intelligence Platform</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%232563eb'><path d='M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z'/></svg>">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+    body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    .mono { font-family: 'JetBrains Mono', monospace; }
+    .glow-blue { box-shadow: 0 0 35px -5px rgba(37, 99, 235, 0.35); }
+    .glow-red { box-shadow: 0 0 35px -5px rgba(220, 38, 38, 0.4); }
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #0b0f17; }
+    ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 3px; }
+  </style>
+</head>
+<body class="bg-[#06090e] text-slate-100 min-h-screen flex flex-col">
+
+  <!-- TOP SECURITY BANNER -->
+  <header class="bg-[#0a0f18] border-b border-slate-800/80 px-6 py-3 flex items-center justify-between sticky top-0 z-50 backdrop-blur-md">
+    <div class="flex items-center gap-3">
+      <div class="w-9 h-9 rounded-lg bg-gradient-to-tr from-blue-700 to-indigo-600 flex items-center justify-center shadow-lg shadow-blue-500/20">
+        <i data-lucide="shield-alert" class="w-5 h-5 text-white"></i>
+      </div>
+      <div>
+        <div class="flex items-center gap-2">
+          <span class="font-extrabold tracking-wider text-white text-base">SHIELD</span>
+          <span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">ENCLAVE ACTIVE</span>
+          <span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-blue-500/10 text-blue-400 border border-blue-500/20">CONFIDENTIAL</span>
+        </div>
+        <p class="text-[11px] text-slate-400">Ministry of Home Affairs • Police & Intelligence Command</p>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-4 text-xs">
+      <div id="totpTicker" class="hidden items-center gap-2 bg-slate-900 border border-slate-700/80 px-3 py-1.5 rounded-lg">
+        <i data-lucide="key" class="w-3.5 h-3.5 text-amber-400"></i>
+        <span class="text-slate-400">Live MFA OTP:</span>
+        <span id="liveOtpBadge" class="mono font-bold text-amber-300 tracking-widest text-sm">------</span>
+        <span id="liveOtpTimer" class="text-[10px] text-slate-500 font-mono">(30s)</span>
+      </div>
+
+      <div id="officerHeaderBadge" class="hidden items-center gap-3">
+        <div class="text-right">
+          <div id="officerNameDisplay" class="font-bold text-slate-200">Officer</div>
+          <div id="officerRankDisplay" class="text-[11px] text-blue-400 font-mono">DGP</div>
+        </div>
+        <button onclick="logout()" class="px-3 py-1.5 rounded-lg bg-red-950/40 text-red-400 hover:bg-red-900/60 border border-red-800/40 text-xs flex items-center gap-1.5 transition">
+          <i data-lucide="log-out" class="w-3.5 h-3.5"></i>
+          <span>Logout</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN CONTAINER -->
+  <div class="flex-1 flex overflow-hidden">
+
+    <!-- LOGIN SCREEN -->
+    <div id="loginSection" class="flex-1 flex items-center justify-center p-6 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-blue-950/20 via-[#06090e] to-[#06090e]">
+      <div class="w-full max-w-md bg-[#0c121d] border border-slate-800 rounded-2xl p-8 shadow-2xl glow-blue">
+        <div class="text-center mb-6">
+          <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-blue-600/10 border border-blue-500/20 text-blue-400 mb-3">
+            <i data-lucide="fingerprint" class="w-8 h-8"></i>
+          </div>
+          <h2 class="text-xl font-bold text-white">Officer Clearance Authentication</h2>
+          <p class="text-xs text-slate-400 mt-1">Biometric MFA & Device Enclave Verification</p>
+        </div>
+
+        <!-- Quick Demo Credentials Box -->
+        <div class="mb-5 p-3.5 bg-blue-950/30 border border-blue-800/40 rounded-xl text-xs space-y-2">
+          <div class="flex items-center justify-between text-blue-300 font-semibold">
+            <span>🛡️ Fast Demo Credentials (1-Click)</span>
+            <span class="text-[10px] bg-blue-900/60 px-1.5 py-0.5 rounded text-blue-200">AUTO FILL</span>
+          </div>
+          <div class="grid grid-cols-2 gap-2 pt-1">
+            <button onclick="fillDemo('DGP')" class="p-2 bg-slate-900/80 hover:bg-blue-900/40 border border-slate-700/80 rounded-lg text-left transition">
+              <div class="font-bold text-slate-200">DGP Sharma, IPS</div>
+              <div class="text-[10px] text-slate-400 font-mono">DGP-INDIA-01</div>
+              <div class="text-[10px] text-emerald-400">Full Clearance</div>
+            </button>
+            <button onclick="fillDemo('SP')" class="p-2 bg-slate-900/80 hover:bg-blue-900/40 border border-slate-700/80 rounded-lg text-left transition">
+              <div class="font-bold text-slate-200">Roy, IPS (SP)</div>
+              <div class="text-[10px] text-slate-400 font-mono">IPS-MH-2024-001</div>
+              <div class="text-[10px] text-blue-400">Field Command</div>
+            </button>
+          </div>
+        </div>
+
+        <form id="loginForm" onsubmit="handleLogin(event)" class="space-y-4">
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 mb-1">Badge Number / Officer ID</label>
+            <div class="relative">
+              <i data-lucide="shield" class="w-4 h-4 text-slate-500 absolute left-3 top-3"></i>
+              <input id="loginBadge" type="text" required placeholder="DGP-INDIA-01" value="DGP-INDIA-01" class="w-full bg-[#111927] border border-slate-700/80 rounded-lg pl-9 pr-3 py-2.5 text-sm text-white focus:outline-none focus:border-blue-500 mono font-semibold">
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 mb-1">Clearance Password</label>
+            <div class="relative">
+              <i data-lucide="lock" class="w-4 h-4 text-slate-500 absolute left-3 top-3"></i>
+              <input id="loginPassword" type="password" required placeholder="••••••••••••" value="Password@123" class="w-full bg-[#111927] border border-slate-700/80 rounded-lg pl-9 pr-3 py-2.5 text-sm text-white focus:outline-none focus:border-blue-500">
+            </div>
+          </div>
+
+          <div>
+            <div class="flex items-center justify-between mb-1">
+              <label class="text-xs font-semibold text-slate-300">MFA Token (TOTP Code)</label>
+              <button type="button" onclick="autoFillOtp()" class="text-[11px] text-amber-400 hover:underline flex items-center gap-1">
+                <i data-lucide="refresh-cw" class="w-3 h-3"></i>
+                <span id="loginOtpSnippet">Fetch current OTP</span>
+              </button>
+            </div>
+            <div class="relative">
+              <i data-lucide="key" class="w-4 h-4 text-slate-500 absolute left-3 top-3"></i>
+              <input id="loginTotp" type="text" required maxlength="6" placeholder="000000" class="w-full bg-[#111927] border border-slate-700/80 rounded-lg pl-9 pr-3 py-2.5 text-sm text-amber-300 focus:outline-none focus:border-amber-500 mono font-bold tracking-widest text-center text-lg">
+            </div>
+          </div>
+
+          <div id="loginError" class="hidden p-3 bg-red-950/40 border border-red-800 rounded-lg text-red-300 text-xs"></div>
+
+          <button type="submit" id="loginBtn" class="w-full py-3 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold rounded-lg text-sm transition flex items-center justify-center gap-2 shadow-lg shadow-blue-600/30">
+            <i data-lucide="check-circle" class="w-4 h-4"></i>
+            <span>Authenticate Clearance</span>
+          </button>
+        </form>
+
+        <div class="mt-6 pt-4 border-t border-slate-800 text-center text-[11px] text-slate-500">
+          Zero-Trust Protocol Active • All logins cryptographically signed & audited
+        </div>
+      </div>
+    </div>
+
+    <!-- AUTHENTICATED DASHBOARD -->
+    <div id="dashboardSection" class="hidden flex-1 flex overflow-hidden">
+      <!-- SIDEBAR -->
+      <aside class="w-64 bg-[#0a0f18] border-r border-slate-800/80 flex flex-col justify-between p-4">
+        <div class="space-y-6">
+          <div class="px-2">
+            <div class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">COMMAND CONSOLE</div>
+          </div>
+          <nav class="space-y-1">
+            <button onclick="switchTab('overview')" id="tabBtn-overview" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-semibold bg-blue-600/15 text-blue-400 border border-blue-500/20">
+              <i data-lucide="layout-dashboard" class="w-4 h-4"></i>
+              <span>HQ Overview</span>
+            </button>
+            <button onclick="switchTab('cases')" id="tabBtn-cases" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-400 hover:bg-slate-800/50 hover:text-slate-200">
+              <i data-lucide="folder-lock" class="w-4 h-4"></i>
+              <span>Active Cases</span>
+              <span id="caseCountBadge" class="ml-auto bg-slate-800 px-1.5 py-0.5 rounded text-[10px] font-mono text-slate-300">2</span>
+            </button>
+            <button onclick="switchTab('aria')" id="tabBtn-aria" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-400 hover:bg-slate-800/50 hover:text-slate-200">
+              <i data-lucide="bot" class="w-4 h-4 text-indigo-400"></i>
+              <span>ARIA AI Analyst</span>
+              <span class="ml-auto bg-indigo-500/20 text-indigo-300 text-[9px] px-1.5 py-0.5 rounded">LOCAL</span>
+            </button>
+            <button onclick="switchTab('duty')" id="tabBtn-duty" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-400 hover:bg-slate-800/50 hover:text-slate-200">
+              <i data-lucide="map-pin" class="w-4 h-4 text-emerald-400"></i>
+              <span>Duty & Surveillance</span>
+              <span id="dutyLiveIndicator" class="ml-auto w-2 h-2 rounded-full bg-slate-600"></span>
+            </button>
+            <button onclick="switchTab('traitor')" id="tabBtn-traitor" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-400 hover:bg-slate-800/50 hover:text-slate-200">
+              <i data-lucide="user-x" class="w-4 h-4 text-rose-400"></i>
+              <span>Traitor Detection</span>
+              <span class="ml-auto bg-rose-500/20 text-rose-300 text-[9px] px-1.5 py-0.5 rounded">BEHAVIOR</span>
+            </button>
+            <button onclick="switchTab('cctv')" id="tabBtn-cctv" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-400 hover:bg-slate-800/50 hover:text-slate-200">
+              <i data-lucide="video" class="w-4 h-4 text-amber-400"></i>
+              <span>CCTV & Feeds</span>
+            </button>
+          </nav>
+        </div>
+
+        <div class="p-3 bg-slate-900/60 border border-slate-800 rounded-xl space-y-2 text-xs">
+          <div class="flex items-center justify-between text-slate-400">
+            <span>Threat Score</span>
+            <span id="officerThreatBadge" class="font-bold text-emerald-400">0/100 (LOW)</span>
+          </div>
+          <div class="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
+            <div id="threatProgressBar" class="bg-emerald-500 h-full w-[5%]"></div>
+          </div>
+          <div class="text-[10px] text-slate-500 flex items-center gap-1">
+            <i data-lucide="shield-check" class="w-3 h-3 text-emerald-400"></i>
+            <span>No anomalous activities logged</span>
+          </div>
+        </div>
+      </aside>
+
+      <!-- CONTENT PANELS -->
+      <main class="flex-1 overflow-y-auto p-8 space-y-6">
+
+        <!-- 1. OVERVIEW TAB -->
+        <div id="panel-overview" class="space-y-6">
+          <div class="flex items-center justify-between">
+            <div>
+              <h1 class="text-2xl font-bold text-white tracking-tight">Central Command Management</h1>
+              <p class="text-xs text-slate-400">Real-time status of assigned cases, field personnel, and threat telemetry</p>
+            </div>
+            <div class="flex items-center gap-2">
+              <button onclick="refreshData()" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-xs rounded-lg flex items-center gap-1.5 text-slate-300 transition">
+                <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i>
+                <span>Sync Now</span>
+              </button>
+              <button onclick="openNewCaseModal()" class="px-3.5 py-1.5 bg-blue-600 hover:bg-blue-500 text-xs font-semibold rounded-lg flex items-center gap-1.5 text-white transition shadow-md shadow-blue-600/30">
+                <i data-lucide="plus-circle" class="w-3.5 h-3.5"></i>
+                <span>Register Case</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- STATS CARDS -->
+          <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div class="p-5 bg-[#0c121d] border border-slate-800 rounded-xl space-y-1">
+              <div class="flex items-center justify-between text-slate-400 text-xs">
+                <span>Active Cases</span>
+                <i data-lucide="briefcase" class="w-4 h-4 text-blue-400"></i>
+              </div>
+              <div id="statActiveCases" class="text-2xl font-bold text-white">2</div>
+              <div class="text-[11px] text-blue-400 font-medium">1 Critical Priority</div>
+            </div>
+
+            <div class="p-5 bg-[#0c121d] border border-slate-800 rounded-xl space-y-1">
+              <div class="flex items-center justify-between text-slate-400 text-xs">
+                <span>Officers On Duty</span>
+                <i data-lucide="radio" class="w-4 h-4 text-emerald-400"></i>
+              </div>
+              <div id="statOnDuty" class="text-2xl font-bold text-white">1</div>
+              <div class="text-[11px] text-emerald-400 font-medium">GPS Telemetry Streamed</div>
+            </div>
+
+            <div class="p-5 bg-[#0c121d] border border-slate-800 rounded-xl space-y-1">
+              <div class="flex items-center justify-between text-slate-400 text-xs">
+                <span>Threat Alerts</span>
+                <i data-lucide="alert-octagon" class="w-4 h-4 text-amber-400"></i>
+              </div>
+              <div id="statThreats" class="text-2xl font-bold text-white">0</div>
+              <div class="text-[11px] text-slate-500">0 Critical Level</div>
+            </div>
+
+            <div class="p-5 bg-[#0c121d] border border-slate-800 rounded-xl space-y-1">
+              <div class="flex items-center justify-between text-slate-400 text-xs">
+                <span>CCTV Grid Status</span>
+                <i data-lucide="video" class="w-4 h-4 text-indigo-400"></i>
+              </div>
+              <div class="text-2xl font-bold text-emerald-400">ONLINE</div>
+              <div class="text-[11px] text-slate-400 font-mono">1 Stream Connected</div>
+            </div>
+          </div>
+
+          <!-- RECENT CASES PREVIEW -->
+          <div class="bg-[#0c121d] border border-slate-800 rounded-xl p-5 space-y-4">
+            <div class="flex items-center justify-between">
+              <h2 class="font-bold text-sm text-white flex items-center gap-2">
+                <i data-lucide="shield" class="w-4 h-4 text-blue-400"></i>
+                <span>Assigned Cases Telemetry</span>
+              </h2>
+              <button onclick="switchTab('cases')" class="text-xs text-blue-400 hover:underline">View All Cases →</button>
+            </div>
+            <div id="recentCasesList" class="space-y-2"></div>
+          </div>
+        </div>
+
+        <!-- 2. CASES TAB -->
+        <div id="panel-cases" class="hidden space-y-6">
+          <div class="flex items-center justify-between">
+            <div>
+              <h1 class="text-2xl font-bold text-white">Case Management Repository</h1>
+              <p class="text-xs text-slate-400">Zero-Leakage RBAC • Enforced by PostgreSQL RLS</p>
+            </div>
+            <button onclick="openNewCaseModal()" class="px-3.5 py-1.5 bg-blue-600 hover:bg-blue-500 text-xs font-semibold rounded-lg flex items-center gap-1.5 text-white transition">
+              <i data-lucide="plus" class="w-4 h-4"></i>
+              <span>New Incident Report</span>
+            </button>
+          </div>
+
+          <div id="allCasesList" class="space-y-3"></div>
+        </div>
+
+        <!-- 3. ARIA AI TAB -->
+        <div id="panel-aria" class="hidden space-y-6">
+          <div class="flex items-center justify-between">
+            <div>
+              <h1 class="text-2xl font-bold text-white flex items-center gap-2">
+                <span>ARIA Intelligence Analyst</span>
+                <span class="text-xs font-normal px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">Local On-Premises LLM</span>
+              </h1>
+              <p class="text-xs text-slate-400">Synthesize FIR transcripts, trace suspect nexus, and uncover behavioral anomalies</p>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div class="lg:col-span-2 bg-[#0c121d] border border-slate-800 rounded-xl flex flex-col h-[520px]">
+              <div class="p-4 border-b border-slate-800 flex items-center justify-between text-xs">
+                <span class="font-bold text-slate-300 flex items-center gap-2">
+                  <i data-lucide="sparkles" class="w-4 h-4 text-indigo-400"></i>
+                  <span>Secure Intelligence Session</span>
+                </span>
+                <span class="text-slate-500 text-[11px]">Zero Cloud Leakage • Self-Contained</span>
+              </div>
+              <div id="ariaChatMessages" class="flex-1 p-4 overflow-y-auto space-y-3 text-xs">
+                <div class="p-3 bg-indigo-950/20 border border-indigo-900/30 rounded-xl text-slate-300">
+                  <div class="font-bold text-indigo-400 mb-1 flex items-center gap-1">
+                    <i data-lucide="bot" class="w-3.5 h-3.5"></i>
+                    <span>ARIA System</span>
+                  </div>
+                  Greetings Officer. I am ARIA. I have indexed your assigned case files, suspect records, and digital evidence chains. How may I assist your investigation today?
+                </div>
+              </div>
+              <form onsubmit="handleAriaChat(event)" class="p-3 border-t border-slate-800 flex gap-2">
+                <input id="ariaInput" type="text" placeholder="Ask ARIA to analyze Case SHIELD-MH-2026-000001, extract suspects, or evaluate patterns..." class="flex-1 bg-[#111927] border border-slate-700/80 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-indigo-500">
+                <button type="submit" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg text-xs font-semibold transition flex items-center gap-1.5">
+                  <i data-lucide="send" class="w-3.5 h-3.5"></i>
+                  <span>Analyze</span>
+                </button>
+              </form>
+            </div>
+
+            <!-- QUICK ACTIONS -->
+            <div class="space-y-4">
+              <div class="p-4 bg-[#0c121d] border border-slate-800 rounded-xl space-y-3">
+                <h3 class="font-bold text-xs text-slate-300">Quick Intelligence Prompts</h3>
+                <div class="space-y-2 text-xs">
+                  <button onclick="triggerQuickPrompt('Analyze the critical cyber exfiltration case and highlight primary suspect nexus.')" class="w-full text-left p-2.5 bg-slate-900/80 hover:bg-slate-800 border border-slate-800 rounded-lg text-slate-300 transition">
+                    🔍 Deep Case Synthesis (Red Dawn)
+                  </button>
+                  <button onclick="triggerQuickPrompt('Identify missing forensic evidence gaps for the current cases.')" class="w-full text-left p-2.5 bg-slate-900/80 hover:bg-slate-800 border border-slate-800 rounded-lg text-slate-300 transition">
+                    🧩 Forensic Gap Analysis
+                  </button>
+                  <button onclick="triggerQuickPrompt('Review suspect aliases and generate court-admissible charge sheet points.')" class="w-full text-left p-2.5 bg-slate-900/80 hover:bg-slate-800 border border-slate-800 rounded-lg text-slate-300 transition">
+                    ⚖️ Court Summary Draft
+                  </button>
+                </div>
+              </div>
+
+              <div class="p-4 bg-indigo-950/20 border border-indigo-900/30 rounded-xl text-xs space-y-2 text-indigo-300">
+                <div class="font-bold flex items-center gap-1.5 text-indigo-200">
+                  <i data-lucide="lock" class="w-3.5 h-3.5"></i>
+                  <span>Zero-Trust AI Sandbox</span>
+                </div>
+                <p class="text-[11px] text-slate-400">Case files are never transmitted to external APIs. ARIA operates strictly within the sovereign environment.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. DUTY & SURVEILLANCE TAB -->
+        <div id="panel-duty" class="hidden space-y-6">
+          <div class="flex items-center justify-between">
+            <div>
+              <h1 class="text-2xl font-bold text-white">Duty Mode & Mobile Surveillance</h1>
+              <p class="text-xs text-slate-400">Explicit Consent Protocol • High-Frequency GPS Tracking & Emergency SOS</p>
+            </div>
+            <button onclick="toggleDutyMode()" id="dutyToggleBtn" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold rounded-lg flex items-center gap-2 transition shadow-lg shadow-emerald-600/30">
+              <i data-lucide="power" class="w-4 h-4"></i>
+              <span id="dutyToggleText">Activate Duty Mode</span>
+            </button>
+          </div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div class="lg:col-span-2 bg-[#0c121d] border border-slate-800 rounded-xl p-5 space-y-4">
+              <div class="flex items-center justify-between text-xs">
+                <span class="font-bold text-white flex items-center gap-2">
+                  <i data-lucide="map" class="w-4 h-4 text-emerald-400"></i>
+                  <span>Live Field Telemetry (Mumbai Command Sector)</span>
+                </span>
+                <span id="gpsLiveStatus" class="mono text-[11px] text-slate-400">GPS: IDLE</span>
+              </div>
+              
+              <!-- SIMULATED RADAR / MAP -->
+              <div class="relative w-full h-72 bg-[#080d14] border border-slate-800 rounded-lg overflow-hidden flex items-center justify-center">
+                <div class="absolute inset-0 bg-[radial-gradient(#1e293b_1px,transparent_1px)] [background-size:16px_16px] opacity-40"></div>
+                <div class="absolute w-48 h-48 border border-emerald-500/20 rounded-full animate-ping"></div>
+                <div class="absolute w-32 h-32 border border-emerald-500/30 rounded-full"></div>
+                <div class="z-10 text-center space-y-2">
+                  <div class="inline-flex p-3 bg-emerald-500/20 text-emerald-400 rounded-full border border-emerald-500/40">
+                    <i data-lucide="crosshair" class="w-6 h-6 animate-pulse"></i>
+                  </div>
+                  <div class="text-xs font-mono text-emerald-300 font-bold" id="geoCoordsDisplay">18.9220° N, 72.8347° E</div>
+                  <div class="text-[10px] text-slate-500">Gateway Command Grid • Mumbai</div>
+                </div>
+              </div>
+
+              <!-- SOS EMERGENCY PANIC BUTTON -->
+              <div class="p-4 bg-red-950/30 border border-red-900/50 rounded-xl flex items-center justify-between">
+                <div>
+                  <div class="text-sm font-bold text-red-300 flex items-center gap-1.5">
+                    <i data-lucide="siren" class="w-4 h-4 text-red-400 animate-bounce"></i>
+                    <span>Emergency SOS Protocol</span>
+                  </div>
+                  <div class="text-[11px] text-slate-400">Instantly dispatches priority alerts to DGP HQ & initiates incident logs</div>
+                </div>
+                <button onclick="triggerPanicSos()" class="px-5 py-2.5 bg-red-600 hover:bg-red-500 text-white font-extrabold text-xs rounded-lg transition shadow-lg shadow-red-600/40 flex items-center gap-2">
+                  <i data-lucide="alert-triangle" class="w-4 h-4"></i>
+                  <span>TRIGGER SOS</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- HARDWARE SENSOR MONITOR -->
+            <div class="space-y-4">
+              <div class="p-5 bg-[#0c121d] border border-slate-800 rounded-xl space-y-3">
+                <h3 class="font-bold text-xs text-slate-300">Enclave Sensor Monitor</h3>
+                <div class="space-y-2 text-xs">
+                  <div class="flex items-center justify-between p-2.5 bg-slate-900/80 rounded-lg">
+                    <span class="text-slate-400 flex items-center gap-2">
+                      <i data-lucide="mic" class="w-3.5 h-3.5 text-blue-400"></i>
+                      <span>Duty Audio Log</span>
+                    </span>
+                    <span class="text-[10px] mono text-emerald-400 font-bold">READY</span>
+                  </div>
+                  <div class="flex items-center justify-between p-2.5 bg-slate-900/80 rounded-lg">
+                    <span class="text-slate-400 flex items-center gap-2">
+                      <i data-lucide="camera" class="w-3.5 h-3.5 text-purple-400"></i>
+                      <span>Bodycam Stream</span>
+                    </span>
+                    <span class="text-[10px] mono text-emerald-400 font-bold">STANDBY</span>
+                  </div>
+                  <div class="flex items-center justify-between p-2.5 bg-slate-900/80 rounded-lg">
+                    <span class="text-slate-400 flex items-center gap-2">
+                      <i data-lucide="navigation" class="w-3.5 h-3.5 text-emerald-400"></i>
+                      <span>Geofence Status</span>
+                    </span>
+                    <span class="text-[10px] mono text-emerald-400 font-bold">IN BOUNDS</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 5. TRAITOR DETECTION TAB -->
+        <div id="panel-traitor" class="hidden space-y-6">
+          <div class="flex items-center justify-between">
+            <div>
+              <h1 class="text-2xl font-bold text-white flex items-center gap-2">
+                <span>Insider Threat & Behavioral Telemetry</span>
+                <span class="text-xs font-normal px-2 py-0.5 rounded bg-rose-500/20 text-rose-300 border border-rose-500/30">AI Risk Scoring</span>
+              </h1>
+              <p class="text-xs text-slate-400">Continuous analysis of access hours, case queries, location spoofing, and bulk exfiltrations</p>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div class="p-6 bg-[#0c121d] border border-slate-800 rounded-xl space-y-4">
+              <h3 class="font-bold text-sm text-white">Threat Level Indicator</h3>
+              <div class="flex items-center justify-center p-6 bg-slate-950/60 rounded-xl border border-slate-800">
+                <div class="text-center space-y-1">
+                  <div class="text-4xl font-extrabold text-emerald-400 mono">05<span class="text-lg text-slate-500">/100</span></div>
+                  <div class="text-xs font-bold text-emerald-300 tracking-wider">LEVEL: LOW RISK</div>
+                  <div class="text-[10px] text-slate-500">Threshold: Critical &ge; 81</div>
+                </div>
+              </div>
+              <div class="text-xs text-slate-400 space-y-1">
+                <div class="flex justify-between"><span>Off-Hours Queries:</span><span class="font-mono text-slate-200">0</span></div>
+                <div class="flex justify-between"><span>Unauthorized Access Attempts:</span><span class="font-mono text-slate-200">0</span></div>
+                <div class="flex justify-between"><span>Bulk File Downloads:</span><span class="font-mono text-slate-200">0</span></div>
+              </div>
+            </div>
+
+            <div class="lg:col-span-2 p-6 bg-[#0c121d] border border-slate-800 rounded-xl space-y-4">
+              <h3 class="font-bold text-sm text-white">Monitored Behavioral Risk Vectors</h3>
+              <div class="space-y-2 text-xs">
+                <div class="p-3 bg-slate-900/60 border border-slate-800 rounded-lg flex items-center justify-between">
+                  <div>
+                    <div class="font-semibold text-slate-200">Case Exfiltration Guard</div>
+                    <div class="text-[11px] text-slate-400">Flags unusual export volumes or cross-department queries outside jurisdiction</div>
+                  </div>
+                  <span class="px-2 py-1 bg-emerald-500/10 text-emerald-400 rounded text-[10px] font-bold">NORMAL</span>
+                </div>
+
+                <div class="p-3 bg-slate-900/60 border border-slate-800 rounded-lg flex items-center justify-between">
+                  <div>
+                    <div class="font-semibold text-slate-200">Geographic Telemetry Discrepancy</div>
+                    <div class="text-[11px] text-slate-400">Cross-checks active IP coordinates against real-time officer GPS beacons</div>
+                  </div>
+                  <span class="px-2 py-1 bg-emerald-500/10 text-emerald-400 rounded text-[10px] font-bold">VERIFIED</span>
+                </div>
+
+                <div class="p-3 bg-slate-900/60 border border-slate-800 rounded-lg flex items-center justify-between">
+                  <div>
+                    <div class="font-semibold text-slate-200">Two-Person Transfer Mandate</div>
+                    <div class="text-[11px] text-slate-400">Strictly blocks solo case reassignments or evidence expungement</div>
+                  </div>
+                  <span class="px-2 py-1 bg-emerald-500/10 text-emerald-400 rounded text-[10px] font-bold">ENFORCED</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 6. CCTV TAB -->
+        <div id="panel-cctv" class="hidden space-y-6">
+          <div class="flex items-center justify-between">
+            <div>
+              <h1 class="text-2xl font-bold text-white">Central CCTV Stream Grid</h1>
+              <p class="text-xs text-slate-400">Station & Sector Feeds with Edge AI Anomaly Detection</p>
+            </div>
+            <span class="text-xs text-emerald-400 font-mono flex items-center gap-1.5">
+              <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+              <span>1 Grid Online</span>
+            </span>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="bg-[#0c121d] border border-slate-800 rounded-xl overflow-hidden">
+              <div class="p-3 bg-slate-900/80 border-b border-slate-800 flex items-center justify-between text-xs">
+                <span class="font-bold text-slate-200 flex items-center gap-1.5">
+                  <i data-lucide="camera" class="w-3.5 h-3.5 text-blue-400"></i>
+                  <span>CAM-001 • HQ Main Perimeter Gate</span>
+                </span>
+                <span class="bg-red-500/20 text-red-300 px-1.5 py-0.5 rounded text-[10px] font-bold animate-pulse">LIVE</span>
+              </div>
+              <div class="h-60 bg-slate-950 flex flex-col items-center justify-center p-6 text-center space-y-2">
+                <i data-lucide="video" class="w-10 h-10 text-slate-600"></i>
+                <div class="text-xs text-slate-400 font-mono">ENCRYPTED HLS VIDEO STREAM</div>
+                <div class="text-[10px] text-slate-500">Zone A • Resolution: 1080p • Motion Sensor Active</div>
+              </div>
+            </div>
+
+            <div class="bg-[#0c121d] border border-slate-800 rounded-xl p-5 space-y-4">
+              <h3 class="font-bold text-sm text-white">AI Vision Telemetry Alerts</h3>
+              <div class="space-y-2 text-xs">
+                <div class="p-3 bg-slate-900/60 border border-slate-800 rounded-lg flex items-center justify-between">
+                  <div class="flex items-center gap-2">
+                    <i data-lucide="scan" class="w-4 h-4 text-emerald-400"></i>
+                    <div>
+                      <div class="font-semibold text-slate-200">Perimeter Scan Normal</div>
+                      <div class="text-[10px] text-slate-400">Station Gate 1 • Zero unauthorized loitering</div>
+                    </div>
+                  </div>
+                  <span class="text-[10px] text-slate-500 font-mono">10:48:12</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <script>
+    // State
+    let authToken = localStorage.getItem('shield_token') || '';
+    let currentOfficer = JSON.parse(localStorage.getItem('shield_officer') || '{}');
+    let isOnDuty = false;
+    let liveOtpInterval = null;
+
+    // Init
+    window.addEventListener('DOMContentLoaded', () => {
+      lucide.createIcons();
+      startOtpWatcher();
+      if (authToken && currentOfficer.badge_number) {
+        showDashboard();
+      }
+    });
+
+    // Start Real-Time OTP Watcher
+    function startOtpWatcher() {
+      async function updateOtp() {
+        try {
+          const res = await fetch('/api/v1/auth/demo-totp');
+          const data = await res.json();
+          document.getElementById('liveOtpBadge').innerText = data.code;
+          document.getElementById('liveOtpTimer').innerText = `(${data.expires_in_seconds}s)`;
+          document.getElementById('loginOtpSnippet').innerText = `Use ${data.code}`;
+        } catch (e) {
+          console.error(e);
+        }
+      }
+      updateOtp();
+      liveOtpInterval = setInterval(updateOtp, 2000);
+    }
+
+    function autoFillOtp() {
+      const code = document.getElementById('liveOtpBadge').innerText;
+      if (code && code !== '------') {
+        document.getElementById('loginTotp').value = code;
+      }
+    }
+
+    function fillDemo(role) {
+      if (role === 'DGP') {
+        document.getElementById('loginBadge').value = 'DGP-INDIA-01';
+        document.getElementById('loginPassword').value = 'Password@123';
+      } else {
+        document.getElementById('loginBadge').value = 'IPS-MH-2024-001';
+        document.getElementById('loginPassword').value = 'Password@123';
+      }
+      autoFillOtp();
+    }
+
+    async function handleLogin(e) {
+      e.preventDefault();
+      const badge = document.getElementById('loginBadge').value.trim();
+      const password = document.getElementById('loginPassword').value;
+      const totp = document.getElementById('loginTotp').value.trim();
+      const errorDiv = document.getElementById('loginError');
+      errorDiv.classList.add('hidden');
+
+      let deviceFp = localStorage.getItem('shield_device_fp');
+      if (!deviceFp) {
+        deviceFp = 'fp_' + (window.crypto && crypto.randomUUID ? crypto.randomUUID() : Math.random().toString(36).substring(2) + Date.now().toString(36));
+        localStorage.setItem('shield_device_fp', deviceFp);
+      }
+
+      try {
+        const res = await fetch('/api/v1/auth/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            badge_number: badge,
+            password: password,
+            totp_token: totp,
+            device_fingerprint: deviceFp
+          })
+        });
+
+        const data = await res.json();
+        if (!res.ok) {
+          errorDiv.innerText = data.detail || 'Authentication failed';
+          errorDiv.classList.remove('hidden');
+          return;
+        }
+
+        authToken = data.access_token;
+        currentOfficer = data.officer;
+        localStorage.setItem('shield_token', authToken);
+        localStorage.setItem('shield_officer', JSON.stringify(currentOfficer));
+        showDashboard();
+      } catch (err) {
+        errorDiv.innerText = 'Unable to reach authentication server.';
+        errorDiv.classList.remove('hidden');
+      }
+    }
+
+    function showDashboard() {
+      document.getElementById('loginSection').classList.add('hidden');
+      document.getElementById('dashboardSection').classList.remove('hidden');
+      document.getElementById('totpTicker').classList.remove('hidden');
+      document.getElementById('totpTicker').classList.add('flex');
+      document.getElementById('officerHeaderBadge').classList.remove('hidden');
+      document.getElementById('officerHeaderBadge').classList.add('flex');
+
+      document.getElementById('officerNameDisplay').innerText = currentOfficer.full_name || 'Officer';
+      document.getElementById('officerRankDisplay').innerText = `${currentOfficer.rank} • ${currentOfficer.badge_number}`;
+      
+      refreshData();
+      lucide.createIcons();
+    }
+
+    function logout() {
+      localStorage.removeItem('shield_token');
+      localStorage.removeItem('shield_officer');
+      authToken = '';
+      currentOfficer = {};
+      document.getElementById('loginSection').classList.remove('hidden');
+      document.getElementById('dashboardSection').classList.add('hidden');
+      document.getElementById('totpTicker').classList.add('hidden');
+      document.getElementById('officerHeaderBadge').classList.add('hidden');
+    }
+
+    function switchTab(tab) {
+      ['overview', 'cases', 'aria', 'duty', 'traitor', 'cctv'].forEach(t => {
+        document.getElementById(`panel-${t}`).classList.add('hidden');
+        const btn = document.getElementById(`tabBtn-${t}`);
+        btn.classList.remove('bg-blue-600/15', 'text-blue-400', 'border', 'border-blue-500/20');
+        btn.classList.add('text-slate-400');
+      });
+
+      document.getElementById(`panel-${tab}`).classList.remove('hidden');
+      const activeBtn = document.getElementById(`tabBtn-${tab}`);
+      activeBtn.classList.add('bg-blue-600/15', 'text-blue-400', 'border', 'border-blue-500/20');
+      activeBtn.classList.remove('text-slate-400');
+      lucide.createIcons();
+    }
+
+    async function refreshData() {
+      try {
+        const res = await fetch('/api/v1/cases/', {
+          headers: { 'Authorization': `Bearer ${authToken}` }
+        });
+        if (res.status === 401) { logout(); return; }
+        const data = await res.json();
+        const cases = data.cases || [];
+
+        document.getElementById('statActiveCases').innerText = cases.length;
+        document.getElementById('caseCountBadge').innerText = cases.length;
+
+        // Render Cases
+        const recentContainer = document.getElementById('recentCasesList');
+        const allContainer = document.getElementById('allCasesList');
+        
+        recentContainer.innerHTML = '';
+        allContainer.innerHTML = '';
+
+        cases.forEach(c => {
+          const cardHtml = `
+            <div class="p-4 bg-slate-900/60 border border-slate-800 rounded-xl hover:border-slate-700 transition flex items-center justify-between">
+              <div class="space-y-1">
+                <div class="flex items-center gap-2">
+                  <span class="mono text-xs font-bold text-blue-400">${c.case_number}</span>
+                  <span class="px-2 py-0.5 rounded text-[10px] font-bold ${getPriorityBadge(c.priority)}">${c.priority}</span>
+                  <span class="px-2 py-0.5 rounded text-[10px] font-medium bg-slate-800 text-slate-300">${c.category}</span>
+                </div>
+                <div class="text-sm font-semibold text-white">${c.title}</div>
+                <div class="text-[11px] text-slate-400">${c.incident_location || 'Jurisdiction HQ'}</div>
+              </div>
+              <button onclick="inspectCase('${c.id}')" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-xs text-slate-200 rounded-lg transition">
+                Inspect Record
+              </button>
+            </div>
+          `;
+          recentContainer.innerHTML += cardHtml;
+          allContainer.innerHTML += cardHtml;
+        });
+
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
+    function getPriorityBadge(priority) {
+      if (priority === 'CRITICAL' || priority === 'TOP_SECRET') return 'bg-red-500/20 text-red-300 border border-red-500/30';
+      if (priority === 'HIGH') return 'bg-amber-500/20 text-amber-300 border border-amber-500/30';
+      return 'bg-blue-500/20 text-blue-300 border border-blue-500/30';
+    }
+
+    async function inspectCase(caseId) {
+      try {
+        const res = await fetch(`/api/v1/cases/${caseId}`, {
+          headers: { 'Authorization': `Bearer ${authToken}` }
+        });
+        const c = await res.json();
+        alert(`CASE RECORD: ${c.case_number}\n\nTitle: ${c.title}\nCategory: ${c.category}\nPriority: ${c.priority}\nFIR: ${c.fir_number}\n\nAI Summary: ${c.ai_summary || 'Analysis pending'}`);
+      } catch (e) {
+        alert('Failed to inspect case');
+      }
+    }
+
+    async function handleAriaChat(e) {
+      e.preventDefault();
+      const input = document.getElementById('ariaInput');
+      const msg = input.value.trim();
+      if (!msg) return;
+
+      const chatBox = document.getElementById('ariaChatMessages');
+      chatBox.innerHTML += `
+        <div class="p-3 bg-slate-900 border border-slate-800 rounded-xl text-slate-200 text-right">
+          <div class="font-bold text-slate-400 text-[10px] mb-0.5">YOU</div>
+          ${msg}
+        </div>
+      `;
+      input.value = '';
+
+      chatBox.innerHTML += `
+        <div id="ariaThinking" class="p-3 bg-indigo-950/20 border border-indigo-900/30 rounded-xl text-indigo-300 flex items-center gap-2">
+          <i data-lucide="loader" class="w-3.5 h-3.5 animate-spin"></i>
+          <span>ARIA analyzing local case telemetry...</span>
+        </div>
+      `;
+      lucide.createIcons();
+      chatBox.scrollTop = chatBox.scrollHeight;
+
+      try {
+        const res = await fetch('/api/v1/ai/chat', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${authToken}`
+          },
+          body: JSON.stringify({ message: msg })
+        });
+        const data = await res.json();
+        const thinking = document.getElementById('ariaThinking');
+        if (thinking) thinking.remove();
+
+        chatBox.innerHTML += `
+          <div class="p-3 bg-indigo-950/20 border border-indigo-900/30 rounded-xl text-slate-200">
+            <div class="font-bold text-indigo-400 text-[10px] mb-1 flex items-center gap-1">
+              <i data-lucide="bot" class="w-3.5 h-3.5"></i>
+              <span>ARIA INTELLIGENCE</span>
+            </div>
+            ${data.response}
+          </div>
+        `;
+        lucide.createIcons();
+        chatBox.scrollTop = chatBox.scrollHeight;
+      } catch (err) {
+        const thinking = document.getElementById('ariaThinking');
+        if (thinking) thinking.remove();
+        chatBox.innerHTML += `<div class="p-2 text-rose-400">Failed to reach ARIA service.</div>`;
+      }
+    }
+
+    function triggerQuickPrompt(text) {
+      document.getElementById('ariaInput').value = text;
+      handleAriaChat(new Event('submit'));
+    }
+
+    async function toggleDutyMode() {
+      isOnDuty = !isOnDuty;
+      const btn = document.getElementById('dutyToggleBtn');
+      const text = document.getElementById('dutyToggleText');
+      const liveInd = document.getElementById('dutyLiveIndicator');
+      const gpsStatus = document.getElementById('gpsLiveStatus');
+
+      if (isOnDuty) {
+        btn.classList.replace('bg-emerald-600', 'bg-rose-600');
+        btn.classList.replace('hover:bg-emerald-500', 'hover:bg-rose-500');
+        text.innerText = 'Deactivate Duty Mode';
+        liveInd.classList.replace('bg-slate-600', 'bg-emerald-400');
+        gpsStatus.innerText = 'GPS: STREAMING ACTIVE';
+        gpsStatus.classList.add('text-emerald-400');
+
+        await fetch('/api/v1/duty/start', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${authToken}` },
+          body: JSON.stringify({ device_fingerprint: 'web_dev_01', initial_latitude: 18.9220, initial_longitude: 72.8347 })
+        });
+      } else {
+        btn.classList.replace('bg-rose-600', 'bg-emerald-600');
+        btn.classList.replace('hover:bg-rose-500', 'hover:bg-emerald-500');
+        text.innerText = 'Activate Duty Mode';
+        liveInd.classList.replace('bg-emerald-400', 'bg-slate-600');
+        gpsStatus.innerText = 'GPS: IDLE';
+        gpsStatus.classList.remove('text-emerald-400');
+
+        await fetch('/api/v1/duty/end', {
+          method: 'POST',
+          headers: { 'Authorization': `Bearer ${authToken}` }
+        });
+      }
+    }
+
+    async function triggerPanicSos() {
+      if (!confirm('CONFIRM EMERGENCY SOS DISPATCH: This alert will immediately be broadcast to State Command.')) return;
+      try {
+        const res = await fetch('/api/v1/duty/panic', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${authToken}` },
+          body: JSON.stringify({ latitude: 18.9220, longitude: 72.8347, message: 'Officer requested immediate backup.' })
+        });
+        const data = await res.json();
+        alert('🚨 EMERGENCY SOS SENT: ' + data.message);
+      } catch (e) {
+        alert('Failed to transmit panic alert');
+      }
+    }
+
+    function openNewCaseModal() {
+      const title = prompt('Enter Incident Title:');
+      if (!title) return;
+      const fir = prompt('Enter FIR Number (optional):') || 'FIR-NEW/2026';
+      
+      fetch('/api/v1/cases/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${authToken}` },
+        body: JSON.stringify({
+          title: title,
+          fir_number: fir,
+          category: 'CYBERCRIME',
+          priority: 'HIGH',
+          incident_location: 'Mumbai Sector 4'
+        })
+      }).then(r => r.json()).then(() => {
+        refreshData();
+        alert('Case successfully registered in SHIELD system.');
+      }).catch(() => alert('Failed to register case.'));
+    }
+  </script>
+</body>
+</html>

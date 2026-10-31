@@ -23,10 +23,19 @@ ENVIRONMENT = "development"
 async def lifespan(app: FastAPI):
     """Application startup and shutdown events."""
     logger.info(f"🛡️ SHIELD Platform starting... [{ENVIRONMENT}]")
-    # Create tables (use Alembic in production)
+    # Create tables
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
-    logger.info("✅ Database connected")
+    logger.info("✅ Database tables created / verified")
+
+    # Auto-seed database with authorized clearance officers & demo cases
+    try:
+        from app.core.seed import auto_seed_db
+        await auto_seed_db()
+        logger.info("✅ Database seeded with authorized clearance accounts")
+    except Exception as e:
+        logger.error(f"❌ Database auto-seed error: {e}", exc_info=True)
+
     logger.info("✅ SHIELD Platform ready")
     yield
     logger.info("🛑 SHIELD Platform shutting down...")

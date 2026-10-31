@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
@@ -14,6 +14,11 @@
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+    html, body {
+      overflow-x: hidden;
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+    }
     body { font-family: 'Plus Jakarta Sans', sans-serif; }
     .mono { font-family: 'JetBrains Mono', monospace; }
     .glow-blue { box-shadow: 0 0 35px -5px rgba(37, 99, 235, 0.35); }
@@ -21,6 +26,11 @@
     ::-webkit-scrollbar { width: 6px; height: 6px; }
     ::-webkit-scrollbar-track { background: #0b0f17; }
     ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 3px; }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    .safe-bottom {
+      padding-bottom: max(12px, env(safe-area-inset-bottom, 12px));
+    }
 
     /* Tactical Map Styling */
     .leaflet-container { background: #080d14 !important; }
@@ -83,57 +93,64 @@
   </div>
 
   <!-- TOP SECURITY BANNER -->
-  <header class="bg-[#0a0f18]/95 border-b border-slate-800/80 px-4 sm:px-6 py-2.5 flex items-center justify-between sticky top-1.5 z-50 backdrop-blur-md shadow-lg shadow-black/40">
-    <div class="flex items-center gap-3.5">
+  <header class="bg-[#0a0f18]/95 border-b border-slate-800/80 px-2.5 sm:px-6 py-2 sm:py-2.5 flex items-center justify-between sticky top-1.5 z-50 backdrop-blur-md shadow-lg shadow-black/40 gap-2">
+    <div class="flex items-center gap-2 sm:gap-3.5 shrink-0">
+      <!-- MOBILE MENU HAMBURGER BUTTON (Visible on phone/tablet when logged in) -->
+      <button id="mobileMenuToggle" onclick="toggleMobileDrawer()" class="hidden p-1.5 sm:p-2 rounded-xl bg-slate-900 border border-slate-700/80 text-slate-300 hover:text-white md:hidden active:scale-95 transition" aria-label="Open Navigation Menu">
+        <i data-lucide="menu" class="w-4 h-4"></i>
+      </button>
+
       <!-- OFFICIAL STATE EMBLEM OF INDIA (ASHOKA LION CAPITAL) -->
-      <div class="flex items-center gap-2.5 group cursor-pointer" onclick="setPortalMode('police')">
-        <img src="/static/emblem.png" alt="State Emblem of India" class="h-14 sm:h-16 w-auto object-contain drop-shadow-[0_2px_16px_rgba(251,191,36,0.7)] shrink-0 transition-transform group-hover:scale-105">
+      <div class="flex items-center gap-2 group cursor-pointer" onclick="setPortalMode('police')">
+        <img src="/static/emblem.png" alt="State Emblem of India" class="h-10 sm:h-14 md:h-16 w-auto object-contain drop-shadow-[0_2px_16px_rgba(251,191,36,0.7)] shrink-0 transition-transform group-hover:scale-105">
 
         <div>
-          <div class="flex items-center gap-2">
-            <span class="font-extrabold tracking-wider text-white text-base">SHIELD</span>
-            <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-500/15 text-amber-300 border border-amber-500/30 shadow-sm">GOVT OF INDIA</span>
-            <span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">ENCLAVE ACTIVE</span>
+          <div class="flex items-center gap-1.5 sm:gap-2">
+            <span class="font-extrabold tracking-wider text-white text-sm sm:text-base">SHIELD</span>
+            <span class="px-1.5 py-0.5 rounded text-[9px] sm:text-[10px] font-bold bg-amber-500/15 text-amber-300 border border-amber-500/30 shadow-sm">GOVT OF INDIA</span>
+            <span class="hidden sm:inline-block px-2 py-0.5 rounded text-[10px] font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">ENCLAVE ACTIVE</span>
           </div>
-          <p class="text-[11px] text-slate-300 flex items-center gap-1.5 font-medium">
+          <p class="text-[10px] sm:text-[11px] text-slate-300 flex items-center gap-1 font-medium">
             <span class="text-amber-400 font-semibold">गृह मंत्रालय</span>
-            <span class="text-slate-500">•</span>
-            <span class="text-slate-400">Ministry of Home Affairs • National Intelligence Command</span>
+            <span class="hidden md:inline text-slate-500">•</span>
+            <span class="hidden md:inline text-slate-400">Ministry of Home Affairs • National Intelligence Command</span>
           </p>
         </div>
       </div>
     </div>
 
     <!-- CENTER PORTAL SWITCHER -->
-    <div class="flex items-center bg-[#111927] border border-slate-700/80 p-1 rounded-xl text-xs shadow-inner">
-      <button id="switchBtnPolice" onclick="setPortalMode('police')" class="px-3.5 py-1.5 rounded-lg font-bold text-white bg-blue-600 transition flex items-center gap-1.5 shadow">
+    <div class="flex items-center bg-[#111927] border border-slate-700/80 p-0.5 sm:p-1 rounded-xl text-xs shadow-inner shrink-0">
+      <button id="switchBtnPolice" onclick="setPortalMode('police')" class="px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-lg font-bold text-white bg-blue-600 transition flex items-center gap-1 sm:gap-1.5 shadow">
         <i data-lucide="shield" class="w-3.5 h-3.5 text-blue-200"></i>
-        <span>Police Command Enclave</span>
+        <span class="hidden sm:inline">Police Command Enclave</span>
+        <span class="sm:hidden text-[11px]">Police</span>
       </button>
-      <button id="switchBtnCivilian" onclick="setPortalMode('civilian')" class="px-3.5 py-1.5 rounded-lg font-semibold text-slate-400 hover:text-white transition flex items-center gap-1.5">
+      <button id="switchBtnCivilian" onclick="setPortalMode('civilian')" class="px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-lg font-semibold text-slate-400 hover:text-white transition flex items-center gap-1 sm:gap-1.5">
         <i data-lucide="users" class="w-3.5 h-3.5 text-slate-400"></i>
-        <span>Citizen Public Services</span>
+        <span class="hidden sm:inline">Citizen Public Services</span>
+        <span class="sm:hidden text-[11px]">Citizens</span>
       </button>
     </div>
 
     <!-- RIGHT STATUS & USER HEADER -->
-    <div class="flex items-center gap-3 text-xs">
+    <div class="flex items-center gap-1.5 sm:gap-3 text-xs shrink-0">
       <!-- LIVE MFA TICKER IN HEADER -->
-      <div id="totpTicker" class="hidden items-center gap-2 bg-slate-900/90 border border-amber-500/30 px-3 py-1.5 rounded-xl shadow">
-        <i data-lucide="key" class="w-3.5 h-3.5 text-amber-400 animate-pulse"></i>
-        <span class="text-slate-400 font-medium">Live MFA:</span>
-        <span id="liveOtpBadge" class="mono font-bold text-amber-300 tracking-widest text-sm">------</span>
-        <span id="liveOtpTimer" class="text-[10px] text-slate-400 font-mono">(30s)</span>
+      <div id="totpTicker" class="hidden items-center gap-1.5 sm:gap-2 bg-slate-900/90 border border-amber-500/30 px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg sm:rounded-xl shadow">
+        <i data-lucide="key" class="w-3 h-3 sm:w-3.5 sm:h-3.5 text-amber-400 animate-pulse"></i>
+        <span class="hidden sm:inline text-slate-400 font-medium">MFA:</span>
+        <span id="liveOtpBadge" class="mono font-bold text-amber-300 tracking-wider text-xs sm:text-sm">------</span>
+        <span id="liveOtpTimer" class="hidden sm:inline text-[10px] text-slate-400 font-mono">(30s)</span>
       </div>
 
-      <div id="officerHeaderBadge" class="hidden items-center gap-3">
-        <div class="text-right">
-          <div id="officerNameDisplay" class="font-bold text-slate-200">Officer</div>
-          <div id="officerRankDisplay" class="text-[11px] text-blue-400 font-mono">DGP</div>
+      <div id="officerHeaderBadge" class="hidden items-center gap-1.5 sm:gap-3">
+        <div class="text-right hidden sm:block">
+          <div id="officerNameDisplay" class="font-bold text-slate-200 text-xs">Officer</div>
+          <div id="officerRankDisplay" class="text-[10px] text-blue-400 font-mono">DGP</div>
         </div>
-        <button onclick="logout()" class="px-3 py-1.5 rounded-lg bg-red-950/40 text-red-400 hover:bg-red-900/60 border border-red-800/40 text-xs flex items-center gap-1.5 transition">
+        <button onclick="logout()" class="px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg bg-red-950/40 text-red-400 hover:bg-red-900/60 border border-red-800/40 text-xs flex items-center gap-1 sm:gap-1.5 transition" title="Logout">
           <i data-lucide="log-out" class="w-3.5 h-3.5"></i>
-          <span>Logout</span>
+          <span class="hidden sm:inline">Logout</span>
         </button>
       </div>
     </div>
@@ -454,9 +471,95 @@
     </div>
 
     <!-- AUTHENTICATED DASHBOARD -->
-    <div id="dashboardSection" class="hidden flex-1 flex overflow-hidden">
-      <!-- SIDEBAR -->
-      <aside class="w-64 bg-[#0a0f18] border-r border-slate-800/80 flex flex-col justify-between p-4">
+    <div id="dashboardSection" class="hidden flex-1 flex flex-col md:flex-row overflow-hidden relative">
+      <!-- MOBILE SLIDE-OVER DRAWER BACKDROP -->
+      <div id="mobileDrawerBackdrop" onclick="closeMobileDrawer()" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden md:hidden transition-opacity"></div>
+
+      <!-- MOBILE SLIDE-OVER DRAWER -->
+      <aside id="mobileDrawer" class="fixed top-0 bottom-0 left-0 w-72 max-w-[85vw] bg-[#090e17] border-r border-slate-800 z-50 flex flex-col justify-between p-4 transform -translate-x-full transition-transform duration-300 ease-in-out md:hidden shadow-2xl overflow-y-auto">
+        <div class="space-y-4">
+          <!-- Drawer Header -->
+          <div class="flex items-center justify-between pb-3 border-b border-slate-800">
+            <div class="flex items-center gap-2.5">
+              <img src="/static/emblem.png" alt="Emblem" class="h-9 w-auto object-contain">
+              <div>
+                <div class="font-extrabold text-white text-sm tracking-wide">SHIELD ENCLAVE</div>
+                <div class="text-[9px] text-amber-400 font-bold uppercase tracking-wider">COMMAND CONSOLE</div>
+              </div>
+            </div>
+            <button onclick="closeMobileDrawer()" class="p-1.5 rounded-lg bg-slate-900 border border-slate-800 text-slate-400 hover:text-white" aria-label="Close Menu">
+              <i data-lucide="x" class="w-4 h-4"></i>
+            </button>
+          </div>
+
+          <!-- Drawer Navigation -->
+          <nav class="space-y-1">
+            <button onclick="switchTab('overview'); closeMobileDrawer();" id="mobTabBtn-overview" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-semibold bg-blue-600/15 text-blue-400 border border-blue-500/20">
+              <i data-lucide="layout-dashboard" class="w-4 h-4"></i>
+              <span>HQ Overview</span>
+            </button>
+            <button onclick="switchTab('cases'); closeMobileDrawer();" id="mobTabBtn-cases" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-400 hover:bg-slate-800/50 hover:text-slate-200">
+              <i data-lucide="folder-lock" class="w-4 h-4"></i>
+              <span>Active Cases & FIR</span>
+              <span id="mobCaseCountBadge" class="ml-auto bg-slate-800 px-1.5 py-0.5 rounded text-[10px] font-mono text-slate-300">2</span>
+            </button>
+            <button onclick="switchTab('codex'); closeMobileDrawer();" id="mobTabBtn-codex" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-400 hover:bg-slate-800/50 hover:text-slate-200">
+              <i data-lucide="scale" class="w-4 h-4 text-emerald-400"></i>
+              <span>Legal Codex & Rules</span>
+              <span class="ml-auto bg-emerald-500/20 text-emerald-300 text-[9px] px-1.5 py-0.5 rounded font-mono">BNS/BNSS</span>
+            </button>
+            <button onclick="switchTab('aria'); closeMobileDrawer();" id="mobTabBtn-aria" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-400 hover:bg-slate-800/50 hover:text-slate-200">
+              <i data-lucide="bot" class="w-4 h-4 text-emerald-400"></i>
+              <span>ARIA AI Analyst</span>
+              <span class="ml-auto bg-emerald-500/20 text-emerald-300 text-[9px] px-1.5 py-0.5 rounded font-bold">GEMINI</span>
+            </button>
+            <button onclick="switchTab('duty'); closeMobileDrawer();" id="mobTabBtn-duty" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-400 hover:bg-slate-800/50 hover:text-slate-200">
+              <i data-lucide="map-pin" class="w-4 h-4 text-emerald-400"></i>
+              <span>Duty & Surveillance</span>
+              <span id="mobDutyLiveIndicator" class="ml-auto w-2 h-2 rounded-full bg-slate-600"></span>
+            </button>
+            <button onclick="switchTab('traitor'); closeMobileDrawer();" id="mobTabBtn-traitor" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-400 hover:bg-slate-800/50 hover:text-slate-200">
+              <i data-lucide="user-x" class="w-4 h-4 text-rose-400"></i>
+              <span>Traitor Sentinel</span>
+              <span class="ml-auto bg-rose-500/20 text-rose-300 text-[9px] px-1.5 py-0.5 rounded">BEHAVIOR</span>
+            </button>
+            <button onclick="switchTab('blockchain'); closeMobileDrawer();" id="mobTabBtn-blockchain" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-400 hover:bg-slate-800/50 hover:text-slate-200">
+              <i data-lucide="blocks" class="w-4 h-4 text-cyan-400"></i>
+              <span>Blockchain Vault</span>
+              <span class="ml-auto bg-cyan-500/20 text-cyan-300 text-[9px] px-1.5 py-0.5 rounded font-mono">BSA §63</span>
+            </button>
+            <button onclick="switchTab('interagency'); closeMobileDrawer();" id="mobTabBtn-interagency" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-400 hover:bg-slate-800/50 hover:text-slate-200">
+              <i data-lucide="building-2" class="w-4 h-4 text-amber-400"></i>
+              <span>Inter-Agency Grid</span>
+              <span class="ml-auto bg-amber-500/20 text-amber-300 text-[9px] px-1.5 py-0.5 rounded">RTO/FSL</span>
+            </button>
+            <button onclick="switchTab('cctv'); closeMobileDrawer();" id="mobTabBtn-cctv" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-400 hover:bg-slate-800/50 hover:text-slate-200">
+              <i data-lucide="video" class="w-4 h-4 text-indigo-400"></i>
+              <span>CCTV Feeds</span>
+            </button>
+          </nav>
+        </div>
+
+        <!-- Mobile Drawer Footer with Threat Score -->
+        <div class="pt-4 border-t border-slate-800 space-y-3">
+          <div class="p-3 bg-slate-900/60 border border-slate-800 rounded-xl space-y-2 text-xs">
+            <div class="flex items-center justify-between text-slate-400">
+              <span>Threat Score</span>
+              <span id="mobOfficerThreatBadge" class="font-bold text-emerald-400">0/100 (LOW)</span>
+            </div>
+            <div class="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
+              <div id="mobThreatProgressBar" class="bg-emerald-500 h-full w-[5%]"></div>
+            </div>
+          </div>
+          <button onclick="logout()" class="w-full py-2 px-3 rounded-lg bg-red-950/40 text-red-400 hover:bg-red-900/60 border border-red-800/40 text-xs flex items-center justify-center gap-2">
+            <i data-lucide="log-out" class="w-3.5 h-3.5"></i>
+            <span>Logout Session</span>
+          </button>
+        </div>
+      </aside>
+
+      <!-- DESKTOP SIDEBAR -->
+      <aside class="hidden md:flex md:w-64 bg-[#0a0f18] border-r border-slate-800/80 flex-col justify-between p-4 shrink-0 overflow-y-auto">
         <div class="space-y-6">
           <div class="px-2">
             <div class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">COMMAND CONSOLE</div>
@@ -524,7 +627,7 @@
       </aside>
 
       <!-- CONTENT PANELS -->
-      <main class="flex-1 overflow-y-auto p-8 space-y-6">
+      <main class="flex-1 overflow-y-auto p-3.5 sm:p-5 md:p-8 space-y-6 pb-24 md:pb-8">
 
         <!-- 1. OVERVIEW TAB -->
         <div id="panel-overview" class="space-y-6">
@@ -752,54 +855,54 @@
               </div>
               
               <!-- REAL-TIME TACTICAL GIS MAP -->
-              <div class="relative w-full h-80 bg-[#080d14] border border-slate-800 rounded-xl overflow-hidden shadow-2xl">
+              <div class="relative w-full h-[360px] sm:h-96 md:h-[420px] bg-[#080d14] border border-slate-800 rounded-xl overflow-hidden shadow-2xl">
                 <div id="tacticalMap" class="w-full h-full z-0"></div>
 
                 <!-- OVERLAY MAP CONTROLS -->
-                <div class="absolute top-3 left-3 z-[400] flex flex-wrap items-center gap-2">
-                  <span id="gpsSourceBadge" class="px-2.5 py-1 bg-slate-950/85 border border-slate-700/80 rounded-lg text-[10px] font-bold text-slate-400 flex items-center gap-1.5 backdrop-blur-md shadow">
+                <div class="absolute top-2 left-2 right-2 z-[400] flex items-center gap-1.5 overflow-x-auto no-scrollbar pb-1">
+                  <span id="gpsSourceBadge" class="px-2 py-1 bg-slate-950/90 border border-slate-700/80 rounded-lg text-[10px] font-bold text-slate-400 flex items-center gap-1.5 backdrop-blur-md shadow shrink-0">
                     <span id="gpsPulseDot" class="w-2 h-2 rounded-full bg-slate-500"></span>
                     <span id="gpsSourceText">GPS: STANDBY</span>
                   </span>
-                  <button type="button" onclick="lockDeviceGPS(true)" id="snapGpsBtn" class="px-2.5 py-1 bg-emerald-600/90 hover:bg-emerald-500 border border-emerald-400/80 rounded-lg text-[10px] font-bold text-white flex items-center gap-1 backdrop-blur-md shadow-lg transition">
+                  <button type="button" onclick="lockDeviceGPS(true)" id="snapGpsBtn" class="px-2.5 py-1 bg-emerald-600/90 hover:bg-emerald-500 border border-emerald-400/80 rounded-lg text-[10px] font-bold text-white flex items-center gap-1 backdrop-blur-md shadow-lg transition shrink-0 active:scale-95">
                     <i data-lucide="locate-fixed" class="w-3 h-3"></i>
-                    <span>Snap to Live GPS</span>
+                    <span>Snap GPS</span>
                   </button>
-                  <select onchange="selectManualSector(this.value)" class="px-2.5 py-1 bg-slate-900/95 text-emerald-300 border border-slate-700 rounded-lg text-[10px] font-bold focus:outline-none focus:border-emerald-500 backdrop-blur-md shadow cursor-pointer">
-                    <option value="12.9716,77.5946">📍 Vidhana Soudha (HQ)</option>
-                    <option value="12.9754,77.6066">📍 MG Road / Brigade</option>
-                    <option value="12.9352,77.6245">📍 Koramangala Cyber Grid</option>
-                    <option value="12.8452,77.6602">📍 Electronic City Hub</option>
-                    <option value="12.9840,77.7289">📍 Whitefield Sector 4</option>
-                    <option value="13.1986,77.7066">📍 Kempegowda Airport</option>
+                  <select onchange="selectManualSector(this.value)" class="px-2 py-1 bg-slate-900/95 text-emerald-300 border border-slate-700 rounded-lg text-[10px] font-bold focus:outline-none focus:border-emerald-500 backdrop-blur-md shadow cursor-pointer shrink-0 max-w-[150px] truncate">
+                    <option value="12.9716,77.5946">📍 Vidhana Soudha</option>
+                    <option value="12.9754,77.6066">📍 MG Road</option>
+                    <option value="12.9352,77.6245">📍 Koramangala Grid</option>
+                    <option value="12.8452,77.6602">📍 Electronic City</option>
+                    <option value="12.9840,77.7289">📍 Whitefield Sec 4</option>
+                    <option value="13.1986,77.7066">📍 Airport Sector</option>
                   </select>
-                  <button type="button" onclick="recenterTacticalMap()" class="px-2.5 py-1 bg-slate-900/90 hover:bg-slate-800 border border-slate-700/80 rounded-lg text-[10px] font-semibold text-slate-200 flex items-center gap-1 backdrop-blur-md shadow transition">
+                  <button type="button" onclick="recenterTacticalMap()" class="px-2 py-1 bg-slate-900/90 hover:bg-slate-800 border border-slate-700/80 rounded-lg text-[10px] font-semibold text-slate-200 flex items-center gap-1 backdrop-blur-md shadow transition shrink-0">
                     <i data-lucide="crosshair" class="w-3 h-3 text-blue-400"></i>
-                    <span>Recenter</span>
+                    <span>Center</span>
                   </button>
-                  <button type="button" onclick="togglePatrolSim()" id="simPatrolBtn" class="px-2.5 py-1 bg-slate-900/90 hover:bg-slate-800 border border-slate-700/80 rounded-lg text-[10px] font-semibold text-indigo-300 flex items-center gap-1 backdrop-blur-md shadow transition">
+                  <button type="button" onclick="togglePatrolSim()" id="simPatrolBtn" class="px-2 py-1 bg-slate-900/90 hover:bg-slate-800 border border-slate-700/80 rounded-lg text-[10px] font-semibold text-indigo-300 flex items-center gap-1 backdrop-blur-md shadow transition shrink-0">
                     <i data-lucide="navigation-2" class="w-3 h-3"></i>
                     <span>Sim Patrol</span>
                   </button>
                 </div>
 
                 <!-- BOTTOM REAL-TIME TELEMETRY HUD -->
-                <div class="absolute bottom-2 left-2 right-2 z-[400] grid grid-cols-2 md:grid-cols-4 gap-2 text-xs">
-                  <div class="bg-slate-950/90 backdrop-blur-md border border-slate-800/90 px-3 py-2 rounded-lg">
+                <div class="absolute bottom-2 left-2 right-2 z-[400] grid grid-cols-2 md:grid-cols-4 gap-1.5 text-xs">
+                  <div class="bg-slate-950/90 backdrop-blur-md border border-slate-800/90 px-2 sm:px-3 py-1.5 rounded-lg">
                     <div class="text-[9px] text-slate-400 font-bold uppercase tracking-wider">REAL GPS COORDS</div>
-                    <div id="hudCoords" class="mono font-bold text-emerald-400 text-[11px] truncate">12.9716° N, 77.5946° E</div>
+                    <div id="hudCoords" class="mono font-bold text-emerald-400 text-[10px] sm:text-[11px] truncate">12.9716° N, 77.5946° E</div>
                   </div>
-                  <div class="bg-slate-950/90 backdrop-blur-md border border-slate-800/90 px-3 py-2 rounded-lg">
-                    <div class="text-[9px] text-slate-400 font-bold uppercase tracking-wider">PRECISION ACCURACY</div>
-                    <div id="hudAccuracy" class="mono font-bold text-blue-400 text-[11px]">± 0.0 m (STANDBY)</div>
+                  <div class="bg-slate-950/90 backdrop-blur-md border border-slate-800/90 px-2 sm:px-3 py-1.5 rounded-lg">
+                    <div class="text-[9px] text-slate-400 font-bold uppercase tracking-wider">ACCURACY</div>
+                    <div id="hudAccuracy" class="mono font-bold text-blue-400 text-[10px] sm:text-[11px]">± 0.0 m (STANDBY)</div>
                   </div>
-                  <div class="bg-slate-950/90 backdrop-blur-md border border-slate-800/90 px-3 py-2 rounded-lg">
+                  <div class="bg-slate-950/90 backdrop-blur-md border border-slate-800/90 px-2 sm:px-3 py-1.5 rounded-lg">
                     <div class="text-[9px] text-slate-400 font-bold uppercase tracking-wider">PATROL SPEED</div>
-                    <div id="hudSpeed" class="mono font-bold text-amber-400 text-[11px]">0.0 km/h</div>
+                    <div id="hudSpeed" class="mono font-bold text-amber-400 text-[10px] sm:text-[11px]">0.0 km/h</div>
                   </div>
-                  <div class="bg-slate-950/90 backdrop-blur-md border border-slate-800/90 px-3 py-2 rounded-lg">
+                  <div class="bg-slate-950/90 backdrop-blur-md border border-slate-800/90 px-2 sm:px-3 py-1.5 rounded-lg">
                     <div class="text-[9px] text-slate-400 font-bold uppercase tracking-wider">GEOFENCE STATUS</div>
-                    <div id="hudGeofence" class="mono font-bold text-emerald-400 text-[11px]">IN JURISDICTION</div>
+                    <div id="hudGeofence" class="mono font-bold text-emerald-400 text-[10px] sm:text-[11px] truncate">IN JURISDICTION</div>
                   </div>
                 </div>
               </div>
@@ -1569,14 +1672,19 @@
       const civilianSec = document.getElementById('civilianSection');
       const loginSec = document.getElementById('loginSection');
       const dashSec = document.getElementById('dashboardSection');
+      const bNav = document.getElementById('mobileBottomNav');
+      const mToggle = document.getElementById('mobileMenuToggle');
 
       if (mode === 'civilian') {
-        switchCivilian.className = 'px-3 py-1 rounded-md font-bold text-white bg-blue-600 transition flex items-center gap-1.5 shadow';
-        switchPolice.className = 'px-3 py-1 rounded-md font-semibold text-slate-400 hover:text-white transition flex items-center gap-1.5';
+        switchCivilian.className = 'px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-lg font-bold text-white bg-blue-600 transition flex items-center gap-1 sm:gap-1.5 shadow';
+        switchPolice.className = 'px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-lg font-semibold text-slate-400 hover:text-white transition flex items-center gap-1 sm:gap-1.5';
         
         civilianSec.classList.remove('hidden');
         loginSec.classList.add('hidden');
         dashSec.classList.add('hidden');
+        if (bNav) { bNav.classList.add('hidden'); bNav.classList.remove('flex'); }
+        if (mToggle) mToggle.classList.add('hidden');
+        closeMobileDrawer();
         
         // Auto show e-FIR service if empty
         const panel = document.getElementById('civilianContentPanel');
@@ -1584,8 +1692,8 @@
           showCivilianModal('report');
         }
       } else {
-        switchPolice.className = 'px-3 py-1 rounded-md font-bold text-white bg-blue-600 transition flex items-center gap-1.5 shadow';
-        switchCivilian.className = 'px-3 py-1 rounded-md font-semibold text-slate-400 hover:text-white transition flex items-center gap-1.5';
+        switchPolice.className = 'px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-lg font-bold text-white bg-blue-600 transition flex items-center gap-1 sm:gap-1.5 shadow';
+        switchCivilian.className = 'px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-lg font-semibold text-slate-400 hover:text-white transition flex items-center gap-1 sm:gap-1.5';
         
         civilianSec.classList.add('hidden');
         if (authToken && currentOfficer.badge_number) {
@@ -1595,6 +1703,8 @@
         } else {
           loginSec.classList.remove('hidden');
           dashSec.classList.add('hidden');
+          if (bNav) { bNav.classList.add('hidden'); bNav.classList.remove('flex'); }
+          if (mToggle) mToggle.classList.add('hidden');
         }
       }
       lucide.createIcons();
@@ -1610,28 +1720,63 @@
       const isField = !isApex && !isDistrict;
 
       const traitorTab = document.getElementById('tabBtn-traitor');
+      const mobTraitorTab = document.getElementById('mobTabBtn-traitor');
       const cctvTab = document.getElementById('tabBtn-cctv');
+      const mobCctvTab = document.getElementById('mobTabBtn-cctv');
       const rankBadgeEl = document.getElementById('officerRankDisplay');
       const registerBtns = document.querySelectorAll('button[onclick="openNewCaseModal()"]');
 
       if (isApex) {
-        rankBadgeEl.innerHTML = `<span class="text-amber-400 font-extrabold">👑 APEX STATE CLEARANCE</span> • ${badge}`;
+        rankBadgeEl.innerHTML = `<span class="text-amber-400 font-extrabold">👑 APEX CLEARANCE</span> • ${badge}`;
         if (traitorTab) traitorTab.classList.remove('hidden');
+        if (mobTraitorTab) mobTraitorTab.classList.remove('hidden');
         if (cctvTab) cctvTab.classList.remove('hidden');
+        if (mobCctvTab) mobCctvTab.classList.remove('hidden');
         registerBtns.forEach(b => b.classList.remove('hidden'));
       } else if (isDistrict) {
-        rankBadgeEl.innerHTML = `<span class="text-blue-400 font-extrabold">🏛️ DISTRICT COMMAND (SP)</span> • ${badge}`;
+        rankBadgeEl.innerHTML = `<span class="text-blue-400 font-extrabold">🏛️ DISTRICT (SP)</span> • ${badge}`;
         if (traitorTab) traitorTab.classList.add('hidden');
+        if (mobTraitorTab) mobTraitorTab.classList.add('hidden');
         if (cctvTab) cctvTab.classList.remove('hidden');
+        if (mobCctvTab) mobCctvTab.classList.remove('hidden');
         registerBtns.forEach(b => b.classList.remove('hidden'));
       } else {
         // Field Officer (Sub-Inspector / Station Unit)
-        rankBadgeEl.innerHTML = `<span class="text-emerald-400 font-extrabold">🚔 FIELD STATION UNIT (SI)</span> • ${badge}`;
+        rankBadgeEl.innerHTML = `<span class="text-emerald-400 font-extrabold">🚔 FIELD UNIT (SI)</span> • ${badge}`;
         if (traitorTab) traitorTab.classList.add('hidden');
+        if (mobTraitorTab) mobTraitorTab.classList.add('hidden');
         if (cctvTab) cctvTab.classList.add('hidden');
+        if (mobCctvTab) mobCctvTab.classList.add('hidden');
         registerBtns.forEach(b => b.classList.add('hidden')); // Field officers do not register root cases
       }
     }
+
+    function toggleMobileDrawer() {
+      const drawer = document.getElementById('mobileDrawer');
+      const backdrop = document.getElementById('mobileDrawerBackdrop');
+      if (!drawer || !backdrop) return;
+      const isClosed = drawer.classList.contains('-translate-x-full');
+      if (isClosed) {
+        drawer.classList.remove('-translate-x-full');
+        backdrop.classList.remove('hidden');
+        document.body.classList.add('overflow-hidden');
+      } else {
+        drawer.classList.add('-translate-x-full');
+        backdrop.classList.add('hidden');
+        document.body.classList.remove('overflow-hidden');
+      }
+      if (window.lucide) lucide.createIcons();
+    }
+    window.toggleMobileDrawer = toggleMobileDrawer;
+
+    function closeMobileDrawer() {
+      const drawer = document.getElementById('mobileDrawer');
+      const backdrop = document.getElementById('mobileDrawerBackdrop');
+      if (drawer) drawer.classList.add('-translate-x-full');
+      if (backdrop) backdrop.classList.add('hidden');
+      document.body.classList.remove('overflow-hidden');
+    }
+    window.closeMobileDrawer = closeMobileDrawer;
 
     function showDashboard() {
       document.getElementById('loginSection').classList.add('hidden');
@@ -1640,6 +1785,11 @@
       document.getElementById('totpTicker').classList.add('flex');
       document.getElementById('officerHeaderBadge').classList.remove('hidden');
       document.getElementById('officerHeaderBadge').classList.add('flex');
+
+      const bNav = document.getElementById('mobileBottomNav');
+      if (bNav) { bNav.classList.remove('hidden'); bNav.classList.add('flex'); }
+      const mToggle = document.getElementById('mobileMenuToggle');
+      if (mToggle) mToggle.classList.remove('hidden');
 
       document.getElementById('officerNameDisplay').innerText = currentOfficer.full_name || 'Officer';
       
@@ -1657,27 +1807,63 @@
       document.getElementById('dashboardSection').classList.add('hidden');
       document.getElementById('totpTicker').classList.add('hidden');
       document.getElementById('officerHeaderBadge').classList.add('hidden');
+      
+      const bNav = document.getElementById('mobileBottomNav');
+      if (bNav) { bNav.classList.add('hidden'); bNav.classList.remove('flex'); }
+      const mToggle = document.getElementById('mobileMenuToggle');
+      if (mToggle) mToggle.classList.add('hidden');
+      closeMobileDrawer();
     }
 
     function switchTab(tab) {
-      ['overview', 'cases', 'aria', 'duty', 'traitor', 'cctv', 'blockchain', 'interagency', 'codex'].forEach(t => {
+      const allTabs = ['overview', 'cases', 'aria', 'duty', 'traitor', 'cctv', 'blockchain', 'interagency', 'codex'];
+      allTabs.forEach(t => {
         const p = document.getElementById(`panel-${t}`);
         if (p) p.classList.add('hidden');
+        
+        // Desktop sidebar
         const btn = document.getElementById(`tabBtn-${t}`);
         if (btn) {
           btn.classList.remove('bg-blue-600/15', 'text-blue-400', 'border', 'border-blue-500/20');
           btn.classList.add('text-slate-400');
         }
+
+        // Mobile drawer
+        const mBtn = document.getElementById(`mobTabBtn-${t}`);
+        if (mBtn) {
+          mBtn.classList.remove('bg-blue-600/15', 'text-blue-400', 'border', 'border-blue-500/20');
+          mBtn.classList.add('text-slate-400');
+        }
+      });
+
+      // Mobile Bottom Nav buttons
+      ['overview', 'cases', 'aria', 'duty'].forEach(t => {
+        const bBtn = document.getElementById(`bottomNavBtn-${t}`);
+        if (bBtn) {
+          if (t === tab) {
+            bBtn.className = 'flex flex-col items-center gap-1 text-blue-400 font-bold transition active:scale-95';
+          } else {
+            bBtn.className = 'flex flex-col items-center gap-1 text-slate-400 hover:text-slate-200 font-medium transition active:scale-95';
+          }
+        }
       });
 
       const activePanel = document.getElementById(`panel-${tab}`);
       if (activePanel) activePanel.classList.remove('hidden');
+      
       const activeBtn = document.getElementById(`tabBtn-${tab}`);
       if (activeBtn) {
         activeBtn.classList.add('bg-blue-600/15', 'text-blue-400', 'border', 'border-blue-500/20');
         activeBtn.classList.remove('text-slate-400');
       }
-      lucide.createIcons();
+
+      const activeMBtn = document.getElementById(`mobTabBtn-${tab}`);
+      if (activeMBtn) {
+        activeMBtn.classList.add('bg-blue-600/15', 'text-blue-400', 'border', 'border-blue-500/20');
+        activeMBtn.classList.remove('text-slate-400');
+      }
+
+      if (window.lucide) lucide.createIcons();
 
       if (tab === 'duty') {
         setTimeout(() => {
@@ -4580,5 +4766,32 @@
     }
     window.printOfficialDocument = printOfficialDocument;
   </script>
+
+  <!-- MOBILE BOTTOM NAVIGATION (Visible on mobile/tablet when in Police Command Enclave) -->
+  <nav id="mobileBottomNav" class="hidden fixed bottom-0 left-0 right-0 z-40 bg-[#090e17]/95 backdrop-blur-xl border-t border-slate-800/90 py-2 px-3 flex items-center justify-around md:hidden shadow-[0_-4px_25px_rgba(0,0,0,0.6)] safe-bottom">
+    <button onclick="switchTab('overview')" id="bottomNavBtn-overview" class="flex flex-col items-center gap-1 text-blue-400 font-bold transition active:scale-95" aria-label="HQ Overview">
+      <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
+      <span class="text-[10px]">HQ</span>
+    </button>
+    <button onclick="switchTab('cases')" id="bottomNavBtn-cases" class="flex flex-col items-center gap-1 text-slate-400 hover:text-slate-200 font-medium transition active:scale-95" aria-label="Active Cases & FIR">
+      <i data-lucide="folder-lock" class="w-5 h-5"></i>
+      <span class="text-[10px]">Cases</span>
+    </button>
+    <button onclick="switchTab('aria')" id="bottomNavBtn-aria" class="flex flex-col items-center gap-1 text-slate-400 hover:text-slate-200 font-medium transition active:scale-95 relative" aria-label="ARIA AI Analyst">
+      <span class="relative">
+        <i data-lucide="bot" class="w-5 h-5 text-emerald-400"></i>
+        <span class="w-2 h-2 rounded-full bg-emerald-400 absolute -top-0.5 -right-0.5 animate-pulse"></span>
+      </span>
+      <span class="text-[10px]">ARIA AI</span>
+    </button>
+    <button onclick="switchTab('duty')" id="bottomNavBtn-duty" class="flex flex-col items-center gap-1 text-slate-400 hover:text-slate-200 font-medium transition active:scale-95" aria-label="Duty & Surveillance">
+      <i data-lucide="map-pin" class="w-5 h-5"></i>
+      <span class="text-[10px]">Duty</span>
+    </button>
+    <button onclick="toggleMobileDrawer()" id="bottomNavBtn-more" class="flex flex-col items-center gap-1 text-slate-400 hover:text-slate-200 font-medium transition active:scale-95" aria-label="Full Menu">
+      <i data-lucide="menu" class="w-5 h-5"></i>
+      <span class="text-[10px]">Menu</span>
+    </button>
+  </nav>
 </body>
 </html>

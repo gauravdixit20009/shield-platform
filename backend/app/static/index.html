@@ -376,7 +376,7 @@
       </div>
 
       <!-- CITIZEN SERVICES TABS -->
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
         <!-- 1. Report e-FIR -->
         <div class="bg-[#0c121d] border border-slate-800 rounded-xl p-5 space-y-3 hover:border-blue-500/40 transition">
           <div class="w-10 h-10 rounded-lg bg-blue-600/15 border border-blue-500/20 text-blue-400 flex items-center justify-center">
@@ -430,6 +430,25 @@
           </div>
           <button onclick="showCivilianModal('verify')" class="w-full py-2 bg-amber-600/20 hover:bg-amber-600/30 text-amber-300 border border-amber-500/30 rounded-lg text-xs font-bold transition">
             Verify Badge ID →
+          </button>
+        </div>
+
+        <!-- 5. Sovereign Blockchain Evidence & BSA §63 Certification -->
+        <div class="bg-[#0c121d] border border-cyan-500/30 rounded-xl p-5 space-y-3 hover:border-cyan-400/70 transition shadow-lg shadow-cyan-950/20 relative overflow-hidden group">
+          <div class="absolute -right-3 -top-3 w-14 h-14 bg-cyan-500/10 rounded-full blur-xl group-hover:bg-cyan-500/20 transition"></div>
+          <div class="w-10 h-10 rounded-lg bg-cyan-600/15 border border-cyan-500/30 text-cyan-400 flex items-center justify-center">
+            <i data-lucide="blocks" class="w-5 h-5"></i>
+          </div>
+          <div class="space-y-1">
+            <div class="flex items-center gap-1.5">
+              <h3 class="font-bold text-white text-sm">Blockchain Ledger</h3>
+              <span class="px-1.5 py-0.5 rounded text-[9px] font-extrabold bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">BSA §63</span>
+            </div>
+            <p class="text-xs text-slate-400">Tamper-proof digital evidence verification under Section 63 BSA, 2023.</p>
+          </div>
+          <button onclick="showCivilianModal('blockchain')" class="w-full py-2 bg-cyan-600/20 hover:bg-cyan-600/30 text-cyan-300 border border-cyan-500/30 rounded-lg text-xs font-bold transition flex items-center justify-center gap-1.5">
+            <i data-lucide="shield-check" class="w-3.5 h-3.5"></i>
+            <span>Verify Blockchain →</span>
           </button>
         </div>
       </div>
@@ -670,7 +689,7 @@
               <div class="flex items-center justify-between text-xs">
                 <span class="font-bold text-white flex items-center gap-2">
                   <i data-lucide="map" class="w-4 h-4 text-emerald-400"></i>
-                  <span>Live Field Telemetry (Mumbai Command Sector)</span>
+                  <span>Live Field Telemetry (Bengaluru Command Sector)</span>
                 </span>
                 <span id="gpsLiveStatus" class="mono text-[11px] text-slate-400">GPS: IDLE</span>
               </div>
@@ -680,11 +699,15 @@
                 <div id="tacticalMap" class="w-full h-full z-0"></div>
 
                 <!-- OVERLAY MAP CONTROLS -->
-                <div class="absolute top-3 left-3 z-[400] flex items-center gap-2">
+                <div class="absolute top-3 left-3 z-[400] flex flex-wrap items-center gap-2">
                   <span id="gpsSourceBadge" class="px-2.5 py-1 bg-slate-950/85 border border-slate-700/80 rounded-lg text-[10px] font-bold text-slate-400 flex items-center gap-1.5 backdrop-blur-md shadow">
                     <span id="gpsPulseDot" class="w-2 h-2 rounded-full bg-slate-500"></span>
                     <span id="gpsSourceText">GPS: STANDBY</span>
                   </span>
+                  <button type="button" onclick="lockDeviceGPS(true)" id="snapGpsBtn" class="px-2.5 py-1 bg-emerald-600/90 hover:bg-emerald-500 border border-emerald-400/80 rounded-lg text-[10px] font-bold text-white flex items-center gap-1 backdrop-blur-md shadow-lg transition">
+                    <i data-lucide="locate-fixed" class="w-3 h-3"></i>
+                    <span>Snap to Live GPS (Bengaluru)</span>
+                  </button>
                   <button type="button" onclick="recenterTacticalMap()" class="px-2.5 py-1 bg-slate-900/90 hover:bg-slate-800 border border-slate-700/80 rounded-lg text-[10px] font-semibold text-slate-200 flex items-center gap-1 backdrop-blur-md shadow transition">
                     <i data-lucide="crosshair" class="w-3 h-3 text-blue-400"></i>
                     <span>Recenter</span>
@@ -699,7 +722,7 @@
                 <div class="absolute bottom-2 left-2 right-2 z-[400] grid grid-cols-2 md:grid-cols-4 gap-2 text-xs">
                   <div class="bg-slate-950/90 backdrop-blur-md border border-slate-800/90 px-3 py-2 rounded-lg">
                     <div class="text-[9px] text-slate-400 font-bold uppercase tracking-wider">REAL GPS COORDS</div>
-                    <div id="hudCoords" class="mono font-bold text-emerald-400 text-[11px] truncate">18.9220° N, 72.8347° E</div>
+                    <div id="hudCoords" class="mono font-bold text-emerald-400 text-[11px] truncate">12.9716° N, 77.5946° E</div>
                   </div>
                   <div class="bg-slate-950/90 backdrop-blur-md border border-slate-800/90 px-3 py-2 rounded-lg">
                     <div class="text-[9px] text-slate-400 font-bold uppercase tracking-wider">PRECISION ACCURACY</div>
@@ -1318,8 +1341,8 @@
     let geoWatchId = null;
     let isRealGpsActive = false;
     let currentPatrolPos = {
-      lat: 18.9220,
-      lng: 72.8347,
+      lat: 12.9716,
+      lng: 77.5946,
       accuracy: 5.0,
       speed: '0.0'
     };
@@ -1333,7 +1356,7 @@
         return;
       }
 
-      // Initialize Leaflet map
+      // Initialize Leaflet map centered at Bengaluru Command Sector
       tacticalMap = L.map('tacticalMap', {
         zoomControl: false,
         attributionControl: false
@@ -1390,34 +1413,90 @@
         dashArray: '6, 6'
       }).addTo(tacticalMap);
 
-      // Active Case Incident Scene
+      // Active Case Incident Scene (Bengaluru Sector)
       const crimeSceneIcon = L.divIcon({
         className: 'crime-scene-icon',
         html: '<div class="w-6 h-6 rounded-full bg-red-600 text-white flex items-center justify-center font-bold text-xs shadow-lg shadow-red-600/50 border-2 border-white">!</div>',
         iconSize: [24, 24],
         iconAnchor: [12, 12]
       });
-      L.marker([18.9220, 72.8347], { icon: crimeSceneIcon })
+      L.marker([12.9760, 77.5925], { icon: crimeSceneIcon })
         .addTo(tacticalMap)
-        .bindPopup('<div class="p-1 text-xs text-slate-900 font-bold">🚨 Incident: Gateway Terminal Cyber Breach</div>');
+        .bindPopup('<div class="p-1 text-xs text-slate-900 font-bold">🚨 Incident: Cubbon Park Cyber Security Zone</div>');
 
-      // CCTV Camera Marker
+      // CCTV Camera Markers
       const cctvIcon = L.divIcon({
         className: 'cctv-icon',
         html: '<div class="w-5 h-5 rounded bg-indigo-600 text-white flex items-center justify-center font-bold text-[9px] shadow border border-white">CAM</div>',
         iconSize: [20, 20],
         iconAnchor: [10, 10]
       });
-      L.marker([18.9255, 72.8380], { icon: cctvIcon })
+      L.marker([12.9754, 77.6066], { icon: cctvIcon })
         .addTo(tacticalMap)
-        .bindPopup('<div class="p-1 text-xs text-slate-900 font-bold">📹 CCTV Grid: Gate 4 Perimeter Cam</div>');
+        .bindPopup('<div class="p-1 text-xs text-slate-900 font-bold">📹 CCTV Grid: MG Road Junction Sector 1</div>');
+      L.marker([12.9797, 77.5907], { icon: cctvIcon })
+        .addTo(tacticalMap)
+        .bindPopup('<div class="p-1 text-xs text-slate-900 font-bold">📹 CCTV Grid: Vidhana Soudha Perimeter</div>');
 
       // Click on map to add simulated waypoints if testing
       tacticalMap.on('click', (e) => {
         if (!isOnDuty) return;
         updateLocationPosition(e.latlng.lat, e.latlng.lng, 4.0, (Math.random() * 5 + 8).toFixed(1), "SIMULATED WAYPOINT");
       });
+
+      // Automatically acquire user's real hardware GPS or snap to Bengaluru
+      lockDeviceGPS(false);
     }
+
+    async function lockDeviceGPS(interactive = false) {
+      const snapBtn = document.getElementById('snapGpsBtn');
+      if (snapBtn && interactive) {
+        snapBtn.innerHTML = `<i data-lucide="loader" class="w-3 h-3 animate-spin"></i><span>Acquiring GPS...</span>`;
+        if (window.lucide) lucide.createIcons();
+      }
+
+      if ('geolocation' in navigator) {
+        navigator.geolocation.getCurrentPosition(
+          (pos) => {
+            const lat = pos.coords.latitude;
+            const lng = pos.coords.longitude;
+            const acc = pos.coords.accuracy || 4.2;
+            const spd = pos.coords.speed ? (pos.coords.speed * 3.6).toFixed(1) : '0.0';
+            updateLocationPosition(lat, lng, acc, spd, 'DEVICE SENSOR LOCK (BENGALURU/LOCAL)');
+            if (tacticalMap) {
+              tacticalMap.setView([lat, lng], 16, { animate: true });
+            }
+            if (snapBtn && interactive) {
+              snapBtn.innerHTML = `<i data-lucide="check-circle" class="w-3 h-3 text-emerald-300"></i><span>GPS Locked (${lat.toFixed(3)}, ${lng.toFixed(3)})</span>`;
+              setTimeout(() => {
+                snapBtn.innerHTML = `<i data-lucide="locate-fixed" class="w-3 h-3"></i><span>Snap to Live GPS (Bengaluru)</span>`;
+                if (window.lucide) lucide.createIcons();
+              }, 3000);
+            }
+            if (window.lucide) lucide.createIcons();
+          },
+          async (err) => {
+            console.warn("Browser GPS permission error or fallback:", err.message);
+            try {
+              const res = await fetch('/api/v1/citizen/detect-location');
+              const data = await res.json();
+              updateLocationPosition(data.latitude, data.longitude, 5.0, '0.0', 'BENGALURU CENTRAL SECTOR AUTO-LOCK');
+              if (tacticalMap) tacticalMap.setView([data.latitude, data.longitude], 15);
+            } catch (e) {
+              updateLocationPosition(12.9716, 77.5946, 5.0, '0.0', 'BENGALURU CENTRAL SECTOR AUTO-LOCK');
+            }
+            if (snapBtn && interactive) {
+              snapBtn.innerHTML = `<i data-lucide="locate-fixed" class="w-3 h-3"></i><span>Snap to Live GPS (Bengaluru)</span>`;
+              if (window.lucide) lucide.createIcons();
+            }
+          },
+          { enableHighAccuracy: true, timeout: 7000, maximumAge: 0 }
+        );
+      } else {
+        updateLocationPosition(12.9716, 77.5946, 5.0, '0.0', 'BENGALURU CENTRAL SECTOR AUTO-LOCK');
+      }
+    }
+    window.lockDeviceGPS = lockDeviceGPS;
 
     function recenterTacticalMap() {
       if (tacticalMap && officerBeaconMarker) {
@@ -1469,7 +1548,7 @@
         console.warn("Geolocation API not supported in browser, using simulated telemetry.");
         const srcText = document.getElementById('gpsSourceText');
         if (srcText) srcText.innerText = 'GPS: SENSOR NOT FOUND';
-        updateLocationPosition(18.9220, 72.8347, 5.0, 0, 'HQ SECTOR SIMULATION');
+        updateLocationPosition(12.9716, 77.5946, 5.0, 0, 'BENGALURU SECTOR SIMULATION');
         return;
       }
 
@@ -1505,7 +1584,7 @@
           console.warn("GPS Permission or signal error:", err.message);
           const srcText = document.getElementById('gpsSourceText');
           if (srcText) srcText.innerText = 'GPS: SIMULATED (PERMISSION DENIED)';
-          updateLocationPosition(18.9220, 72.8347, 5.0, 0, 'HQ SECTOR SIMULATION');
+          updateLocationPosition(12.9716, 77.5946, 5.0, 0, 'BENGALURU SECTOR SIMULATION');
         },
         geoOptions
       );
@@ -1677,7 +1756,7 @@
                 </div>
                 <div>
                   <label class="block font-semibold text-slate-300 mb-1">Incident Location / Landmark *</label>
-                  <input id="civLocation" type="text" required placeholder="e.g. Bandra Kurla Complex, Mumbai" class="w-full bg-[#111927] border border-slate-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-blue-500">
+                  <input id="civLocation" type="text" required placeholder="e.g. MG Road / Koramangala / Indiranagar, Bengaluru" class="w-full bg-[#111927] border border-slate-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-blue-500">
                 </div>
               </div>
 
@@ -1819,10 +1898,234 @@
             <div id="civVerifyResult" class="pt-2"></div>
           </div>
         `;
+      } else if (service === 'blockchain') {
+        panel.innerHTML = `
+          <div class="space-y-6">
+            <div class="border-b border-slate-800 pb-3 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div>
+                <h2 class="text-lg font-bold text-white flex items-center gap-2">
+                  <i data-lucide="blocks" class="w-5 h-5 text-cyan-400"></i>
+                  <span>Sovereign Police Blockchain Ledger & Evidence Verifier</span>
+                </h2>
+                <p class="text-xs text-slate-400">Cryptographic SHA-256 blockchain compliance under Section 63 of Bharatiya Sakshya Adhiniyam, 2023 (BSA)</p>
+              </div>
+              <div class="flex items-center gap-2">
+                <button onclick="verifyTrackingId('CIT-2026-89412')" class="text-xs text-cyan-400 bg-cyan-500/10 border border-cyan-500/20 px-2.5 py-1 rounded-lg hover:bg-cyan-500/20 transition">
+                  Demo e-FIR: CIT-2026-89412
+                </button>
+                <button onclick="loadBlockchainLedger()" class="text-xs text-slate-300 bg-slate-800 border border-slate-700 px-2.5 py-1 rounded-lg hover:bg-slate-700 transition flex items-center gap-1">
+                  <i data-lucide="refresh-cw" class="w-3 h-3"></i>
+                  <span>Refresh Chain</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- SEARCH / VERIFY INPUT -->
+            <form onsubmit="handleVerifyBlockchain(event)" class="space-y-4 text-xs">
+              <div class="flex gap-2">
+                <input id="blockchainVerifyInput" type="text" required placeholder="Enter Complaint Tracking ID or Case ID (e.g. CIT-2026-89412)" class="flex-1 bg-[#111927] border border-slate-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-cyan-500 font-mono">
+                <button id="blockchainVerifyBtn" type="submit" class="px-6 py-2.5 bg-cyan-600 hover:bg-cyan-500 text-white font-bold rounded-lg transition flex items-center gap-2 shadow-lg shadow-cyan-600/30">
+                  <i data-lucide="shield-check" class="w-4 h-4"></i>
+                  <span>Verify Cryptographic Block</span>
+                </button>
+              </div>
+            </form>
+
+            <!-- CERTIFICATE DISPLAY AREA -->
+            <div id="blockchainVerifyResult"></div>
+
+            <!-- LIVE BLOCKCHAIN LEDGER EXPLORER -->
+            <div class="space-y-3 pt-3 border-t border-slate-800">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                  <i data-lucide="network" class="w-4 h-4 text-cyan-400"></i>
+                  <span class="text-xs font-bold text-slate-200">Decentralized Police Ledger — Mined Blocks</span>
+                </div>
+                <span id="chainIntegrityBadge" class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 flex items-center gap-1">
+                  <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                  <span>INTEGRITY VERIFIED (0 TAMPERING DETECTED)</span>
+                </span>
+              </div>
+              <div id="blockchainBlocksList" class="space-y-2 text-xs">
+                <div class="p-4 text-center text-slate-500 bg-slate-950/50 rounded-xl border border-slate-900">Loading blockchain blocks...</div>
+              </div>
+            </div>
+          </div>
+        `;
+        loadBlockchainLedger();
       }
       lucide.createIcons();
     }
     window.showCivilianModal = showCivilianModal;
+
+    async function verifyTrackingId(trackingId) {
+      const input = document.getElementById('blockchainVerifyInput');
+      if (input) input.value = trackingId;
+      const fakeEvent = { preventDefault: () => {} };
+      await handleVerifyBlockchain(fakeEvent);
+    }
+    window.verifyTrackingId = verifyTrackingId;
+
+    async function handleVerifyBlockchain(e) {
+      if (e && e.preventDefault) e.preventDefault();
+      const input = document.getElementById('blockchainVerifyInput');
+      const resContainer = document.getElementById('blockchainVerifyResult');
+      if (!input || !resContainer) return;
+      const trackId = input.value.trim();
+      if (!trackId) return;
+
+      resContainer.innerHTML = `<div class="p-4 text-xs text-cyan-400 bg-cyan-950/20 rounded-xl border border-cyan-900/30 flex items-center gap-2"><i data-lucide="loader" class="w-4 h-4 animate-spin"></i><span>Validating cryptographic SHA-256 hash across sovereign ledger...</span></div>`;
+      if (window.lucide) lucide.createIcons();
+
+      try {
+        const res = await fetch(`/api/v1/citizen/blockchain/verify/${encodeURIComponent(trackId)}`);
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.detail || 'Record not found in blockchain ledger.');
+
+        resContainer.innerHTML = `
+          <div class="p-6 bg-gradient-to-br from-slate-950 via-[#0a121f] to-slate-950 border-2 border-cyan-500/40 rounded-2xl space-y-4 shadow-2xl relative overflow-hidden">
+            <!-- Background Watermark Emblem -->
+            <div class="absolute -right-10 -bottom-10 opacity-5 pointer-events-none">
+              <svg class="w-64 h-64 text-cyan-400" viewBox="0 0 100 120" fill="currentColor">
+                <path d="M50 6 C43 6 39 11 39 17 C39 21 41 24 44 26 C41 28 37 32 37 38 C37 45 42 50 46 52 L46 64 L33 64 C31 64 29 66 29 68 C29 70 31 72 33 72 L67 72 C69 72 71 70 71 68 C71 66 69 64 67 64 L54 64 L54 52 C58 50 63 45 63 38 C63 32 59 28 56 26 C59 24 61 21 61 17 C61 11 57 6 50 6 Z M50 12 C53 12 55.5 14.5 55.5 18 C55.5 21.5 53 24 50 24 C47 24 44.5 21.5 44.5 18 C44.5 14.5 47 12 50 12 Z"/>
+                <rect x="20" y="74" width="60" height="12" rx="2"/>
+              </svg>
+            </div>
+
+            <!-- CERTIFICATE HEADER -->
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-cyan-500/20 pb-4 gap-2">
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-cyan-500/10 border border-cyan-400/30 flex items-center justify-center text-cyan-300 shrink-0">
+                  <i data-lucide="award" class="w-5 h-5 text-cyan-400"></i>
+                </div>
+                <div>
+                  <div class="text-[10px] font-bold text-amber-400 uppercase tracking-widest">MINISTRY OF HOME AFFAIRS • GOVERNMENT OF INDIA</div>
+                  <div class="text-sm font-extrabold text-white">CERTIFICATE OF DIGITAL AUTHENTICITY</div>
+                  <div class="text-[10px] text-cyan-300 font-mono font-semibold">Under Section 63 of Bharatiya Sakshya Adhiniyam, 2023 (BSA)</div>
+                </div>
+              </div>
+              <div class="text-right">
+                <span class="px-2.5 py-1 rounded bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 font-mono text-[11px] font-extrabold inline-flex items-center gap-1">
+                  <i data-lucide="check-check" class="w-3 h-3"></i>
+                  <span>IMMUTABLE EVIDENCE SEALED</span>
+                </span>
+              </div>
+            </div>
+
+            <!-- CERTIFICATE METRICS -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 text-xs">
+              <div class="p-3 bg-slate-900/90 border border-slate-800 rounded-xl">
+                <span class="text-[10px] text-slate-400 uppercase font-bold">RECORD ID</span>
+                <div class="font-mono font-bold text-cyan-300 text-sm mt-0.5">${data.record_id}</div>
+              </div>
+              <div class="p-3 bg-slate-900/90 border border-slate-800 rounded-xl">
+                <span class="text-[10px] text-slate-400 uppercase font-bold">BLOCK NUMBER</span>
+                <div class="font-mono font-bold text-amber-300 text-sm mt-0.5">Block #${data.block_index}</div>
+              </div>
+              <div class="p-3 bg-slate-900/90 border border-slate-800 rounded-xl">
+                <span class="text-[10px] text-slate-400 uppercase font-bold">NONCE PROOF</span>
+                <div class="font-mono font-bold text-purple-300 text-sm mt-0.5">${data.nonce}</div>
+              </div>
+              <div class="p-3 bg-slate-900/90 border border-slate-800 rounded-xl">
+                <span class="text-[10px] text-slate-400 uppercase font-bold">ANCHOR TIMESTAMP</span>
+                <div class="font-mono font-bold text-slate-200 text-xs mt-0.5 truncate">${data.timestamp}</div>
+              </div>
+            </div>
+
+            <!-- CRYPTOGRAPHIC SHA-256 DIGEST -->
+            <div class="space-y-2 text-xs">
+              <div>
+                <span class="text-[10px] text-cyan-400 font-bold uppercase tracking-wider">BLOCK SHA-256 HASH (DIGITAL SIGNATURE)</span>
+                <div class="p-2.5 bg-slate-950 border border-cyan-500/30 rounded-lg font-mono text-cyan-300 text-[11px] break-all select-all mt-1">
+                  ${data.block_hash}
+                </div>
+              </div>
+              <div>
+                <span class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">PREVIOUS BLOCK HASH (CRYPTOGRAPHIC CHAIN LINK)</span>
+                <div class="p-2.5 bg-slate-950/70 border border-slate-800 rounded-lg font-mono text-slate-400 text-[11px] break-all select-all mt-1">
+                  ${data.previous_hash}
+                </div>
+              </div>
+            </div>
+
+            <!-- STATUTORY ATTESTATION -->
+            <div class="p-3 bg-blue-950/30 border border-blue-800/40 rounded-xl text-[11px] text-slate-300 space-y-1">
+              <div class="font-bold text-white flex items-center gap-1.5">
+                <i data-lucide="scale" class="w-3.5 h-3.5 text-amber-400"></i>
+                <span>Statutory Legal Attestation — Section 63 BSA, 2023</span>
+              </div>
+              <p>This electronic certificate certifies that the digital record registered under Tracking ID <strong>${data.record_id}</strong> is preserved on the Sovereign Police Distributed Ledger without modification, interception, or alteration. The SHA-256 cryptographic digest acts as admissible primary electronic evidence under the Bharatiya Sakshya Adhiniyam, 2023.</p>
+            </div>
+
+            <div class="flex items-center justify-between text-xs pt-2">
+              <span class="font-mono text-[11px] text-slate-400">CERTIFICATE NO: <strong class="text-white">${data.certificate_id}</strong></span>
+              <button onclick="window.print()" class="px-4 py-1.5 bg-cyan-600/30 hover:bg-cyan-600/50 text-cyan-200 border border-cyan-500/40 rounded-lg font-bold text-xs flex items-center gap-1.5 transition">
+                <i data-lucide="printer" class="w-3.5 h-3.5"></i>
+                <span>Print Certificate</span>
+              </button>
+            </div>
+          </div>
+        `;
+        if (window.lucide) lucide.createIcons();
+      } catch (err) {
+        resContainer.innerHTML = `<div class="p-4 text-xs text-rose-400 bg-rose-950/20 rounded-xl border border-rose-900/30 flex items-center gap-2"><i data-lucide="alert-octagon" class="w-4 h-4 text-rose-400"></i><span>${err.message}</span></div>`;
+        if (window.lucide) lucide.createIcons();
+      }
+    }
+    window.handleVerifyBlockchain = handleVerifyBlockchain;
+
+    async function loadBlockchainLedger() {
+      const container = document.getElementById('blockchainBlocksList');
+      if (!container) return;
+
+      try {
+        const res = await fetch('/api/v1/citizen/blockchain/blocks');
+        const data = await res.json();
+        const blocks = data.recent_blocks || [];
+
+        container.innerHTML = blocks.map(b => `
+          <div class="p-3.5 bg-slate-900/80 border border-slate-800 rounded-xl hover:border-cyan-500/40 transition space-y-2">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-cyan-500/10 text-cyan-300 border border-cyan-500/20">BLOCK #${b.index}</span>
+                <span class="font-bold text-white text-xs">${b.record_id}</span>
+                <span class="text-[10px] text-slate-400 uppercase font-semibold">(${b.record_type})</span>
+              </div>
+              <span class="text-[10px] font-mono text-slate-400">${b.timestamp.slice(0, 19).replace('T', ' ')} UTC</span>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[11px] font-mono">
+              <div class="p-1.5 bg-slate-950 rounded border border-slate-800 text-cyan-300 truncate" title="Hash: ${b.block_hash}">
+                <span class="text-slate-500">Hash: </span>${b.block_hash}
+              </div>
+              <div class="p-1.5 bg-slate-950 rounded border border-slate-800 text-slate-400 truncate" title="Prev: ${b.previous_hash}">
+                <span class="text-slate-500">Prev: </span>${b.previous_hash}
+              </div>
+            </div>
+            <div class="flex items-center justify-between text-[10px] text-slate-400 pt-1">
+              <span>Data: <strong class="text-slate-200">${b.data_summary}</strong></span>
+              <button onclick="verifyTrackingId('${b.record_id}')" class="text-cyan-400 hover:text-cyan-300 font-bold flex items-center gap-1">
+                <span>View Certificate</span> →
+              </button>
+            </div>
+          </div>
+        `).join('');
+
+        const integrityBadge = document.getElementById('chainIntegrityBadge');
+        if (integrityBadge) {
+          if (data.is_chain_intact) {
+            integrityBadge.className = 'px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 flex items-center gap-1';
+            integrityBadge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span><span>INTEGRITY VERIFIED (${data.total_blocks} BLOCKS SEALED)</span>`;
+          } else {
+            integrityBadge.className = 'px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-rose-500/15 text-rose-400 border border-rose-500/30 flex items-center gap-1';
+            integrityBadge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-rose-400 animate-ping"></span><span>CHAIN INTEGRITY VIOLATION</span>`;
+          }
+        }
+        if (window.lucide) lucide.createIcons();
+      } catch (err) {
+        container.innerHTML = `<div class="p-3 text-xs text-rose-400">Failed to load blockchain ledger: ${err.message}</div>`;
+      }
+    }
+    window.loadBlockchainLedger = loadBlockchainLedger;
 
     async function handleCivilianReport(e) {
       e.preventDefault();
@@ -1851,29 +2154,50 @@
         if (!res.ok) throw new Error(data.detail || 'Failed to file complaint');
 
         resContainer.innerHTML = `
-          <div class="p-5 bg-emerald-950/20 border border-emerald-900/40 rounded-xl space-y-3">
-            <div class="flex items-center gap-2 text-emerald-400 font-bold text-sm">
-              <i data-lucide="check-circle" class="w-5 h-5"></i>
-              <span>e-FIR Successfully Registered</span>
+          <div class="p-5 bg-emerald-950/20 border border-emerald-900/40 rounded-xl space-y-4">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2 text-emerald-400 font-bold text-sm">
+                <i data-lucide="check-circle" class="w-5 h-5"></i>
+                <span>e-FIR Successfully Registered & Cryptographically Anchored</span>
+              </div>
+              <span class="px-2 py-0.5 rounded bg-cyan-500/10 text-cyan-300 font-mono text-[10px] border border-cyan-500/30">BSA 2023 §63 CERTIFIED</span>
             </div>
+
             <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
               <div class="p-2.5 bg-slate-900/80 rounded-lg">
                 <div class="text-[10px] text-slate-400">TRACKING ID</div>
                 <div class="mono font-bold text-emerald-300 text-sm">${data.tracking_id}</div>
               </div>
               <div class="p-2.5 bg-slate-900/80 rounded-lg">
-                <div class="text-[10px] text-slate-400">STATUS</div>
-                <div class="font-bold text-blue-400">${data.status}</div>
+                <div class="text-[10px] text-slate-400">BLOCK INDEX</div>
+                <div class="font-bold text-amber-300 font-mono text-sm">Block #${data.blockchain_block || 2}</div>
               </div>
               <div class="p-2.5 bg-slate-900/80 rounded-lg">
                 <div class="text-[10px] text-slate-400">CATEGORY</div>
                 <div class="font-bold text-white">${category}</div>
               </div>
               <div class="p-2.5 bg-slate-900/80 rounded-lg">
-                <div class="text-[10px] text-slate-400">NODAL OFFICER</div>
-                <div class="font-bold text-amber-300">${data.assigned_officer}</div>
+                <div class="text-[10px] text-slate-400">EVIDENCE CERTIFICATE</div>
+                <div class="font-bold text-cyan-300 font-mono text-xs truncate">${data.bsa_certificate_id || 'BSA-63-VERIFIED'}</div>
               </div>
             </div>
+
+            <!-- BLOCKCHAIN HASH BANNER -->
+            <div class="p-3 bg-slate-950/90 border border-cyan-500/30 rounded-xl space-y-1.5">
+              <div class="flex items-center justify-between text-[11px]">
+                <span class="text-cyan-400 font-bold flex items-center gap-1.5">
+                  <i data-lucide="blocks" class="w-4 h-4"></i>
+                  <span>SHA-256 Sovereign Blockchain Digest (Immutable Evidence)</span>
+                </span>
+                <button onclick="showCivilianModal('blockchain'); verifyTrackingId('${data.tracking_id}');" class="text-cyan-300 hover:text-white font-bold flex items-center gap-1">
+                  <span>Open Certificate</span> →
+                </button>
+              </div>
+              <div class="p-1.5 bg-slate-900 rounded font-mono text-[11px] text-cyan-300 break-all select-all">
+                ${data.blockchain_hash || 'SHA-256 Digest generated'}
+              </div>
+            </div>
+
             <p class="text-xs text-slate-300">${data.message}</p>
           </div>
         `;
@@ -2049,8 +2373,8 @@
     async function triggerCivilianSos() {
       if (!confirm('CONFIRM CITIZEN 112 EMERGENCY SOS: Your current device coordinates will be dispatched to the nearest Police Patrol Unit.')) return;
 
-      let lat = 18.9220;
-      let lng = 72.8347;
+      let lat = 12.9716;
+      let lng = 77.5946;
 
       if ('geolocation' in navigator) {
         try {
@@ -2095,7 +2419,7 @@
           fir_number: fir,
           category: 'CYBERCRIME',
           priority: 'HIGH',
-          incident_location: 'Mumbai Sector 4'
+          incident_location: 'Bengaluru Sector 1'
         })
       }).then(r => r.json()).then(() => {
         refreshData();

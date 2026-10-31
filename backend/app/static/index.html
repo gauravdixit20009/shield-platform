@@ -7,6 +7,8 @@
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%232563eb'><path d='M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z'/></svg>">
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
     body { font-family: 'Plus Jakarta Sans', sans-serif; }
@@ -16,6 +18,53 @@
     ::-webkit-scrollbar { width: 6px; height: 6px; }
     ::-webkit-scrollbar-track { background: #0b0f17; }
     ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 3px; }
+
+    /* Tactical Map Styling */
+    .leaflet-container { background: #080d14 !important; }
+    .tactical-beacon {
+      width: 18px;
+      height: 18px;
+      background: #10b981;
+      border: 3px solid #ffffff;
+      border-radius: 50%;
+      box-shadow: 0 0 15px #10b981;
+      position: relative;
+    }
+    .tactical-beacon::after {
+      content: '';
+      position: absolute;
+      top: -11px;
+      left: -11px;
+      width: 34px;
+      height: 34px;
+      border: 2px solid #10b981;
+      border-radius: 50%;
+      animation: beacon-ripple 1.6s infinite ease-out;
+    }
+    .sos-beacon {
+      width: 22px;
+      height: 22px;
+      background: #ef4444;
+      border: 3px solid #ffffff;
+      border-radius: 50%;
+      box-shadow: 0 0 20px #ef4444;
+      position: relative;
+    }
+    .sos-beacon::after {
+      content: '';
+      position: absolute;
+      top: -14px;
+      left: -14px;
+      width: 44px;
+      height: 44px;
+      border: 3px solid #ef4444;
+      border-radius: 50%;
+      animation: beacon-ripple 0.8s infinite ease-out;
+    }
+    @keyframes beacon-ripple {
+      0% { transform: scale(0.4); opacity: 1; }
+      100% { transform: scale(1.9); opacity: 0; }
+    }
   </style>
 </head>
 <body class="bg-[#06090e] text-slate-100 min-h-screen flex flex-col">
@@ -371,17 +420,44 @@
                 <span id="gpsLiveStatus" class="mono text-[11px] text-slate-400">GPS: IDLE</span>
               </div>
               
-              <!-- SIMULATED RADAR / MAP -->
-              <div class="relative w-full h-72 bg-[#080d14] border border-slate-800 rounded-lg overflow-hidden flex items-center justify-center">
-                <div class="absolute inset-0 bg-[radial-gradient(#1e293b_1px,transparent_1px)] [background-size:16px_16px] opacity-40"></div>
-                <div class="absolute w-48 h-48 border border-emerald-500/20 rounded-full animate-ping"></div>
-                <div class="absolute w-32 h-32 border border-emerald-500/30 rounded-full"></div>
-                <div class="z-10 text-center space-y-2">
-                  <div class="inline-flex p-3 bg-emerald-500/20 text-emerald-400 rounded-full border border-emerald-500/40">
-                    <i data-lucide="crosshair" class="w-6 h-6 animate-pulse"></i>
+              <!-- REAL-TIME TACTICAL GIS MAP -->
+              <div class="relative w-full h-80 bg-[#080d14] border border-slate-800 rounded-xl overflow-hidden shadow-2xl">
+                <div id="tacticalMap" class="w-full h-full z-0"></div>
+
+                <!-- OVERLAY MAP CONTROLS -->
+                <div class="absolute top-3 left-3 z-[400] flex items-center gap-2">
+                  <span id="gpsSourceBadge" class="px-2.5 py-1 bg-slate-950/85 border border-slate-700/80 rounded-lg text-[10px] font-bold text-slate-400 flex items-center gap-1.5 backdrop-blur-md shadow">
+                    <span id="gpsPulseDot" class="w-2 h-2 rounded-full bg-slate-500"></span>
+                    <span id="gpsSourceText">GPS: STANDBY</span>
+                  </span>
+                  <button type="button" onclick="recenterTacticalMap()" class="px-2.5 py-1 bg-slate-900/90 hover:bg-slate-800 border border-slate-700/80 rounded-lg text-[10px] font-semibold text-slate-200 flex items-center gap-1 backdrop-blur-md shadow transition">
+                    <i data-lucide="crosshair" class="w-3 h-3 text-blue-400"></i>
+                    <span>Recenter</span>
+                  </button>
+                  <button type="button" onclick="togglePatrolSim()" id="simPatrolBtn" class="px-2.5 py-1 bg-slate-900/90 hover:bg-slate-800 border border-slate-700/80 rounded-lg text-[10px] font-semibold text-indigo-300 flex items-center gap-1 backdrop-blur-md shadow transition">
+                    <i data-lucide="navigation-2" class="w-3 h-3"></i>
+                    <span>Sim Patrol Waypoint</span>
+                  </button>
+                </div>
+
+                <!-- BOTTOM REAL-TIME TELEMETRY HUD -->
+                <div class="absolute bottom-2 left-2 right-2 z-[400] grid grid-cols-2 md:grid-cols-4 gap-2 text-xs">
+                  <div class="bg-slate-950/90 backdrop-blur-md border border-slate-800/90 px-3 py-2 rounded-lg">
+                    <div class="text-[9px] text-slate-400 font-bold uppercase tracking-wider">REAL GPS COORDS</div>
+                    <div id="hudCoords" class="mono font-bold text-emerald-400 text-[11px] truncate">18.9220° N, 72.8347° E</div>
                   </div>
-                  <div class="text-xs font-mono text-emerald-300 font-bold" id="geoCoordsDisplay">18.9220° N, 72.8347° E</div>
-                  <div class="text-[10px] text-slate-500">Gateway Command Grid • Mumbai</div>
+                  <div class="bg-slate-950/90 backdrop-blur-md border border-slate-800/90 px-3 py-2 rounded-lg">
+                    <div class="text-[9px] text-slate-400 font-bold uppercase tracking-wider">PRECISION ACCURACY</div>
+                    <div id="hudAccuracy" class="mono font-bold text-blue-400 text-[11px]">± 0.0 m (STANDBY)</div>
+                  </div>
+                  <div class="bg-slate-950/90 backdrop-blur-md border border-slate-800/90 px-3 py-2 rounded-lg">
+                    <div class="text-[9px] text-slate-400 font-bold uppercase tracking-wider">PATROL SPEED</div>
+                    <div id="hudSpeed" class="mono font-bold text-amber-400 text-[11px]">0.0 km/h</div>
+                  </div>
+                  <div class="bg-slate-950/90 backdrop-blur-md border border-slate-800/90 px-3 py-2 rounded-lg">
+                    <div class="text-[9px] text-slate-400 font-bold uppercase tracking-wider">GEOFENCE STATUS</div>
+                    <div id="hudGeofence" class="mono font-bold text-emerald-400 text-[11px]">IN JURISDICTION</div>
+                  </div>
                 </div>
               </div>
 
@@ -678,6 +754,13 @@
       activeBtn.classList.add('bg-blue-600/15', 'text-blue-400', 'border', 'border-blue-500/20');
       activeBtn.classList.remove('text-slate-400');
       lucide.createIcons();
+
+      if (tab === 'duty') {
+        setTimeout(() => {
+          initTacticalMap();
+          if (tacticalMap) tacticalMap.invalidateSize();
+        }, 150);
+      }
     }
 
     async function refreshData() {
@@ -803,6 +886,272 @@
       handleAriaChat(new Event('submit'));
     }
 
+    // --- REAL-TIME TACTICAL GPS & MAP SYSTEM ---
+    let tacticalMap = null;
+    let officerBeaconMarker = null;
+    let accuracyCircle = null;
+    let patrolTrackPolyline = null;
+    let geoWatchId = null;
+    let isRealGpsActive = false;
+    let currentPatrolPos = {
+      lat: 18.9220,
+      lng: 72.8347,
+      accuracy: 5.0,
+      speed: '0.0'
+    };
+    let patrolPath = [];
+
+    function initTacticalMap() {
+      const container = document.getElementById('tacticalMap');
+      if (!container) return;
+      if (tacticalMap) {
+        tacticalMap.invalidateSize();
+        return;
+      }
+
+      // Initialize Leaflet map
+      tacticalMap = L.map('tacticalMap', {
+        zoomControl: false,
+        attributionControl: false
+      }).setView([currentPatrolPos.lat, currentPatrolPos.lng], 15);
+
+      // Add Zoom control at top-right
+      L.control.zoom({ position: 'topright' }).addTo(tacticalMap);
+
+      // Dark Matter Tactical Map Tiles
+      L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+        maxZoom: 19,
+        subdomains: 'abcd',
+      }).addTo(tacticalMap);
+
+      // Pulsing officer beacon icon
+      const beaconIcon = L.divIcon({
+        className: 'custom-beacon-wrapper',
+        html: '<div id="officerBeaconPulse" class="tactical-beacon"></div>',
+        iconSize: [20, 20],
+        iconAnchor: [10, 10]
+      });
+
+      officerBeaconMarker = L.marker([currentPatrolPos.lat, currentPatrolPos.lng], {
+        icon: beaconIcon
+      }).addTo(tacticalMap);
+
+      const name = currentOfficer && currentOfficer.full_name ? currentOfficer.full_name : 'Field Officer';
+      const rank = currentOfficer && currentOfficer.rank ? currentOfficer.rank : 'OFFICER';
+      const badge = currentOfficer && currentOfficer.badge_number ? currentOfficer.badge_number : 'LIVE';
+
+      officerBeaconMarker.bindPopup(`
+        <div class="p-1 text-slate-900 text-xs">
+          <div class="font-bold text-blue-700">${name}</div>
+          <div class="font-mono text-[10px] text-slate-600">${rank} • ${badge}</div>
+          <div class="mt-1 text-emerald-600 font-bold text-[10px]">🟢 LIVE PATROL TELEMETRY</div>
+        </div>
+      `);
+
+      // Accuracy radius circle
+      accuracyCircle = L.circle([currentPatrolPos.lat, currentPatrolPos.lng], {
+        radius: currentPatrolPos.accuracy,
+        color: '#10b981',
+        fillColor: '#10b981',
+        fillOpacity: 0.15,
+        weight: 1.5
+      }).addTo(tacticalMap);
+
+      // Continuous patrol breadcrumb track
+      patrolTrackPolyline = L.polyline([], {
+        color: '#3b82f6',
+        weight: 3.5,
+        opacity: 0.85,
+        dashArray: '6, 6'
+      }).addTo(tacticalMap);
+
+      // Active Case Incident Scene
+      const crimeSceneIcon = L.divIcon({
+        className: 'crime-scene-icon',
+        html: '<div class="w-6 h-6 rounded-full bg-red-600 text-white flex items-center justify-center font-bold text-xs shadow-lg shadow-red-600/50 border-2 border-white">!</div>',
+        iconSize: [24, 24],
+        iconAnchor: [12, 12]
+      });
+      L.marker([18.9220, 72.8347], { icon: crimeSceneIcon })
+        .addTo(tacticalMap)
+        .bindPopup('<div class="p-1 text-xs text-slate-900 font-bold">🚨 Incident: Gateway Terminal Cyber Breach</div>');
+
+      // CCTV Camera Marker
+      const cctvIcon = L.divIcon({
+        className: 'cctv-icon',
+        html: '<div class="w-5 h-5 rounded bg-indigo-600 text-white flex items-center justify-center font-bold text-[9px] shadow border border-white">CAM</div>',
+        iconSize: [20, 20],
+        iconAnchor: [10, 10]
+      });
+      L.marker([18.9255, 72.8380], { icon: cctvIcon })
+        .addTo(tacticalMap)
+        .bindPopup('<div class="p-1 text-xs text-slate-900 font-bold">📹 CCTV Grid: Gate 4 Perimeter Cam</div>');
+
+      // Click on map to add simulated waypoints if testing
+      tacticalMap.on('click', (e) => {
+        if (!isOnDuty) return;
+        updateLocationPosition(e.latlng.lat, e.latlng.lng, 4.0, (Math.random() * 5 + 8).toFixed(1), "SIMULATED WAYPOINT");
+      });
+    }
+
+    function recenterTacticalMap() {
+      if (tacticalMap && officerBeaconMarker) {
+        tacticalMap.setView([currentPatrolPos.lat, currentPatrolPos.lng], 16, { animate: true });
+        officerBeaconMarker.openPopup();
+      }
+    }
+
+    function updateLocationPosition(lat, lng, accuracy = 5, speed = 0, sourceLabel = "REAL SENSOR LOCK") {
+      currentPatrolPos.lat = lat;
+      currentPatrolPos.lng = lng;
+      currentPatrolPos.accuracy = accuracy;
+      currentPatrolPos.speed = speed;
+
+      // Update HUD
+      const coordsEl = document.getElementById('hudCoords');
+      if (coordsEl) coordsEl.innerText = `${lat.toFixed(4)}° N, ${lng.toFixed(4)}° E`;
+      const accEl = document.getElementById('hudAccuracy');
+      if (accEl) accEl.innerText = `± ${accuracy.toFixed(1)} m`;
+      const spdEl = document.getElementById('hudSpeed');
+      if (spdEl) spdEl.innerText = `${speed} km/h`;
+      const geofenceEl = document.getElementById('hudGeofence');
+      if (geofenceEl) geofenceEl.innerText = 'VERIFIED IN JURISDICTION';
+      
+      const sourceBadge = document.getElementById('gpsSourceText');
+      if (sourceBadge) sourceBadge.innerText = `GPS: ${sourceLabel}`;
+      const pulseDot = document.getElementById('gpsPulseDot');
+      if (pulseDot) {
+        pulseDot.className = 'w-2 h-2 rounded-full bg-emerald-400 animate-pulse';
+      }
+
+      // Update Map
+      if (tacticalMap && officerBeaconMarker) {
+        officerBeaconMarker.setLatLng([lat, lng]);
+        if (accuracyCircle) {
+          accuracyCircle.setLatLng([lat, lng]);
+          accuracyCircle.setRadius(accuracy);
+        }
+        if (patrolTrackPolyline) {
+          patrolPath.push([lat, lng]);
+          patrolTrackPolyline.setLatLngs(patrolPath);
+        }
+      }
+    }
+
+    // Connects to HTML5 Geolocation API on Phone & Laptop
+    function startRealTimeTracking() {
+      if (!('geolocation' in navigator)) {
+        console.warn("Geolocation API not supported in browser, using simulated telemetry.");
+        const srcText = document.getElementById('gpsSourceText');
+        if (srcText) srcText.innerText = 'GPS: SENSOR NOT FOUND';
+        updateLocationPosition(18.9220, 72.8347, 5.0, 0, 'HQ SECTOR SIMULATION');
+        return;
+      }
+
+      const geoOptions = {
+        enableHighAccuracy: true,
+        timeout: 10000,
+        maximumAge: 0
+      };
+
+      // Get initial position immediately
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          isRealGpsActive = true;
+          const lat = pos.coords.latitude;
+          const lng = pos.coords.longitude;
+          const acc = pos.coords.accuracy || 4;
+          const spd = pos.coords.speed ? (pos.coords.speed * 3.6).toFixed(1) : '0.0';
+          updateLocationPosition(lat, lng, acc, spd, 'REAL DEVICE SENSOR LOCK');
+          if (tacticalMap) tacticalMap.setView([lat, lng], 16);
+
+          // Transmit initial location to server
+          fetch('/api/v1/duty/start', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${authToken}` },
+            body: JSON.stringify({
+              device_fingerprint: localStorage.getItem('shield_device_fp') || 'device_sensor',
+              initial_latitude: lat,
+              initial_longitude: lng
+            })
+          }).catch(console.error);
+        },
+        (err) => {
+          console.warn("GPS Permission or signal error:", err.message);
+          const srcText = document.getElementById('gpsSourceText');
+          if (srcText) srcText.innerText = 'GPS: SIMULATED (PERMISSION DENIED)';
+          updateLocationPosition(18.9220, 72.8347, 5.0, 0, 'HQ SECTOR SIMULATION');
+        },
+        geoOptions
+      );
+
+      // Continuous high-frequency watch stream
+      geoWatchId = navigator.geolocation.watchPosition(
+        (pos) => {
+          isRealGpsActive = true;
+          const lat = pos.coords.latitude;
+          const lng = pos.coords.longitude;
+          const acc = pos.coords.accuracy || 4;
+          const spd = pos.coords.speed ? (pos.coords.speed * 3.6).toFixed(1) : '0.0';
+          updateLocationPosition(lat, lng, acc, spd, 'REAL DEVICE SENSOR LOCK');
+
+          // Send update to backend
+          fetch('/api/v1/duty/location', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${authToken}` },
+            body: JSON.stringify({
+              latitude: lat,
+              longitude: lng,
+              accuracy: acc,
+              speed: parseFloat(spd) || 0,
+              altitude: pos.coords.altitude || 0,
+              heading: pos.coords.heading || 0
+            })
+          }).catch(console.error);
+        },
+        (err) => console.warn("Watch position error:", err),
+        geoOptions
+      );
+    }
+
+    function stopRealTimeTracking() {
+      if (geoWatchId !== null) {
+        navigator.geolocation.clearWatch(geoWatchId);
+        geoWatchId = null;
+      }
+      isRealGpsActive = false;
+      const pulseDot = document.getElementById('gpsPulseDot');
+      if (pulseDot) pulseDot.className = 'w-2 h-2 rounded-full bg-slate-500';
+      const sourceBadge = document.getElementById('gpsSourceText');
+      if (sourceBadge) sourceBadge.innerText = 'GPS: IDLE';
+    }
+
+    function togglePatrolSim() {
+      if (!isOnDuty) {
+        alert("Please activate Duty Mode first.");
+        return;
+      }
+      // Nudge position slightly to simulate walking/patrolling
+      const deltaLat = (Math.random() - 0.45) * 0.0015;
+      const deltaLng = (Math.random() - 0.45) * 0.0015;
+      const newLat = currentPatrolPos.lat + deltaLat;
+      const newLng = currentPatrolPos.lng + deltaLng;
+      const randomSpeed = (Math.random() * 8 + 4).toFixed(1);
+      updateLocationPosition(newLat, newLng, 3.2, randomSpeed, 'PATROL WAYPOINT SIM');
+      
+      // Post to backend
+      fetch('/api/v1/duty/location', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${authToken}` },
+        body: JSON.stringify({
+          latitude: newLat,
+          longitude: newLng,
+          accuracy: 3.2,
+          speed: parseFloat(randomSpeed)
+        })
+      }).catch(console.error);
+    }
+
     async function toggleDutyMode() {
       isOnDuty = !isOnDuty;
       const btn = document.getElementById('dutyToggleBtn');
@@ -815,14 +1164,11 @@
         btn.classList.replace('hover:bg-emerald-500', 'hover:bg-rose-500');
         text.innerText = 'Deactivate Duty Mode';
         liveInd.classList.replace('bg-slate-600', 'bg-emerald-400');
-        gpsStatus.innerText = 'GPS: STREAMING ACTIVE';
+        gpsStatus.innerText = 'GPS: REAL-TIME ACTIVE';
         gpsStatus.classList.add('text-emerald-400');
 
-        await fetch('/api/v1/duty/start', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${authToken}` },
-          body: JSON.stringify({ device_fingerprint: 'web_dev_01', initial_latitude: 18.9220, initial_longitude: 72.8347 })
-        });
+        initTacticalMap();
+        startRealTimeTracking();
       } else {
         btn.classList.replace('bg-rose-600', 'bg-emerald-600');
         btn.classList.replace('hover:bg-rose-500', 'hover:bg-emerald-500');
@@ -831,6 +1177,7 @@
         gpsStatus.innerText = 'GPS: IDLE';
         gpsStatus.classList.remove('text-emerald-400');
 
+        stopRealTimeTracking();
         await fetch('/api/v1/duty/end', {
           method: 'POST',
           headers: { 'Authorization': `Bearer ${authToken}` }
@@ -840,14 +1187,22 @@
 
     async function triggerPanicSos() {
       if (!confirm('CONFIRM EMERGENCY SOS DISPATCH: This alert will immediately be broadcast to State Command.')) return;
+      
+      const beacon = document.getElementById('officerBeaconPulse');
+      if (beacon) beacon.className = 'sos-beacon';
+
       try {
         const res = await fetch('/api/v1/duty/panic', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${authToken}` },
-          body: JSON.stringify({ latitude: 18.9220, longitude: 72.8347, message: 'Officer requested immediate backup.' })
+          body: JSON.stringify({
+            latitude: currentPatrolPos.lat,
+            longitude: currentPatrolPos.lng,
+            message: `EMERGENCY ALERT: Officer ${currentOfficer.full_name || ''} triggered SOS at coordinates ${currentPatrolPos.lat.toFixed(5)}° N, ${currentPatrolPos.lng.toFixed(5)}° E`
+          })
         });
         const data = await res.json();
-        alert('🚨 EMERGENCY SOS SENT: ' + data.message);
+        alert('🚨 EMERGENCY SOS DISPATCHED: HQ notified with real-time GPS coordinates.');
       } catch (e) {
         alert('Failed to transmit panic alert');
       }

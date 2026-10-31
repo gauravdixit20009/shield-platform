@@ -215,12 +215,12 @@ async def get_live_officers(
     db: AsyncSession = Depends(get_db),
 ):
     """
-    Get all on-duty officers with their last known location.
+    Get all on-duty officers with their last known real-time GPS location.
     SP+ only for full view; officers see only their team.
     """
     from app.auth.dependencies import RANK_HIERARCHY
     from app.models.officer import OfficerRank
-    from sqlalchemy import select
+    from sqlalchemy import select, desc
 
     officer_level = RANK_HIERARCHY.index(officer.rank)
     sp_level = RANK_HIERARCHY.index(OfficerRank.SP)
@@ -230,21 +230,70 @@ async def get_live_officers(
         Officer.is_active == True,
     )
     if officer_level < sp_level:
-        # Only see subordinates
-        query = query.where(Officer.superior_officer_id == officer.id)
+        # Only see self + subordinates
+        query = query.where((Officer.id == officer.id) | (Officer.superior_officer_id == officer.id))
 
     result = await db.execute(query)
     on_duty = result.scalars().all()
 
+    officers_list = []
+    for o in on_duty:
+        loc_res = await db.execute(
+            select(OfficerLocation)
+            .where(OfficerLocation.officer_id == o.id)
+            .order_by(desc(OfficerLocation.created_at))
+            .limit(1)
+        )
+        latest_loc = loc_res.scalar_one_or_none()
+        officers_list.append({
+            "id": str(o.id),
+            "badge_number": o.badge_number,
+            "name": o.full_name,
+            "rank": o.rank,
+            "latitude": latest_loc.latitude if latest_loc else 18.9220,
+            "longitude": latest_loc.longitude if latest_loc else 72.8347,
+            "accuracy": latest_loc.accuracy if latest_loc else None,
+            "speed": latest_loc.speed if latest_loc else None,
+            "heading": latest_loc.heading if latest_loc else None,
+            "last_seen": latest_loc.timestamp if latest_loc else None,
+        })
+
     return {
-        "on_duty_count": len(on_duty),
-        "officers": [
+        "on_duty_count": len(officers_list),
+        "officers": officers_list,
+    }
+
+
+@router.get("/patrol-history")
+async def get_patrol_history(
+    officer_id: Optional[str] = None,
+    limit: int = 50,
+    current_officer: Officer = Depends(get_current_officer),
+    db: AsyncSession = Depends(get_db),
+):
+    """Retrieve GPS track breadcrumbs for rendering patrol route on the tactical map."""
+    from sqlalchemy import select, desc
+    import uuid
+
+    target_id = uuid.UUID(officer_id) if officer_id else current_officer.id
+    res = await db.execute(
+        select(OfficerLocation)
+        .where(OfficerLocation.officer_id == target_id)
+        .order_by(desc(OfficerLocation.created_at))
+        .limit(limit)
+    )
+    rows = res.scalars().all()
+    # return chronologically (oldest to newest for polyline)
+    return {
+        "officer_id": str(target_id),
+        "waypoints": [
             {
-                "id": str(o.id),
-                "badge_number": o.badge_number,
-                "name": o.full_name,
-                "rank": o.rank,
+                "latitude": r.latitude,
+                "longitude": r.longitude,
+                "accuracy": r.accuracy,
+                "speed": r.speed,
+                "timestamp": r.timestamp,
             }
-            for o in on_duty
-        ],
+            for r in reversed(rows)
+        ]
     }

@@ -134,6 +134,13 @@ STATIC_INDEX = os.path.join(os.path.dirname(__file__), "static", "index.html")
 @app.get("/", include_in_schema=False)
 async def serve_dashboard():
     if os.path.exists(STATIC_INDEX):
-        return FileResponse(STATIC_INDEX)
+        return FileResponse(
+            STATIC_INDEX,
+            headers={
+                "Cache-Control": "no-cache, no-store, must-revalidate, max-age=0",
+                "Pragma": "no-cache",
+                "Expires": "0"
+            }
+        )
     return JSONResponse({"message": "SHIELD API active. Visit /api/docs"})
 

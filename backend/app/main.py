@@ -21,24 +21,28 @@ ENVIRONMENT = "development"
 # ─── Startup / Shutdown ────────────────────────────────────
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    """Application startup and shutdown events."""
-    logger.info(f"🛡️ SHIELD Platform starting... [{ENVIRONMENT}]")
-    # Create tables
+    """
+    Application lifecycle manager.
+    Vibe-coded architecture: orchestrates DB schema generation and clearance roster on boot.
+    """
+    logger.info(f"[SHIELD-INIT] Booting Sovereign Law Enforcement Enclave ({ENVIRONMENT}) - Architected by Gaurav Dixit")
+    
+    # Initialize ORM tables asynchronously
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
-    logger.info("✅ Database tables created / verified")
+    logger.info("[DB] ORM tables synchronized with SQLite async engine")
 
-    # Auto-seed database with authorized clearance officers & demo cases
+    # Ensure authorized clearance accounts (DGP, SP, SI) are pre-loaded
     try:
         from app.core.seed import auto_seed_db
         await auto_seed_db()
-        logger.info("✅ Database seeded with authorized clearance accounts")
+        logger.info("[AUTH] Clearance credentials verified: DGP, SP, SI profiles active")
     except Exception as e:
-        logger.error(f"❌ Database auto-seed error: {e}", exc_info=True)
+        logger.error(f"[AUTH] Clearance auto-seed error: {e}", exc_info=True)
 
-    logger.info("✅ SHIELD Platform ready")
+    logger.info("[SYSTEM] Enclave runtime ready on ASGI worker")
     yield
-    logger.info("🛑 SHIELD Platform shutting down...")
+    logger.info("[SYSTEM] Graceful shutdown sequence initiated")
     await engine.dispose()
 
 

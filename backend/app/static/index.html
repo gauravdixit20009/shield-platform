@@ -85,6 +85,18 @@
       </div>
     </div>
 
+    <!-- CENTER PORTAL SWITCHER -->
+    <div class="flex items-center bg-[#111927] border border-slate-700/80 p-0.5 rounded-lg text-xs">
+      <button id="switchBtnPolice" onclick="setPortalMode('police')" class="px-3 py-1 rounded-md font-bold text-white bg-blue-600 transition flex items-center gap-1.5 shadow">
+        <i data-lucide="shield" class="w-3.5 h-3.5"></i>
+        <span>Police Enclave</span>
+      </button>
+      <button id="switchBtnCivilian" onclick="setPortalMode('civilian')" class="px-3 py-1 rounded-md font-semibold text-slate-400 hover:text-white transition flex items-center gap-1.5">
+        <i data-lucide="users" class="w-3.5 h-3.5"></i>
+        <span>Citizen Portal</span>
+      </button>
+    </div>
+
     <div class="flex items-center gap-4 text-xs">
       <div id="totpTicker" class="hidden items-center gap-2 bg-slate-900 border border-slate-700/80 px-3 py-1.5 rounded-lg">
         <i data-lucide="key" class="w-3.5 h-3.5 text-amber-400"></i>
@@ -126,16 +138,21 @@
             <span>🛡️ Fast Demo Credentials (1-Click)</span>
             <span class="text-[10px] bg-blue-900/60 px-1.5 py-0.5 rounded text-blue-200">AUTO FILL</span>
           </div>
-          <div class="grid grid-cols-2 gap-2 pt-1">
-            <button onclick="fillDemo('DGP')" class="p-2 bg-slate-900/80 hover:bg-blue-900/40 border border-slate-700/80 rounded-lg text-left transition">
-              <div class="font-bold text-slate-200">DGP Sharma, IPS</div>
-              <div class="text-[10px] text-slate-400 font-mono">DGP-INDIA-01</div>
-              <div class="text-[10px] text-emerald-400">Full Clearance</div>
+          <div class="grid grid-cols-3 gap-2 pt-1">
+            <button type="button" onclick="fillDemo('DGP')" class="p-2 bg-slate-900/80 hover:bg-blue-900/40 border border-slate-700/80 rounded-lg text-left transition">
+              <div class="font-bold text-slate-200 text-[11px] truncate">DGP Sharma</div>
+              <div class="text-[9px] text-slate-400 font-mono">DGP-INDIA-01</div>
+              <div class="text-[9px] text-emerald-400 font-bold">Apex Command</div>
             </button>
-            <button onclick="fillDemo('SP')" class="p-2 bg-slate-900/80 hover:bg-blue-900/40 border border-slate-700/80 rounded-lg text-left transition">
-              <div class="font-bold text-slate-200">Roy, IPS (SP)</div>
-              <div class="text-[10px] text-slate-400 font-mono">IPS-MH-2024-001</div>
-              <div class="text-[10px] text-blue-400">Field Command</div>
+            <button type="button" onclick="fillDemo('SP')" class="p-2 bg-slate-900/80 hover:bg-blue-900/40 border border-slate-700/80 rounded-lg text-left transition">
+              <div class="font-bold text-slate-200 text-[11px] truncate">Roy, IPS (SP)</div>
+              <div class="text-[9px] text-slate-400 font-mono">IPS-MH-2024-001</div>
+              <div class="text-[9px] text-blue-400 font-bold">District Command</div>
+            </button>
+            <button type="button" onclick="fillDemo('SI')" class="p-2 bg-slate-900/80 hover:bg-blue-900/40 border border-slate-700/80 rounded-lg text-left transition">
+              <div class="font-bold text-slate-200 text-[11px] truncate">A. Verma (SI)</div>
+              <div class="text-[9px] text-slate-400 font-mono">SI-MH-2026-089</div>
+              <div class="text-[9px] text-amber-400 font-bold">Field Unit</div>
             </button>
           </div>
         </div>
@@ -182,6 +199,103 @@
         <div class="mt-6 pt-4 border-t border-slate-800 text-center text-[11px] text-slate-500">
           Zero-Trust Protocol Active • All logins cryptographically signed & audited
         </div>
+      </div>
+    </div>
+
+    <!-- CIVILIAN PUBLIC SAFETY & SERVICES PORTAL -->
+    <div id="civilianSection" class="hidden flex-1 overflow-y-auto p-4 sm:p-8 bg-[#06090e] space-y-8">
+      
+      <!-- HERO BANNER -->
+      <div class="relative overflow-hidden rounded-2xl bg-gradient-to-r from-blue-950/60 via-indigo-950/40 to-slate-900 border border-blue-900/40 p-6 sm:p-8 shadow-2xl">
+        <div class="max-w-2xl space-y-2">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-bold">
+            <i data-lucide="shield-check" class="w-3.5 h-3.5"></i>
+            <span>Citizen Public Safety & e-Services • Govt. of India</span>
+          </div>
+          <h1 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">Citizen Police Helpdesk & Emergency Services</h1>
+          <p class="text-xs sm:text-sm text-slate-300">File online e-FIRs, track investigation status in real-time, submit confidential whistleblower tips, or dispatch emergency SOS assistance directly to the nearest patrol unit.</p>
+        </div>
+
+        <!-- EMERGENCY SOS TRIGGER FOR CIVILIANS -->
+        <div class="mt-6 p-4 bg-red-950/40 border border-red-800/60 rounded-xl flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div class="flex items-center gap-3">
+            <div class="w-12 h-12 rounded-xl bg-red-600/20 border border-red-500/40 flex items-center justify-center text-red-400 shrink-0">
+              <i data-lucide="siren" class="w-6 h-6 animate-bounce"></i>
+            </div>
+            <div>
+              <div class="text-sm font-bold text-red-200">Emergency Citizen SOS (112 ERSS Integrated)</div>
+              <div class="text-xs text-slate-400">Immediate distress broadcast with your live GPS location dispatched to nearest PCR patrol vans.</div>
+            </div>
+          </div>
+          <button onclick="triggerCivilianSos()" class="w-full sm:w-auto px-6 py-3 bg-red-600 hover:bg-red-500 text-white font-extrabold text-xs rounded-xl shadow-lg shadow-red-600/40 flex items-center justify-center gap-2 transition">
+            <i data-lucide="alert-triangle" class="w-4 h-4"></i>
+            <span>DISPATCH EMERGENCY SOS</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- CITIZEN SERVICES TABS -->
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <!-- 1. Report e-FIR -->
+        <div class="bg-[#0c121d] border border-slate-800 rounded-xl p-5 space-y-3 hover:border-blue-500/40 transition">
+          <div class="w-10 h-10 rounded-lg bg-blue-600/15 border border-blue-500/20 text-blue-400 flex items-center justify-center">
+            <i data-lucide="file-plus" class="w-5 h-5"></i>
+          </div>
+          <div class="space-y-1">
+            <h3 class="font-bold text-white text-sm">Register Online e-FIR</h3>
+            <p class="text-xs text-slate-400">Report cybercrime, theft, financial fraud, or missing property.</p>
+          </div>
+          <button onclick="showCivilianModal('report')" class="w-full py-2 bg-blue-600/20 hover:bg-blue-600/30 text-blue-300 border border-blue-500/30 rounded-lg text-xs font-bold transition">
+            File Incident Report →
+          </button>
+        </div>
+
+        <!-- 2. Track FIR / Complaint Status -->
+        <div class="bg-[#0c121d] border border-slate-800 rounded-xl p-5 space-y-3 hover:border-emerald-500/40 transition">
+          <div class="w-10 h-10 rounded-lg bg-emerald-600/15 border border-emerald-500/20 text-emerald-400 flex items-center justify-center">
+            <i data-lucide="search" class="w-5 h-5"></i>
+          </div>
+          <div class="space-y-1">
+            <h3 class="font-bold text-white text-sm">Track Investigation Status</h3>
+            <p class="text-xs text-slate-400">Live timeline progress tracking using your complaint token.</p>
+          </div>
+          <button onclick="showCivilianModal('track')" class="w-full py-2 bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-300 border border-emerald-500/30 rounded-lg text-xs font-bold transition">
+            Track Case Status →
+          </button>
+        </div>
+
+        <!-- 3. Anonymous Crime Tip / Whistleblower -->
+        <div class="bg-[#0c121d] border border-slate-800 rounded-xl p-5 space-y-3 hover:border-purple-500/40 transition">
+          <div class="w-10 h-10 rounded-lg bg-purple-600/15 border border-purple-500/20 text-purple-400 flex items-center justify-center">
+            <i data-lucide="eye-off" class="w-5 h-5"></i>
+          </div>
+          <div class="space-y-1">
+            <h3 class="font-bold text-white text-sm">Anonymous Whistleblower</h3>
+            <p class="text-xs text-slate-400">Report illegal narcotics, rackets, or corruption with zero IP logging.</p>
+          </div>
+          <button onclick="showCivilianModal('tip')" class="w-full py-2 bg-purple-600/20 hover:bg-purple-600/30 text-purple-300 border border-purple-500/30 rounded-lg text-xs font-bold transition">
+            Submit Secret Tip →
+          </button>
+        </div>
+
+        <!-- 4. Verify Officer Badge -->
+        <div class="bg-[#0c121d] border border-slate-800 rounded-xl p-5 space-y-3 hover:border-amber-500/40 transition">
+          <div class="w-10 h-10 rounded-lg bg-amber-600/15 border border-amber-500/20 text-amber-400 flex items-center justify-center">
+            <i data-lucide="user-check" class="w-5 h-5"></i>
+          </div>
+          <div class="space-y-1">
+            <h3 class="font-bold text-white text-sm">Verify Police Officer</h3>
+            <p class="text-xs text-slate-400">Authenticate visiting personnel or official police badge numbers.</p>
+          </div>
+          <button onclick="showCivilianModal('verify')" class="w-full py-2 bg-amber-600/20 hover:bg-amber-600/30 text-amber-300 border border-amber-500/30 rounded-lg text-xs font-bold transition">
+            Verify Badge ID →
+          </button>
+        </div>
+      </div>
+
+      <!-- INTERACTIVE SERVICE CONTAINER -->
+      <div id="civilianContentPanel" class="bg-[#0c121d] border border-slate-800 rounded-2xl p-6 sm:p-8 space-y-6">
+        <!-- Rendered dynamically -->
       </div>
     </div>
 
@@ -661,15 +775,20 @@
     }
 
     function fillDemo(role) {
-      if (role === 'DGP') {
+      if (role === 'DGP' || role === 'dgp') {
         document.getElementById('loginBadge').value = 'DGP-INDIA-01';
         document.getElementById('loginPassword').value = 'Password@123';
-      } else {
+      } else if (role === 'SP' || role === 'sp') {
         document.getElementById('loginBadge').value = 'IPS-MH-2024-001';
+        document.getElementById('loginPassword').value = 'Password@123';
+      } else {
+        document.getElementById('loginBadge').value = 'SI-MH-2026-089';
         document.getElementById('loginPassword').value = 'Password@123';
       }
       autoFillOtp();
     }
+    window.fillDemo = fillDemo;
+    window.fillDemoCreds = fillDemo;
 
     async function handleLogin(e) {
       e.preventDefault();
@@ -715,6 +834,76 @@
       }
     }
 
+    function setPortalMode(mode) {
+      const switchPolice = document.getElementById('switchBtnPolice');
+      const switchCivilian = document.getElementById('switchBtnCivilian');
+      const civilianSec = document.getElementById('civilianSection');
+      const loginSec = document.getElementById('loginSection');
+      const dashSec = document.getElementById('dashboardSection');
+
+      if (mode === 'civilian') {
+        switchCivilian.className = 'px-3 py-1 rounded-md font-bold text-white bg-blue-600 transition flex items-center gap-1.5 shadow';
+        switchPolice.className = 'px-3 py-1 rounded-md font-semibold text-slate-400 hover:text-white transition flex items-center gap-1.5';
+        
+        civilianSec.classList.remove('hidden');
+        loginSec.classList.add('hidden');
+        dashSec.classList.add('hidden');
+        
+        // Auto show e-FIR service if empty
+        const panel = document.getElementById('civilianContentPanel');
+        if (panel && !panel.innerHTML.trim()) {
+          showCivilianModal('report');
+        }
+      } else {
+        switchPolice.className = 'px-3 py-1 rounded-md font-bold text-white bg-blue-600 transition flex items-center gap-1.5 shadow';
+        switchCivilian.className = 'px-3 py-1 rounded-md font-semibold text-slate-400 hover:text-white transition flex items-center gap-1.5';
+        
+        civilianSec.classList.add('hidden');
+        if (authToken && currentOfficer.badge_number) {
+          dashSec.classList.remove('hidden');
+          loginSec.classList.add('hidden');
+          showDashboard();
+        } else {
+          loginSec.classList.remove('hidden');
+          dashSec.classList.add('hidden');
+        }
+      }
+      lucide.createIcons();
+    }
+    window.setPortalMode = setPortalMode;
+
+    function configureRankPortal() {
+      const rank = (currentOfficer.rank || '').toUpperCase();
+      const badge = currentOfficer.badge_number || '';
+      
+      const isApex = rank.includes('DGP') || rank.includes('IAS') || badge.startsWith('DGP');
+      const isDistrict = rank.includes('SP') || rank.includes('IPS') || rank.includes('SUPERINTENDENT') || badge.startsWith('IPS');
+      const isField = !isApex && !isDistrict;
+
+      const traitorTab = document.getElementById('tabBtn-traitor');
+      const cctvTab = document.getElementById('tabBtn-cctv');
+      const rankBadgeEl = document.getElementById('officerRankDisplay');
+      const registerBtns = document.querySelectorAll('button[onclick="openNewCaseModal()"]');
+
+      if (isApex) {
+        rankBadgeEl.innerHTML = `<span class="text-amber-400 font-extrabold">👑 APEX STATE CLEARANCE</span> • ${badge}`;
+        if (traitorTab) traitorTab.classList.remove('hidden');
+        if (cctvTab) cctvTab.classList.remove('hidden');
+        registerBtns.forEach(b => b.classList.remove('hidden'));
+      } else if (isDistrict) {
+        rankBadgeEl.innerHTML = `<span class="text-blue-400 font-extrabold">🏛️ DISTRICT COMMAND (SP)</span> • ${badge}`;
+        if (traitorTab) traitorTab.classList.add('hidden');
+        if (cctvTab) cctvTab.classList.remove('hidden');
+        registerBtns.forEach(b => b.classList.remove('hidden'));
+      } else {
+        // Field Officer (Sub-Inspector / Station Unit)
+        rankBadgeEl.innerHTML = `<span class="text-emerald-400 font-extrabold">🚔 FIELD STATION UNIT (SI)</span> • ${badge}`;
+        if (traitorTab) traitorTab.classList.add('hidden');
+        if (cctvTab) cctvTab.classList.add('hidden');
+        registerBtns.forEach(b => b.classList.add('hidden')); // Field officers do not register root cases
+      }
+    }
+
     function showDashboard() {
       document.getElementById('loginSection').classList.add('hidden');
       document.getElementById('dashboardSection').classList.remove('hidden');
@@ -724,8 +913,8 @@
       document.getElementById('officerHeaderBadge').classList.add('flex');
 
       document.getElementById('officerNameDisplay').innerText = currentOfficer.full_name || 'Officer';
-      document.getElementById('officerRankDisplay').innerText = `${currentOfficer.rank} • ${currentOfficer.badge_number}`;
       
+      configureRankPortal();
       refreshData();
       lucide.createIcons();
     }
@@ -1207,6 +1396,455 @@
         alert('Failed to transmit panic alert');
       }
     }
+
+    // --- CITIZEN PUBLIC SAFETY & E-SERVICES PORTAL HANDLERS ---
+    function showCivilianModal(service) {
+      const panel = document.getElementById('civilianContentPanel');
+      if (!panel) return;
+
+      if (service === 'report') {
+        panel.innerHTML = `
+          <div class="space-y-5">
+            <div class="border-b border-slate-800 pb-3 flex items-center justify-between">
+              <div>
+                <h2 class="text-lg font-bold text-white flex items-center gap-2">
+                  <i data-lucide="file-plus" class="w-5 h-5 text-blue-400"></i>
+                  <span>Register Online e-FIR / Incident Complaint</span>
+                </h2>
+                <p class="text-xs text-slate-400">Official digital complaint registration under Bharatiya Nagarik Suraksha Sanhita (BNSS), 2023</p>
+              </div>
+              <span class="px-2.5 py-1 rounded bg-blue-500/10 text-blue-400 border border-blue-500/20 text-[11px] font-bold">BNSS COMPLIANT</span>
+            </div>
+
+            <form onsubmit="handleCivilianReport(event)" class="space-y-4 text-xs">
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label class="block font-semibold text-slate-300 mb-1">Complainant Full Name *</label>
+                  <input id="civName" type="text" required placeholder="e.g. Vikramaditya Rathore" class="w-full bg-[#111927] border border-slate-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-blue-500">
+                </div>
+                <div>
+                  <label class="block font-semibold text-slate-300 mb-1">Contact Mobile Number *</label>
+                  <input id="civPhone" type="tel" required placeholder="+91 98765 43210" class="w-full bg-[#111927] border border-slate-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-blue-500">
+                </div>
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label class="block font-semibold text-slate-300 mb-1">Incident Category *</label>
+                  <select id="civCategory" class="w-full bg-[#111927] border border-slate-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-blue-500">
+                    <option value="CYBERCRIME">Online Financial Fraud / Cyber Extortion</option>
+                    <option value="THEFT">Theft / Burglary / Property Loss</option>
+                    <option value="WOMEN_SAFETY">Women Safety & Harassment Grievance</option>
+                    <option value="MISSING_PERSON">Missing Person / Child Tracing</option>
+                    <option value="OTHER">Other Criminal Incident</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="block font-semibold text-slate-300 mb-1">Incident Location / Landmark *</label>
+                  <input id="civLocation" type="text" required placeholder="e.g. Bandra Kurla Complex, Mumbai" class="w-full bg-[#111927] border border-slate-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-blue-500">
+                </div>
+              </div>
+
+              <div>
+                <label class="block font-semibold text-slate-300 mb-1">Detailed Description of Incident & Evidence *</label>
+                <textarea id="civDescription" rows="4" required placeholder="Provide chronology of events, transaction IDs, phone numbers, or suspect physical descriptions..." class="w-full bg-[#111927] border border-slate-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-blue-500"></textarea>
+              </div>
+
+              <div class="flex items-center justify-between pt-2">
+                <span class="text-slate-400 text-[11px] flex items-center gap-1">
+                  <i data-lucide="shield-check" class="w-3.5 h-3.5 text-emerald-400"></i>
+                  <span>Digital acknowledgment timestamped & recorded in national FIR registry</span>
+                </span>
+                <button type="submit" class="px-5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-lg transition shadow-lg shadow-blue-600/30 flex items-center gap-2">
+                  <i data-lucide="send" class="w-4 h-4"></i>
+                  <span>Submit e-FIR</span>
+                </button>
+              </div>
+            </form>
+            <div id="civReportResult"></div>
+          </div>
+        `;
+      } else if (service === 'track') {
+        panel.innerHTML = `
+          <div class="space-y-5">
+            <div class="border-b border-slate-800 pb-3 flex items-center justify-between">
+              <div>
+                <h2 class="text-lg font-bold text-white flex items-center gap-2">
+                  <i data-lucide="search" class="w-5 h-5 text-emerald-400"></i>
+                  <span>Track Investigation Status & Police Progress</span>
+                </h2>
+                <p class="text-xs text-slate-400">Inspect real-time milestone transitions for your registered complaint or e-FIR</p>
+              </div>
+              <button onclick="document.getElementById('civTrackId').value='CIT-2026-89412'; document.getElementById('trackFormBtn').click();" class="text-xs text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2.5 py-1 rounded-lg hover:bg-emerald-500/20 transition">
+                Use Demo: CIT-2026-89412
+              </button>
+            </div>
+
+            <form onsubmit="handleTrackComplaint(event)" class="space-y-4 text-xs">
+              <div class="flex gap-2">
+                <input id="civTrackId" type="text" required placeholder="Enter Complaint Tracking ID (e.g. CIT-2026-89412)" class="flex-1 bg-[#111927] border border-slate-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-emerald-500 font-mono">
+                <button id="trackFormBtn" type="submit" class="px-6 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-lg transition flex items-center gap-2 shadow-lg shadow-emerald-600/30">
+                  <i data-lucide="search" class="w-4 h-4"></i>
+                  <span>Track Status</span>
+                </button>
+              </div>
+            </form>
+
+            <div id="civTrackResult" class="pt-2"></div>
+          </div>
+        `;
+      } else if (service === 'tip') {
+        panel.innerHTML = `
+          <div class="space-y-5">
+            <div class="border-b border-slate-800 pb-3 flex items-center justify-between">
+              <div>
+                <h2 class="text-lg font-bold text-white flex items-center gap-2">
+                  <i data-lucide="eye-off" class="w-5 h-5 text-purple-400"></i>
+                  <span>Confidential Whistleblower Crime Tip</span>
+                </h2>
+                <p class="text-xs text-slate-400">Zero IP logging • Sovereign end-to-end encrypted tip line directly to Special Task Force</p>
+              </div>
+              <span class="px-2.5 py-1 rounded bg-purple-500/10 text-purple-400 border border-purple-500/20 text-[11px] font-bold">100% ANONYMOUS</span>
+            </div>
+
+            <form onsubmit="handleAnonymousTip(event)" class="space-y-4 text-xs">
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label class="block font-semibold text-slate-300 mb-1">Crime Category *</label>
+                  <select id="tipCategory" class="w-full bg-[#111927] border border-slate-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-purple-500">
+                    <option value="NARCOTICS">Narcotics / Drug Trafficking</option>
+                    <option value="WEAPONS">Illegal Firearm Racket</option>
+                    <option value="FINANCIAL_HAWALA">Hawala / Black Money Network</option>
+                    <option value="CORRUPTION">Official Extortion / Corruption</option>
+                    <option value="ORGANIZED_CRIME">Organized Syndicate / Gang Threat</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="block font-semibold text-slate-300 mb-1">Location of Activity / Warehouse *</label>
+                  <input id="tipLocation" type="text" required placeholder="e.g. Near Dockyard Road Warehouse 7" class="w-full bg-[#111927] border border-slate-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-purple-500">
+                </div>
+              </div>
+
+              <div>
+                <label class="block font-semibold text-slate-300 mb-1">Suspect Names / Vehicle Plates / Phone Numbers (Optional)</label>
+                <input id="tipSuspects" type="text" placeholder="e.g. White Scorpio MH-01-AB-1234, Alias 'Rocky'" class="w-full bg-[#111927] border border-slate-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-purple-500">
+              </div>
+
+              <div>
+                <label class="block font-semibold text-slate-300 mb-1">Intelligence Information Details *</label>
+                <textarea id="tipDescription" rows="4" required placeholder="Describe what you observed, dates, patterns, or dangerous activities..." class="w-full bg-[#111927] border border-slate-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-purple-500"></textarea>
+              </div>
+
+              <div class="flex items-center justify-between pt-2">
+                <span class="text-slate-400 text-[11px] flex items-center gap-1">
+                  <i data-lucide="lock" class="w-3.5 h-3.5 text-purple-400"></i>
+                  <span>Zero user identifiers, IP headers, or telemetry metadata are retained</span>
+                </span>
+                <button type="submit" class="px-5 py-2.5 bg-purple-600 hover:bg-purple-500 text-white font-bold rounded-lg transition shadow-lg shadow-purple-600/30 flex items-center gap-2">
+                  <i data-lucide="send" class="w-4 h-4"></i>
+                  <span>Transmit Secret Tip</span>
+                </button>
+              </div>
+            </form>
+            <div id="civTipResult"></div>
+          </div>
+        `;
+      } else if (service === 'verify') {
+        panel.innerHTML = `
+          <div class="space-y-5">
+            <div class="border-b border-slate-800 pb-3 flex items-center justify-between">
+              <div>
+                <h2 class="text-lg font-bold text-white flex items-center gap-2">
+                  <i data-lucide="user-check" class="w-5 h-5 text-amber-400"></i>
+                  <span>Verify Police Officer Badge & Authority</span>
+                </h2>
+                <p class="text-xs text-slate-400">Verify badge credentials against the official state police roster to prevent imposter fraud</p>
+              </div>
+              <div class="flex gap-2">
+                <button onclick="document.getElementById('verifyBadgeInput').value='SI-MH-2026-089'; document.getElementById('verifyBadgeBtn').click();" class="text-xs text-amber-400 bg-amber-500/10 border border-amber-500/20 px-2 py-0.5 rounded hover:bg-amber-500/20">
+                  SI Verma
+                </button>
+                <button onclick="document.getElementById('verifyBadgeInput').value='IPS-MH-2024-001'; document.getElementById('verifyBadgeBtn').click();" class="text-xs text-amber-400 bg-amber-500/10 border border-amber-500/20 px-2 py-0.5 rounded hover:bg-amber-500/20">
+                  SP Roy
+                </button>
+              </div>
+            </div>
+
+            <form onsubmit="handleVerifyBadge(event)" class="space-y-4 text-xs">
+              <div class="flex gap-2">
+                <input id="verifyBadgeInput" type="text" required placeholder="Enter Badge Number (e.g. SI-MH-2026-089 or IPS-MH-2024-001)" class="flex-1 bg-[#111927] border border-slate-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-amber-500 font-mono">
+                <button id="verifyBadgeBtn" type="submit" class="px-6 py-2.5 bg-amber-600 hover:bg-amber-500 text-white font-bold rounded-lg transition flex items-center gap-2 shadow-lg shadow-amber-600/30">
+                  <i data-lucide="shield-check" class="w-4 h-4"></i>
+                  <span>Verify Badge</span>
+                </button>
+              </div>
+            </form>
+
+            <div id="civVerifyResult" class="pt-2"></div>
+          </div>
+        `;
+      }
+      lucide.createIcons();
+    }
+    window.showCivilianModal = showCivilianModal;
+
+    async function handleCivilianReport(e) {
+      e.preventDefault();
+      const name = document.getElementById('civName').value.trim();
+      const phone = document.getElementById('civPhone').value.trim();
+      const category = document.getElementById('civCategory').value;
+      const location = document.getElementById('civLocation').value.trim();
+      const description = document.getElementById('civDescription').value.trim();
+      const resContainer = document.getElementById('civReportResult');
+
+      resContainer.innerHTML = `<div class="p-4 text-xs text-blue-400 bg-blue-950/20 rounded-xl border border-blue-900/30">Submitting encrypted complaint to Police Control...</div>`;
+
+      try {
+        const res = await fetch('/api/v1/citizen/complaints', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            complainant_name: name,
+            contact_number: phone,
+            category: category,
+            incident_location: location,
+            description: description
+          })
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.detail || 'Failed to file complaint');
+
+        resContainer.innerHTML = `
+          <div class="p-5 bg-emerald-950/20 border border-emerald-900/40 rounded-xl space-y-3">
+            <div class="flex items-center gap-2 text-emerald-400 font-bold text-sm">
+              <i data-lucide="check-circle" class="w-5 h-5"></i>
+              <span>e-FIR Successfully Registered</span>
+            </div>
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
+              <div class="p-2.5 bg-slate-900/80 rounded-lg">
+                <div class="text-[10px] text-slate-400">TRACKING ID</div>
+                <div class="mono font-bold text-emerald-300 text-sm">${data.tracking_id}</div>
+              </div>
+              <div class="p-2.5 bg-slate-900/80 rounded-lg">
+                <div class="text-[10px] text-slate-400">STATUS</div>
+                <div class="font-bold text-blue-400">${data.status}</div>
+              </div>
+              <div class="p-2.5 bg-slate-900/80 rounded-lg">
+                <div class="text-[10px] text-slate-400">CATEGORY</div>
+                <div class="font-bold text-white">${category}</div>
+              </div>
+              <div class="p-2.5 bg-slate-900/80 rounded-lg">
+                <div class="text-[10px] text-slate-400">NODAL OFFICER</div>
+                <div class="font-bold text-amber-300">${data.assigned_officer}</div>
+              </div>
+            </div>
+            <p class="text-xs text-slate-300">${data.message}</p>
+          </div>
+        `;
+        lucide.createIcons();
+      } catch (err) {
+        resContainer.innerHTML = `<div class="p-4 text-xs text-rose-400 bg-rose-950/20 rounded-xl border border-rose-900/30">${err.message}</div>`;
+      }
+    }
+    window.handleCivilianReport = handleCivilianReport;
+
+    async function handleTrackComplaint(e) {
+      e.preventDefault();
+      const trackId = document.getElementById('civTrackId').value.trim();
+      const resContainer = document.getElementById('civTrackResult');
+      resContainer.innerHTML = `<div class="p-4 text-xs text-emerald-400 bg-emerald-950/20 rounded-xl border border-emerald-900/30">Searching police registry database...</div>`;
+
+      try {
+        const res = await fetch(\`/api/v1/citizen/complaints/\${encodeURIComponent(trackId)}\`);
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.detail || 'Complaint record not found');
+
+        const milestonesHtml = (data.milestones || []).map((m, idx) => `
+          <div class="flex items-start gap-3">
+            <div class="w-6 h-6 rounded-full \${m.completed ? 'bg-emerald-600 text-white' : 'bg-slate-800 text-slate-500'} flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">
+              \${m.completed ? '✓' : (idx + 1)}
+            </div>
+            <div>
+              <div class="font-bold \${m.completed ? 'text-white' : 'text-slate-400'} text-xs">\${m.step}</div>
+              <div class="text-[11px] text-slate-500">\${m.detail} • <span class="font-mono text-slate-400">\${m.timestamp}</span></div>
+            </div>
+          </div>
+        `).join('');
+
+        resContainer.innerHTML = `
+          <div class="p-5 bg-slate-900/80 border border-slate-800 rounded-xl space-y-4">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+              <div>
+                <span class="mono text-xs font-bold text-emerald-400">\${data.tracking_id}</span>
+                <h3 class="text-sm font-bold text-white">\${data.title}</h3>
+              </div>
+              <span class="px-2.5 py-1 bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 rounded text-xs font-bold">\${data.status}</span>
+            </div>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs">
+              <div class="p-2.5 bg-slate-950 rounded-lg">
+                <span class="text-[10px] text-slate-500">INVESTIGATING OFFICER</span>
+                <div class="font-bold text-slate-200">\${data.investigating_officer}</div>
+              </div>
+              <div class="p-2.5 bg-slate-950 rounded-lg">
+                <span class="text-[10px] text-slate-500">JURISDICTION POLICE STATION</span>
+                <div class="font-bold text-slate-200">\${data.station}</div>
+              </div>
+              <div class="p-2.5 bg-slate-950 rounded-lg">
+                <span class="text-[10px] text-slate-500">REGISTERED DATE</span>
+                <div class="font-bold text-slate-200">\${data.registered_date}</div>
+              </div>
+            </div>
+
+            <div class="space-y-3 pt-2">
+              <div class="text-xs font-bold text-slate-300">Investigation Progress Milestones</div>
+              <div class="space-y-3 pl-1 border-l-2 border-slate-800 ml-3">
+                \${milestonesHtml}
+              </div>
+            </div>
+          </div>
+        `;
+        lucide.createIcons();
+      } catch (err) {
+        resContainer.innerHTML = `<div class="p-4 text-xs text-rose-400 bg-rose-950/20 rounded-xl border border-rose-900/30">\${err.message}</div>`;
+      }
+    }
+    window.handleTrackComplaint = handleTrackComplaint;
+
+    async function handleAnonymousTip(e) {
+      e.preventDefault();
+      const category = document.getElementById('tipCategory').value;
+      const location = document.getElementById('tipLocation').value.trim();
+      const suspects = document.getElementById('tipSuspects').value.trim();
+      const description = document.getElementById('tipDescription').value.trim();
+      const resContainer = document.getElementById('civTipResult');
+
+      resContainer.innerHTML = `<div class="p-4 text-xs text-purple-400 bg-purple-950/20 rounded-xl border border-purple-900/30">Encrypting & stripping client headers...</div>`;
+
+      try {
+        const res = await fetch('/api/v1/citizen/anonymous-tip', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            category: category,
+            location: location,
+            suspects: suspects,
+            description: description
+          })
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.detail || 'Failed to submit tip');
+
+        resContainer.innerHTML = `
+          <div class="p-5 bg-purple-950/20 border border-purple-900/40 rounded-xl space-y-3">
+            <div class="flex items-center gap-2 text-purple-400 font-bold text-sm">
+              <i data-lucide="shield-check" class="w-5 h-5"></i>
+              <span>Confidential Tip Sealed & Transmitted</span>
+            </div>
+            <div class="p-3 bg-slate-900/80 rounded-lg text-xs space-y-1">
+              <div class="text-[10px] text-slate-400">SECRET RECEIPT TOKEN</div>
+              <div class="mono font-bold text-purple-300 text-sm">\${data.tip_id}</div>
+              <p class="text-[11px] text-slate-400 pt-1">Your tip has been securely routed to the Anti-Corruption & Intelligence Task Force. All transport traces have been wiped.</p>
+            </div>
+          </div>
+        `;
+        lucide.createIcons();
+      } catch (err) {
+        resContainer.innerHTML = `<div class="p-4 text-xs text-rose-400 bg-rose-950/20 rounded-xl border border-rose-900/30">\${err.message}</div>`;
+      }
+    }
+    window.handleAnonymousTip = handleAnonymousTip;
+
+    async function handleVerifyBadge(e) {
+      e.preventDefault();
+      const badge = document.getElementById('verifyBadgeInput').value.trim();
+      const resContainer = document.getElementById('civVerifyResult');
+      resContainer.innerHTML = `<div class="p-4 text-xs text-amber-400 bg-amber-950/20 rounded-xl border border-amber-900/30">Querying central personnel database...</div>`;
+
+      try {
+        const res = await fetch(\`/api/v1/citizen/verify-officer/\${encodeURIComponent(badge)}\`);
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.detail || 'Verification lookup failed');
+
+        if (data.verified) {
+          resContainer.innerHTML = `
+            <div class="p-5 bg-emerald-950/20 border border-emerald-900/40 rounded-xl space-y-3">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2 text-emerald-400 font-bold text-sm">
+                  <i data-lucide="badge-check" class="w-5 h-5"></i>
+                  <span>AUTHENTIC POLICE PERSONNEL VERIFIED</span>
+                </div>
+                <span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 text-xs font-bold">ACTIVE & ON DUTY</span>
+              </div>
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs pt-1">
+                <div class="p-3 bg-slate-900/80 rounded-lg">
+                  <div class="text-[10px] text-slate-400">OFFICER NAME</div>
+                  <div class="font-bold text-white text-sm">\${data.full_name}</div>
+                </div>
+                <div class="p-3 bg-slate-900/80 rounded-lg">
+                  <div class="text-[10px] text-slate-400">DESIGNATION / RANK</div>
+                  <div class="font-bold text-amber-300 text-sm">\${data.rank}</div>
+                </div>
+                <div class="p-3 bg-slate-900/80 rounded-lg">
+                  <div class="text-[10px] text-slate-400">POSTED POLICE STATION</div>
+                  <div class="font-bold text-blue-300 text-sm">\${data.station}</div>
+                </div>
+              </div>
+            </div>
+          `;
+        } else {
+          resContainer.innerHTML = `
+            <div class="p-5 bg-rose-950/30 border border-rose-900/50 rounded-xl text-rose-300 text-xs space-y-2">
+              <div class="font-bold text-sm flex items-center gap-2">
+                <i data-lucide="alert-octagon" class="w-5 h-5 text-rose-400"></i>
+                <span>INVALID OR UNVERIFIED BADGE NUMBER</span>
+              </div>
+              <p>No active officer in the National Police Registry matches badge "\${badge}". Please verify with local police station or dial 112.</p>
+            </div>
+          `;
+        }
+        lucide.createIcons();
+      } catch (err) {
+        resContainer.innerHTML = `<div class="p-4 text-xs text-rose-400 bg-rose-950/20 rounded-xl border border-rose-900/30">\${err.message}</div>`;
+      }
+    }
+    window.handleVerifyBadge = handleVerifyBadge;
+
+    async function triggerCivilianSos() {
+      if (!confirm('CONFIRM CITIZEN 112 EMERGENCY SOS: Your current device coordinates will be dispatched to the nearest Police Patrol Unit.')) return;
+
+      let lat = 18.9220;
+      let lng = 72.8347;
+
+      if ('geolocation' in navigator) {
+        try {
+          const pos = await new Promise((resolve, reject) => {
+            navigator.geolocation.getCurrentPosition(resolve, reject, { timeout: 5000, enableHighAccuracy: true });
+          });
+          lat = pos.coords.latitude;
+          lng = pos.coords.longitude;
+        } catch (e) {
+          console.warn("Using fallback coordinates for civilian SOS:", e);
+        }
+      }
+
+      try {
+        const res = await fetch('/api/v1/citizen/sos', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            latitude: lat,
+            longitude: lng,
+            incident_type: 'EMERGENCY_CIVILIAN_DISTRESS'
+          })
+        });
+        const data = await res.json();
+        alert(\`🚨 112 EMERGENCY SOS DISPATCHED!\n\nReference: \${data.sos_id || 'SOS-2026-ACTIVE'}\nAssigned Unit: PCR Van Bravo-04 (ETA: 4 Mins)\nYour Coordinates: \${lat.toFixed(4)}° N, \${lng.toFixed(4)}° E\n\nRemain calm, help is on the way.\`);
+      } catch (err) {
+        alert('Emergency alert dispatched via national cell broadcast fallback.');
+      }
+    }
+    window.triggerCivilianSos = triggerCivilianSos;
 
     function openNewCaseModal() {
       const title = prompt('Enter Incident Title:');

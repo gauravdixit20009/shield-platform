@@ -1,11 +1,10 @@
 services:
   - type: web
-    name: shield-intelligence-platform
-    env: python
-    buildCommand: pip install -r backend/requirements.txt
-    startCommand: cd backend && uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    name: shield-platform-1
+    env: docker
+    dockerfilePath: Dockerfile
     envVars:
-      - key: PYTHON_VERSION
-        value: 3.11.9
+      - key: PORT
+        value: 10000
       - key: ENVIRONMENT
         value: production

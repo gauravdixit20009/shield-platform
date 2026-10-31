@@ -74,6 +74,29 @@ async def seed():
         db.add(sp)
         await db.flush()
 
+        # 3. Sub-Inspector (Field Officer rank)
+        si = Officer(
+            badge_number="SI-MH-2026-089",
+            full_name="Amit Verma, Sub-Inspector",
+            rank=OfficerRank.SI,
+            department=Department.STATE_POLICE,
+            state="Maharashtra",
+            district="Mumbai",
+            station_code="CPS-02",
+            email="amit.si@shield.gov.in",
+            phone="+919876543212",
+            hashed_password=hashed_pw,
+            totp_secret=DEV_TOTP_SECRET,
+            is_mfa_enabled=True,
+            is_active=True,
+            is_on_duty=True,
+            threat_level="LOW",
+            threat_score=5,
+            superior_officer_id=sp.id,
+        )
+        db.add(si)
+        await db.flush()
+
         # 3. Seed Cases
         case1 = Case(
             case_number="SHIELD-MH-2026-000001",

@@ -1890,18 +1890,18 @@
       resContainer.innerHTML = `<div class="p-4 text-xs text-emerald-400 bg-emerald-950/20 rounded-xl border border-emerald-900/30">Searching police registry database...</div>`;
 
       try {
-        const res = await fetch(\`/api/v1/citizen/complaints/\${encodeURIComponent(trackId)}\`);
+        const res = await fetch(`/api/v1/citizen/complaints/${encodeURIComponent(trackId)}`);
         const data = await res.json();
         if (!res.ok) throw new Error(data.detail || 'Complaint record not found');
 
         const milestonesHtml = (data.milestones || []).map((m, idx) => `
           <div class="flex items-start gap-3">
-            <div class="w-6 h-6 rounded-full \${m.completed ? 'bg-emerald-600 text-white' : 'bg-slate-800 text-slate-500'} flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">
-              \${m.completed ? '✓' : (idx + 1)}
+            <div class="w-6 h-6 rounded-full ${m.completed ? 'bg-emerald-600 text-white' : 'bg-slate-800 text-slate-500'} flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">
+              ${m.completed ? '✓' : (idx + 1)}
             </div>
             <div>
-              <div class="font-bold \${m.completed ? 'text-white' : 'text-slate-400'} text-xs">\${m.step}</div>
-              <div class="text-[11px] text-slate-500">\${m.detail} • <span class="font-mono text-slate-400">\${m.timestamp}</span></div>
+              <div class="font-bold ${m.completed ? 'text-white' : 'text-slate-400'} text-xs">${m.step}</div>
+              <div class="text-[11px] text-slate-500">${m.detail} • <span class="font-mono text-slate-400">${m.timestamp}</span></div>
             </div>
           </div>
         `).join('');
@@ -1910,38 +1910,38 @@
           <div class="p-5 bg-slate-900/80 border border-slate-800 rounded-xl space-y-4">
             <div class="flex items-center justify-between border-b border-slate-800 pb-3">
               <div>
-                <span class="mono text-xs font-bold text-emerald-400">\${data.tracking_id}</span>
-                <h3 class="text-sm font-bold text-white">\${data.title}</h3>
+                <span class="mono text-xs font-bold text-emerald-400">${data.tracking_id}</span>
+                <h3 class="text-sm font-bold text-white">${data.title}</h3>
               </div>
-              <span class="px-2.5 py-1 bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 rounded text-xs font-bold">\${data.status}</span>
+              <span class="px-2.5 py-1 bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 rounded text-xs font-bold">${data.status}</span>
             </div>
             
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs">
               <div class="p-2.5 bg-slate-950 rounded-lg">
                 <span class="text-[10px] text-slate-500">INVESTIGATING OFFICER</span>
-                <div class="font-bold text-slate-200">\${data.investigating_officer}</div>
+                <div class="font-bold text-slate-200">${data.investigating_officer}</div>
               </div>
               <div class="p-2.5 bg-slate-950 rounded-lg">
                 <span class="text-[10px] text-slate-500">JURISDICTION POLICE STATION</span>
-                <div class="font-bold text-slate-200">\${data.station}</div>
+                <div class="font-bold text-slate-200">${data.station}</div>
               </div>
               <div class="p-2.5 bg-slate-950 rounded-lg">
                 <span class="text-[10px] text-slate-500">REGISTERED DATE</span>
-                <div class="font-bold text-slate-200">\${data.registered_date}</div>
+                <div class="font-bold text-slate-200">${data.registered_date}</div>
               </div>
             </div>
 
             <div class="space-y-3 pt-2">
               <div class="text-xs font-bold text-slate-300">Investigation Progress Milestones</div>
               <div class="space-y-3 pl-1 border-l-2 border-slate-800 ml-3">
-                \${milestonesHtml}
+                ${milestonesHtml}
               </div>
             </div>
           </div>
         `;
         lucide.createIcons();
       } catch (err) {
-        resContainer.innerHTML = `<div class="p-4 text-xs text-rose-400 bg-rose-950/20 rounded-xl border border-rose-900/30">\${err.message}</div>`;
+        resContainer.innerHTML = `<div class="p-4 text-xs text-rose-400 bg-rose-950/20 rounded-xl border border-rose-900/30">${err.message}</div>`;
       }
     }
     window.handleTrackComplaint = handleTrackComplaint;
@@ -1978,14 +1978,14 @@
             </div>
             <div class="p-3 bg-slate-900/80 rounded-lg text-xs space-y-1">
               <div class="text-[10px] text-slate-400">SECRET RECEIPT TOKEN</div>
-              <div class="mono font-bold text-purple-300 text-sm">\${data.tip_id}</div>
+              <div class="mono font-bold text-purple-300 text-sm">${data.tip_id}</div>
               <p class="text-[11px] text-slate-400 pt-1">Your tip has been securely routed to the Anti-Corruption & Intelligence Task Force. All transport traces have been wiped.</p>
             </div>
           </div>
         `;
         lucide.createIcons();
       } catch (err) {
-        resContainer.innerHTML = `<div class="p-4 text-xs text-rose-400 bg-rose-950/20 rounded-xl border border-rose-900/30">\${err.message}</div>`;
+        resContainer.innerHTML = `<div class="p-4 text-xs text-rose-400 bg-rose-950/20 rounded-xl border border-rose-900/30">${err.message}</div>`;
       }
     }
     window.handleAnonymousTip = handleAnonymousTip;
@@ -1997,7 +1997,7 @@
       resContainer.innerHTML = `<div class="p-4 text-xs text-amber-400 bg-amber-950/20 rounded-xl border border-amber-900/30">Querying central personnel database...</div>`;
 
       try {
-        const res = await fetch(\`/api/v1/citizen/verify-officer/\${encodeURIComponent(badge)}\`);
+        const res = await fetch(`/api/v1/citizen/verify-officer/${encodeURIComponent(badge)}`);
         const data = await res.json();
         if (!res.ok) throw new Error(data.detail || 'Verification lookup failed');
 
@@ -2014,15 +2014,15 @@
               <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs pt-1">
                 <div class="p-3 bg-slate-900/80 rounded-lg">
                   <div class="text-[10px] text-slate-400">OFFICER NAME</div>
-                  <div class="font-bold text-white text-sm">\${data.full_name}</div>
+                  <div class="font-bold text-white text-sm">${data.full_name}</div>
                 </div>
                 <div class="p-3 bg-slate-900/80 rounded-lg">
                   <div class="text-[10px] text-slate-400">DESIGNATION / RANK</div>
-                  <div class="font-bold text-amber-300 text-sm">\${data.rank}</div>
+                  <div class="font-bold text-amber-300 text-sm">${data.rank}</div>
                 </div>
                 <div class="p-3 bg-slate-900/80 rounded-lg">
                   <div class="text-[10px] text-slate-400">POSTED POLICE STATION</div>
-                  <div class="font-bold text-blue-300 text-sm">\${data.station}</div>
+                  <div class="font-bold text-blue-300 text-sm">${data.station}</div>
                 </div>
               </div>
             </div>
@@ -2034,13 +2034,13 @@
                 <i data-lucide="alert-octagon" class="w-5 h-5 text-rose-400"></i>
                 <span>INVALID OR UNVERIFIED BADGE NUMBER</span>
               </div>
-              <p>No active officer in the National Police Registry matches badge "\${badge}". Please verify with local police station or dial 112.</p>
+              <p>No active officer in the National Police Registry matches badge "${badge}". Please verify with local police station or dial 112.</p>
             </div>
           `;
         }
         lucide.createIcons();
       } catch (err) {
-        resContainer.innerHTML = `<div class="p-4 text-xs text-rose-400 bg-rose-950/20 rounded-xl border border-rose-900/30">\${err.message}</div>`;
+        resContainer.innerHTML = `<div class="p-4 text-xs text-rose-400 bg-rose-950/20 rounded-xl border border-rose-900/30">${err.message}</div>`;
       }
     }
     window.handleVerifyBadge = handleVerifyBadge;
@@ -2074,7 +2074,7 @@
           })
         });
         const data = await res.json();
-        alert(\`🚨 112 EMERGENCY SOS DISPATCHED!\n\nReference: \${data.sos_id || 'SOS-2026-ACTIVE'}\nAssigned Unit: PCR Van Bravo-04 (ETA: 4 Mins)\nYour Coordinates: \${lat.toFixed(4)}° N, \${lng.toFixed(4)}° E\n\nRemain calm, help is on the way.\`);
+        alert(`🚨 112 EMERGENCY SOS DISPATCHED!\n\nReference: ${data.sos_id || 'SOS-2026-ACTIVE'}\nAssigned Unit: PCR Van Bravo-04 (ETA: 4 Mins)\nYour Coordinates: ${lat.toFixed(4)}° N, ${lng.toFixed(4)}° E\n\nRemain calm, help is on the way.`);
       } catch (err) {
         alert('Emergency alert dispatched via national cell broadcast fallback.');
       }

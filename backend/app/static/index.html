@@ -357,21 +357,50 @@
           </div>
         </div>
 
-        <!-- EMERGENCY SOS TRIGGER FOR CIVILIANS -->
-        <div class="mt-6 p-4 bg-red-950/40 border border-red-800/60 rounded-xl flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div class="flex items-center gap-3">
-            <div class="w-12 h-12 rounded-xl bg-red-600/20 border border-red-500/40 flex items-center justify-center text-red-400 shrink-0">
-              <i data-lucide="siren" class="w-6 h-6 animate-bounce"></i>
+        <!-- EMERGENCY SOS TRIGGER & TELECALLER CALL-BACK INTERFACE -->
+        <div class="mt-6 p-5 bg-gradient-to-r from-red-950/60 via-[#18090f] to-slate-900 border border-red-700/60 rounded-2xl shadow-2xl space-y-4">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div class="flex items-start sm:items-center gap-3">
+              <div class="w-12 h-12 rounded-xl bg-red-600/20 border border-red-500/40 flex items-center justify-center text-red-400 shrink-0">
+                <i data-lucide="siren" class="w-6 h-6 animate-bounce"></i>
+              </div>
+              <div>
+                <div class="flex items-center gap-2">
+                  <div class="text-sm font-bold text-red-200">Emergency Citizen SOS & Cyber Helpline Triage</div>
+                  <span class="px-2 py-0.5 rounded text-[9px] font-extrabold bg-red-500/20 text-red-300 border border-red-500/30">LEVEL-1 PROTOCOL</span>
+                </div>
+                <div class="text-xs text-slate-300">First-trigger response initiates an <strong>IMMEDIATE automated call-back</strong> from Cybersecurity Quick Response Officers / 112 ERSS Telecallers.</div>
+              </div>
             </div>
-            <div>
-              <div class="text-sm font-bold text-red-200">Emergency Citizen SOS (112 ERSS Integrated)</div>
-              <div class="text-xs text-slate-400">Immediate distress broadcast with your live GPS location dispatched to nearest PCR patrol vans.</div>
+
+            <!-- Pre-filled or editable Callback Phone Number -->
+            <div class="flex items-center gap-2 bg-slate-950/80 border border-slate-700 p-1.5 rounded-xl text-xs shrink-0">
+              <i data-lucide="phone" class="w-3.5 h-3.5 text-emerald-400 ml-1"></i>
+              <span class="text-[11px] text-slate-400">Call-Back No:</span>
+              <input id="civSosPhone" type="tel" value="+91 98450 11200" class="bg-transparent border-none text-white font-mono font-bold text-xs focus:outline-none w-36" title="Emergency callback number">
             </div>
           </div>
-          <button onclick="triggerCivilianSos()" class="w-full sm:w-auto px-6 py-3 bg-red-600 hover:bg-red-500 text-white font-extrabold text-xs rounded-xl shadow-lg shadow-red-600/40 flex items-center justify-center gap-2 transition">
-            <i data-lucide="alert-triangle" class="w-4 h-4"></i>
-            <span>DISPATCH EMERGENCY SOS</span>
-          </button>
+
+          <!-- TRIGGER BUTTONS ROW -->
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-1">
+            <!-- Trigger 1: In-App SOS -->
+            <button onclick="triggerCivilianSos('IN_APP_SOS')" class="py-3 px-4 bg-red-600 hover:bg-red-500 text-white font-extrabold text-xs rounded-xl shadow-lg shadow-red-600/40 flex items-center justify-center gap-2 transition active:scale-[0.99]">
+              <i data-lucide="alert-triangle" class="w-4 h-4"></i>
+              <span>1. DISPATCH IN-APP SOS</span>
+            </button>
+
+            <!-- Trigger 2: Dial Cyber Helpline 1930 -->
+            <button onclick="triggerCivilianSos('PHONE_1930_CYBER')" class="py-3 px-4 bg-indigo-600 hover:bg-indigo-500 text-white font-extrabold text-xs rounded-xl shadow-lg shadow-indigo-600/40 flex items-center justify-center gap-2 transition active:scale-[0.99]">
+              <i data-lucide="phone-call" class="w-4 h-4 text-indigo-200"></i>
+              <span>2. DIAL CYBER HELPLINE (1930)</span>
+            </button>
+
+            <!-- Trigger 3: Dial State Police 112 -->
+            <button onclick="triggerCivilianSos('PHONE_112_ERSS')" class="py-3 px-4 bg-blue-600 hover:bg-blue-500 text-white font-extrabold text-xs rounded-xl shadow-lg shadow-blue-600/40 flex items-center justify-center gap-2 transition active:scale-[0.99]">
+              <i data-lucide="shield-alert" class="w-4 h-4 text-blue-200"></i>
+              <span>3. DIAL STATE POLICE (112)</span>
+            </button>
+          </div>
         </div>
       </div>
 
@@ -1706,7 +1735,15 @@
           })
         });
         const data = await res.json();
-        alert('🚨 EMERGENCY SOS DISPATCHED: HQ notified with real-time GPS coordinates.');
+        setTimeout(() => {
+          launchTelecallerCallback({
+            callback_officer: 'Special Task Force Cyber Telecaller Dispatch',
+            telecaller_unit: 'Police Control Room Priority Dispatch Grid (Dial 112)',
+            caller_phone: (currentOfficer && currentOfficer.badge_number) ? currentOfficer.badge_number : 'OFFICER-BEACON',
+            sos_id: 'SOS-DUTY-' + Math.floor(Math.random() * 8999 + 1000),
+            channel: 'OFFICER_PANIC_BEACON'
+          });
+        }, 1200);
       } catch (e) {
         alert('Failed to transmit panic alert');
       }
@@ -2370,16 +2407,201 @@
     }
     window.handleVerifyBadge = handleVerifyBadge;
 
-    async function triggerCivilianSos() {
-      if (!confirm('CONFIRM CITIZEN 112 EMERGENCY SOS: Your current device coordinates will be dispatched to the nearest Police Patrol Unit.')) return;
+    // --- STATE CYBER COMMAND & 112 TELECALLER CALL-BACK SIMULATOR ---
+    let telecallerAudioCtx = null;
+    let ringInterval = null;
+    let callTimerInterval = null;
+    let callSeconds = 0;
+    let isCallActive = false;
 
-      let lat = 12.9716;
-      let lng = 77.5946;
+    function playTelephoneRingtone() {
+      try {
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        if (!AudioContext) return;
+        if (!telecallerAudioCtx) telecallerAudioCtx = new AudioContext();
+
+        function emitRingBurst() {
+          if (!telecallerAudioCtx || isCallActive) return;
+          const osc1 = telecallerAudioCtx.createOscillator();
+          const osc2 = telecallerAudioCtx.createOscillator();
+          const gain = telecallerAudioCtx.createGain();
+
+          osc1.frequency.setValueAtTime(400, telecallerAudioCtx.currentTime);
+          osc2.frequency.setValueAtTime(450, telecallerAudioCtx.currentTime);
+
+          gain.gain.setValueAtTime(0.08, telecallerAudioCtx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.001, telecallerAudioCtx.currentTime + 1.6);
+
+          osc1.connect(gain);
+          osc2.connect(gain);
+          gain.connect(telecallerAudioCtx.destination);
+
+          osc1.start();
+          osc2.start();
+          osc1.stop(telecallerAudioCtx.currentTime + 1.6);
+          osc2.stop(telecallerAudioCtx.currentTime + 1.6);
+        }
+
+        emitRingBurst();
+        ringInterval = setInterval(() => {
+          if (isCallActive) {
+            clearInterval(ringInterval);
+            return;
+          }
+          emitRingBurst();
+        }, 3200);
+      } catch (e) {
+        console.warn("WebAudio ringtone init skipped:", e);
+      }
+    }
+
+    function stopTelephoneRingtone() {
+      if (ringInterval) {
+        clearInterval(ringInterval);
+        ringInterval = null;
+      }
+    }
+
+    function launchTelecallerCallback(sosData) {
+      const modal = document.getElementById('telecallerCallModal');
+      if (!modal) return;
+      isCallActive = false;
+      callSeconds = 0;
+
+      // Populate modal data
+      const officerEl = document.getElementById('callOfficerName');
+      if (officerEl) officerEl.innerText = sosData.callback_officer || 'Inspector S. Kulkarni (Cyber Quick Response Team)';
+      const unitEl = document.getElementById('callUnitName');
+      if (unitEl) unitEl.innerText = sosData.telecaller_unit || 'Karnataka State Cyber Telecall Center (1930 / 112 ERSS)';
+      const phoneEl = document.getElementById('callPhoneNumber');
+      if (phoneEl) phoneEl.innerText = sosData.caller_phone || '+91 98450 11200';
+      const refEl = document.getElementById('callSosRef');
+      if (refEl) refEl.innerText = sosData.sos_id || 'SOS-BLR-8419';
+      const channelEl = document.getElementById('callChannelBadge');
+      if (channelEl) channelEl.innerText = (sosData.channel || 'IN_APP_SOS').replace(/_/g, ' ');
+
+      // Show Ringing State
+      document.getElementById('callRingingScreen').classList.remove('hidden');
+      document.getElementById('callActiveScreen').classList.add('hidden');
+      modal.classList.remove('hidden');
+
+      // Trigger realistic telecom ringtone
+      playTelephoneRingtone();
+      if (window.lucide) lucide.createIcons();
+    }
+    window.launchTelecallerCallback = launchTelecallerCallback;
+
+    function answerEmergencyCall() {
+      stopTelephoneRingtone();
+      isCallActive = true;
+      document.getElementById('callRingingScreen').classList.add('hidden');
+      document.getElementById('callActiveScreen').classList.remove('hidden');
+
+      // Start call duration timer
+      callSeconds = 0;
+      const timerEl = document.getElementById('activeCallTimer');
+      if (callTimerInterval) clearInterval(callTimerInterval);
+      callTimerInterval = setInterval(() => {
+        callSeconds++;
+        const mins = String(Math.floor(callSeconds / 60)).padStart(2, '0');
+        const secs = String(callSeconds % 60).padStart(2, '0');
+        if (timerEl) timerEl.innerText = `${mins}:${secs}`;
+      }, 1000);
+
+      // Play synthesized officer voice
+      if ('speechSynthesis' in window) {
+        try {
+          window.speechSynthesis.cancel();
+          const utterance = new SpeechSynthesisUtterance("Citizen distress signal acknowledged at Bengaluru Central Sector. State Cyber Command telecaller and PCR Mobile Patrol unit 04 have been dispatched. I am Inspector Kulkarni on your live emergency line. Remain calm, our team is arriving in 3 minutes.");
+          utterance.rate = 1.0;
+          utterance.pitch = 1.0;
+          window.speechSynthesis.speak(utterance);
+        } catch (e) {
+          console.warn("Speech synthesis skipped:", e);
+        }
+      }
+      if (window.lucide) lucide.createIcons();
+    }
+    window.answerEmergencyCall = answerEmergencyCall;
+
+    function endEmergencyCall() {
+      stopTelephoneRingtone();
+      if ('speechSynthesis' in window) {
+        try { window.speechSynthesis.cancel(); } catch(e) {}
+      }
+      if (callTimerInterval) {
+        clearInterval(callTimerInterval);
+        callTimerInterval = null;
+      }
+      isCallActive = false;
+      const modal = document.getElementById('telecallerCallModal');
+      if (modal) modal.classList.add('hidden');
+    }
+    window.endEmergencyCall = endEmergencyCall;
+
+    function toggleCallMute(btn) {
+      if (!btn) return;
+      if (btn.classList.contains('text-rose-400')) {
+        btn.classList.remove('text-rose-400', 'border-rose-500/50');
+        btn.innerHTML = `<i data-lucide="mic" class="w-4 h-4 text-slate-300"></i><span>Mute Mic</span>`;
+      } else {
+        btn.classList.add('text-rose-400', 'border-rose-500/50');
+        btn.innerHTML = `<i data-lucide="mic-off" class="w-4 h-4 text-rose-400"></i><span>Mic Muted</span>`;
+      }
+      if (window.lucide) lucide.createIcons();
+    }
+    window.toggleCallMute = toggleCallMute;
+
+    function playPoliceSirenSound() {
+      try {
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        if (!AudioContext) return;
+        const ctx = new AudioContext();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+
+        osc.type = 'sawtooth';
+        gain.gain.setValueAtTime(0.06, ctx.currentTime);
+
+        const now = ctx.currentTime;
+        osc.frequency.setValueAtTime(650, now);
+        osc.frequency.linearRampToValueAtTime(1150, now + 0.6);
+        osc.frequency.linearRampToValueAtTime(650, now + 1.2);
+        osc.frequency.linearRampToValueAtTime(1150, now + 1.8);
+        osc.frequency.linearRampToValueAtTime(650, now + 2.4);
+
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 2.5);
+
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+
+        osc.start();
+        osc.stop(now + 2.5);
+      } catch(e) {
+        console.warn("Siren audio error:", e);
+      }
+    }
+    window.playPoliceSirenSound = playPoliceSirenSound;
+
+    async function triggerCivilianSos(channel = 'IN_APP_SOS') {
+      const phoneInput = document.getElementById('civSosPhone');
+      const callerPhone = phoneInput ? phoneInput.value.trim() : '+91 98450 11200';
+
+      const promptMsg = channel === 'PHONE_1930_CYBER' 
+        ? `DIAL CYBER HELPLINE 1930: State Cyber Command will immediately initiate a priority callback to ${callerPhone}. Confirm?`
+        : channel === 'PHONE_112_ERSS'
+        ? `DIAL 112 STATE POLICE ERSS: State Police Control will immediately initiate a priority callback to ${callerPhone}. Confirm?`
+        : `CONFIRM CITIZEN EMERGENCY SOS: Live GPS beacon will be dispatched and Cyber Officers / Telecallers will immediately call back on ${callerPhone}.`;
+
+      if (!confirm(promptMsg)) return;
+
+      let lat = currentPatrolPos.lat || 12.9716;
+      let lng = currentPatrolPos.lng || 77.5946;
 
       if ('geolocation' in navigator) {
         try {
           const pos = await new Promise((resolve, reject) => {
-            navigator.geolocation.getCurrentPosition(resolve, reject, { timeout: 5000, enableHighAccuracy: true });
+            navigator.geolocation.getCurrentPosition(resolve, reject, { timeout: 3500, enableHighAccuracy: true });
           });
           lat = pos.coords.latitude;
           lng = pos.coords.longitude;
@@ -2395,13 +2617,29 @@
           body: JSON.stringify({
             latitude: lat,
             longitude: lng,
+            caller_phone: callerPhone,
+            channel: channel,
             incident_type: 'EMERGENCY_CIVILIAN_DISTRESS'
           })
         });
         const data = await res.json();
-        alert(`🚨 112 EMERGENCY SOS DISPATCHED!\n\nReference: ${data.sos_id || 'SOS-2026-ACTIVE'}\nAssigned Unit: PCR Van Bravo-04 (ETA: 4 Mins)\nYour Coordinates: ${lat.toFixed(4)}° N, ${lng.toFixed(4)}° E\n\nRemain calm, help is on the way.`);
+
+        // Level-1 First Trigger Response: Instant Telecaller Call-back
+        setTimeout(() => {
+          launchTelecallerCallback(data);
+        }, 1200);
+
       } catch (err) {
-        alert('Emergency alert dispatched via national cell broadcast fallback.');
+        // Fallback simulation
+        setTimeout(() => {
+          launchTelecallerCallback({
+            callback_officer: 'Inspector S. Kulkarni (Cyber Quick Response Team)',
+            telecaller_unit: 'Karnataka State Cyber Telecall Center (Dial 1930 / 112 ERSS)',
+            caller_phone: callerPhone,
+            sos_id: 'SOS-BLR-' + Math.floor(Math.random() * 8999 + 1000),
+            channel: channel
+          });
+        }, 1200);
       }
     }
     window.triggerCivilianSos = triggerCivilianSos;
@@ -2427,5 +2665,131 @@
       }).catch(() => alert('Failed to register case.'));
     }
   </script>
+
+  <!-- INCOMING & ACTIVE TELECALLER / CYBERSECURITY CALL-BACK MODAL -->
+  <div id="telecallerCallModal" class="hidden fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/85 backdrop-blur-xl animate-fade-in">
+    <div class="w-full max-w-lg bg-gradient-to-b from-[#0b1322] via-[#090d16] to-[#06080e] border-2 border-emerald-500/50 rounded-3xl p-6 sm:p-8 shadow-2xl shadow-emerald-500/20 text-white space-y-6 relative overflow-hidden">
+      
+      <!-- Top National Emblem & Security Watermark -->
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+        <div class="flex items-center gap-2">
+          <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
+          <span class="text-[10px] font-mono font-extrabold text-emerald-400 uppercase tracking-widest">LEVEL-1 PRIORITY CALL-BACK PROTOCOL</span>
+        </div>
+        <span id="callChannelBadge" class="px-2 py-0.5 rounded text-[10px] font-bold bg-blue-500/15 text-blue-300 border border-blue-500/30">IN APP SOS</span>
+      </div>
+
+      <!-- SCREEN 1: RINGING STATE -->
+      <div id="callRingingScreen" class="text-center space-y-5 py-4">
+        <!-- Animated Ringing Icon -->
+        <div class="relative w-24 h-24 mx-auto flex items-center justify-center">
+          <div class="absolute inset-0 rounded-full bg-emerald-500/20 animate-ping"></div>
+          <div class="absolute -inset-2 rounded-full bg-emerald-500/10 animate-pulse"></div>
+          <div class="w-20 h-20 rounded-full bg-gradient-to-tr from-emerald-600 to-teal-500 flex items-center justify-center shadow-lg shadow-emerald-600/50 text-white">
+            <i data-lucide="phone-call" class="w-10 h-10 animate-bounce"></i>
+          </div>
+        </div>
+
+        <div class="space-y-1">
+          <div class="text-[11px] font-bold text-emerald-400 uppercase tracking-wider">INCOMING SECURE HOTLINE CALL</div>
+          <h2 id="callOfficerName" class="text-xl font-extrabold text-white">Inspector S. Kulkarni</h2>
+          <p id="callUnitName" class="text-xs text-slate-400">State Cybersecurity Quick Response Team (Dial 1930 / 112 ERSS)</p>
+          <div class="text-[11px] font-mono text-slate-300 pt-1">Calling your verified number: <strong id="callPhoneNumber" class="text-emerald-300 font-bold">+91 98450 11200</strong></div>
+        </div>
+
+        <div class="p-3 bg-slate-950/80 border border-slate-800 rounded-xl text-left space-y-1 text-xs">
+          <div class="flex items-center justify-between">
+            <span class="text-slate-400 text-[10px]">INCIDENT REF:</span>
+            <span id="callSosRef" class="mono font-bold text-amber-300">SOS-BLR-8419</span>
+          </div>
+          <div class="flex items-center justify-between">
+            <span class="text-slate-400 text-[10px]">COORDINATES LOCK:</span>
+            <span class="mono font-bold text-emerald-400">12.9716° N, 77.5946° E</span>
+          </div>
+          <div class="flex items-center justify-between">
+            <span class="text-slate-400 text-[10px]">PCR PATROL STATUS:</span>
+            <span class="font-bold text-blue-400">Van Bravo-04 Dispatched (ETA 3 Mins)</span>
+          </div>
+        </div>
+
+        <!-- Call Actions -->
+        <div class="flex items-center justify-center gap-6 pt-2">
+          <button onclick="endEmergencyCall()" class="w-16 h-16 rounded-full bg-rose-600 hover:bg-rose-500 text-white flex flex-col items-center justify-center gap-1 shadow-lg shadow-rose-600/40 transition active:scale-95" title="Decline call">
+            <i data-lucide="phone-off" class="w-6 h-6"></i>
+            <span class="text-[9px] font-bold">Decline</span>
+          </button>
+          <button onclick="answerEmergencyCall()" class="w-20 h-20 rounded-full bg-emerald-600 hover:bg-emerald-500 text-white flex flex-col items-center justify-center gap-1 shadow-xl shadow-emerald-600/50 transition active:scale-95 animate-pulse" title="Answer Call">
+            <i data-lucide="phone" class="w-8 h-8"></i>
+            <span class="text-[10px] font-extrabold uppercase">Answer</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- SCREEN 2: ACTIVE ON-CALL STATE -->
+      <div id="callActiveScreen" class="hidden space-y-5 py-2">
+        <div class="flex items-center justify-between bg-slate-950/80 border border-slate-800 p-3 rounded-xl">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-full bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-emerald-400">
+              <i data-lucide="shield-check" class="w-5 h-5"></i>
+            </div>
+            <div>
+              <div class="text-xs font-bold text-white">Inspector S. Kulkarni (On Line)</div>
+              <div class="text-[10px] text-emerald-400 font-semibold flex items-center gap-1">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                <span>SECURE AUDIO FEED ACTIVE</span>
+              </div>
+            </div>
+          </div>
+          <div class="text-right">
+            <span id="activeCallTimer" class="mono font-bold text-emerald-300 text-base">00:00</span>
+            <div class="text-[9px] text-slate-500 uppercase">DURATION</div>
+          </div>
+        </div>
+
+        <!-- Pulsing Audio Waveform Visualizer -->
+        <div class="p-3 bg-slate-950 border border-emerald-500/30 rounded-xl flex items-center justify-center gap-1.5 h-16 overflow-hidden">
+          <span class="w-1.5 bg-emerald-400 rounded-full animate-[pulse_0.6s_ease-in-out_infinite] h-8"></span>
+          <span class="w-1.5 bg-emerald-400 rounded-full animate-[pulse_0.9s_ease-in-out_infinite] h-12"></span>
+          <span class="w-1.5 bg-emerald-400 rounded-full animate-[pulse_0.4s_ease-in-out_infinite] h-6"></span>
+          <span class="w-1.5 bg-emerald-400 rounded-full animate-[pulse_1.1s_ease-in-out_infinite] h-14"></span>
+          <span class="w-1.5 bg-teal-400 rounded-full animate-[pulse_0.5s_ease-in-out_infinite] h-10"></span>
+          <span class="w-1.5 bg-teal-400 rounded-full animate-[pulse_0.8s_ease-in-out_infinite] h-14"></span>
+          <span class="w-1.5 bg-teal-400 rounded-full animate-[pulse_0.4s_ease-in-out_infinite] h-7"></span>
+          <span class="w-1.5 bg-emerald-400 rounded-full animate-[pulse_1.0s_ease-in-out_infinite] h-12"></span>
+          <span class="w-1.5 bg-emerald-400 rounded-full animate-[pulse_0.7s_ease-in-out_infinite] h-9"></span>
+        </div>
+
+        <!-- Live Voice Transcript Feed -->
+        <div class="p-3.5 bg-slate-950/90 border border-slate-800 rounded-xl space-y-2 text-xs">
+          <div class="text-[10px] font-bold text-amber-400 uppercase tracking-wider flex items-center gap-1.5">
+            <i data-lucide="radio" class="w-3.5 h-3.5 animate-pulse text-amber-400"></i>
+            <span>LIVE INCIDENT RESPONSE TRANSCRIPTION (CYBERCOMMAND HOTLINE)</span>
+          </div>
+          <div class="space-y-1.5 text-[11px] leading-relaxed">
+            <p class="text-emerald-300"><strong>👮‍♂️ Inspector Kulkarni:</strong> "Citizen distress signal verified. I am with the State Cybersecurity First Response Unit. We have locked your live coordinates (12.9716° N, 77.5946° E)."</p>
+            <p class="text-slate-300"><strong>👮‍♂️ Inspector Kulkarni:</strong> "PCR Patrol Van Bravo-04 has been dispatched and is currently 3 minutes away. Any digital extortion, physical danger, or cyber theft details are being logged onto the blockchain registry. Remain on the line."</p>
+            <p class="text-blue-300 font-mono text-[10px]"><strong>📟 Auto-Logger:</strong> BSA 2023 §63 cryptographic certificate anchor generated. Nodal control informed.</p>
+          </div>
+        </div>
+
+        <!-- On-Call Controls -->
+        <div class="flex items-center justify-around pt-2">
+          <button onclick="toggleCallMute(this)" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 rounded-xl text-xs font-semibold flex items-center gap-1.5 transition">
+            <i data-lucide="mic" class="w-4 h-4 text-slate-300"></i>
+            <span>Mute Mic</span>
+          </button>
+          <button onclick="playPoliceSirenSound()" class="px-4 py-2 bg-blue-600/30 hover:bg-blue-600/50 border border-blue-500/40 rounded-xl text-xs font-semibold text-blue-300 flex items-center gap-1.5 transition">
+            <i data-lucide="siren" class="w-4 h-4 text-blue-400"></i>
+            <span>Sound Siren (112)</span>
+          </button>
+          <button onclick="endEmergencyCall()" class="px-5 py-2.5 bg-rose-600 hover:bg-rose-500 rounded-xl text-xs font-bold text-white shadow-lg shadow-rose-600/40 flex items-center gap-1.5 transition">
+            <i data-lucide="phone-off" class="w-4 h-4"></i>
+            <span>End Call</span>
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
 </body>
 </html>

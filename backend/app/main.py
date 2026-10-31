@@ -59,8 +59,8 @@ async def security_headers(request: Request, call_next):
         "script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://unpkg.com; "
         "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://unpkg.com; "
         "font-src 'self' https://fonts.gstatic.com; "
-        "img-src 'self' data: blob: https://*.basemaps.cartocdn.com https://*.tile.openstreetmap.org https://unpkg.com https://server.arcgisonline.com https://*.arcgisonline.com; "
-        "connect-src 'self'; "
+        "img-src 'self' data: blob: https://*.basemaps.cartocdn.com https://tile.openstreetmap.org https://*.tile.openstreetmap.org https://unpkg.com https://server.arcgisonline.com https://*.arcgisonline.com https://*.arcgis.com; "
+        "connect-src 'self' https:; "
         "frame-ancestors 'none';"
     )
     response.headers["Referrer-Policy"] = "strict-origin-when-cross-origin"
@@ -136,6 +136,7 @@ STATIC_INDEX = os.path.join(STATIC_DIR, "index.html")
 if os.path.exists(STATIC_DIR):
     app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
 
+@app.get("/favicon.ico", include_in_schema=False)
 @app.get("/emblem.png", include_in_schema=False)
 @app.get("/static/emblem.png", include_in_schema=False)
 async def serve_emblem():

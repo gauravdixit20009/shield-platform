@@ -7,7 +7,8 @@
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
   <title>SHIELD — Law Enforcement Intelligence Platform</title>
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%232563eb'><path d='M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z'/></svg>">
+  <link rel="icon" type="image/png" href="/static/emblem.png">
+  <link rel="apple-touch-icon" href="/static/emblem.png">
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
@@ -2009,12 +2010,12 @@
         if (thinking) thinking.remove();
 
         chatBox.innerHTML += `
-          <div class="p-3 bg-indigo-950/20 border border-indigo-900/30 rounded-xl text-slate-200">
-            <div class="font-bold text-indigo-400 text-[10px] mb-1 flex items-center gap-1">
+          <div class="p-3 bg-indigo-950/25 border border-indigo-900/40 rounded-xl text-slate-200 space-y-1 leading-relaxed">
+            <div class="font-bold text-indigo-400 text-[10px] mb-1 flex items-center gap-1.5">
               <i data-lucide="bot" class="w-3.5 h-3.5"></i>
-              <span>ARIA INTELLIGENCE</span>
+              <span>ARIA INTELLIGENCE (GEMINI NEURAL ENGINE)</span>
             </div>
-            ${data.response}
+            <div class="text-xs leading-normal">${formatAriaText(data.response || '')}</div>
           </div>
         `;
         lucide.createIcons();
@@ -2022,8 +2023,21 @@
       } catch (err) {
         const thinking = document.getElementById('ariaThinking');
         if (thinking) thinking.remove();
-        chatBox.innerHTML += `<div class="p-2 text-rose-400">Failed to reach ARIA service.</div>`;
+        chatBox.innerHTML += `<div class="p-2 text-rose-400 text-xs">Failed to reach ARIA intelligence service: ${err.message}</div>`;
       }
+    }
+
+    function formatAriaText(text) {
+      if (!text) return '';
+      return text
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/\*\*(.*?)\*\*/g, '<strong class="text-white font-bold">$1</strong>')
+        .replace(/\*(.*?)\*/g, '<em class="text-slate-300 italic">$1</em>')
+        .replace(/`([^`]+)`/g, '<code class="bg-slate-900 text-amber-300 px-1 py-0.5 rounded font-mono text-[11px] border border-slate-700/60">$1</code>')
+        .replace(/\n\n/g, '<br><br>')
+        .replace(/\n/g, '<br>');
     }
 
     function triggerQuickPrompt(text) {
@@ -2049,6 +2063,11 @@
     function initTacticalMap() {
       const container = document.getElementById('tacticalMap');
       if (!container) return;
+      if (typeof L === 'undefined') {
+        console.warn('Leaflet GIS library loading...');
+        setTimeout(initTacticalMap, 250);
+        return;
+      }
       if (tacticalMap) {
         tacticalMap.invalidateSize();
         return;
@@ -2064,11 +2083,21 @@
       L.control.zoom({ position: 'topright' }).addTo(tacticalMap);
 
       // Tactical Dark Canvas Map Tiles (High-Contrast, Clean, 100% Free & No API Key Watermark)
-      L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
+      const baseTiles = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
         maxNativeZoom: 16,
         maxZoom: 19,
         attribution: 'Esri, DeLorme, NAVTEQ'
-      }).addTo(tacticalMap);
+      });
+      baseTiles.on('tileerror', function() {
+        console.warn('Falling back to OpenStreetMap standard tiles...');
+        if (tacticalMap) {
+          L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; OpenStreetMap contributors'
+          }).addTo(tacticalMap);
+        }
+      });
+      baseTiles.addTo(tacticalMap);
 
       // Pulsing officer beacon icon
       const beaconIcon = L.divIcon({

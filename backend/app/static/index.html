@@ -25,7 +25,7 @@
     .glow-blue { box-shadow: 0 0 35px -5px rgba(37, 99, 235, 0.35); }
     .glow-red { box-shadow: 0 0 35px -5px rgba(220, 38, 38, 0.4); }
     ::-webkit-scrollbar { width: 6px; height: 6px; }
-    ::-webkit-scrollbar-track { background: #0b0f17; }
+    ::-webkit-scrollbar-track { background: #0a0d14; }
     ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 3px; }
     .no-scrollbar::-webkit-scrollbar { display: none; }
     .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
@@ -34,7 +34,7 @@
     }
 
     /* Tactical Map Styling */
-    .leaflet-container { background: #080d14 !important; }
+    .leaflet-container { background: #090c12 !important; }
     .tactical-beacon {
       width: 18px;
       height: 18px;
@@ -81,7 +81,7 @@
     }
   </style>
 </head>
-<body class="bg-[#06090e] text-slate-100 min-h-screen flex flex-col font-sans antialiased selection:bg-blue-600 selection:text-white">
+<body class="bg-[#080a0f] text-slate-100 min-h-screen flex flex-col font-sans antialiased selection:bg-blue-600 selection:text-white">
 
   <!-- TOP TRICOLOR NATIONAL RIBBON -->
   <div class="h-1.5 w-full flex sticky top-0 z-[60]">
@@ -94,7 +94,7 @@
   </div>
 
   <!-- TOP SECURITY BANNER -->
-  <header class="bg-[#0a0f18]/95 border-b border-slate-800/80 px-2.5 sm:px-6 py-2 sm:py-2.5 flex items-center justify-between sticky top-1.5 z-50 backdrop-blur-md shadow-lg shadow-black/40 gap-2">
+  <header class="bg-[#0d111a]/95 border-b border-slate-800/80 px-2.5 sm:px-6 py-2 sm:py-2.5 flex items-center justify-between sticky top-1.5 z-50 backdrop-blur-md shadow-lg shadow-black/40 gap-2">
     <div class="flex items-center gap-2 sm:gap-3.5 shrink-0">
       <!-- MOBILE MENU HAMBURGER BUTTON (Visible on phone/tablet when logged in) -->
       <button id="mobileMenuToggle" onclick="toggleMobileDrawer()" class="hidden p-1.5 sm:p-2 rounded-xl bg-slate-900 border border-slate-700/80 text-slate-300 hover:text-white md:hidden active:scale-95 transition" aria-label="Open Navigation Menu">
@@ -123,7 +123,7 @@
     </div>
 
     <!-- CENTER PORTAL SWITCHER -->
-    <div class="flex items-center bg-[#111927] border border-slate-700/80 p-0.5 sm:p-1 rounded-xl text-xs shadow-inner shrink-0">
+    <div class="flex items-center bg-[#161c2b] border border-slate-700/80 p-0.5 sm:p-1 rounded-xl text-xs shadow-inner shrink-0">
       <button id="switchBtnPolice" onclick="setPortalMode('police')" class="px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-lg font-bold text-white bg-blue-600 transition flex items-center gap-1 sm:gap-1.5 shadow">
         <i data-lucide="shield" class="w-3.5 h-3.5 text-blue-200"></i>
         <span class="hidden sm:inline">Police Command Enclave</span>
@@ -159,12 +159,51 @@
     </div>
   </header>
 
+  <!-- TACTICAL COMMAND HUD STRIP -->
+  <div id="tacticalHudStrip" class="hidden bg-[#0a0d14] border-b border-[#1b2230] px-3 sm:px-6 py-1.5 text-[11px] text-slate-400 flex flex-wrap items-center justify-between gap-2 font-mono">
+    <div class="flex items-center gap-2.5 sm:gap-4">
+      <div class="flex items-center gap-1.5 text-emerald-400 font-bold">
+        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+        <span class="tracking-wider">DEFCON-4 APEX SECURE</span>
+      </div>
+      <span class="text-slate-700 hidden sm:inline">|</span>
+      <div class="hidden sm:flex items-center gap-1.5 text-slate-300">
+        <i data-lucide="satellite" class="w-3.5 h-3.5 text-blue-400"></i>
+        <span>GSAT-7A: <strong class="text-emerald-400">NOMINAL (99.8%)</strong></span>
+      </div>
+      <span class="text-slate-700 hidden md:inline">|</span>
+      <div class="hidden md:flex items-center gap-1.5 text-slate-400">
+        <i data-lucide="shield-check" class="w-3.5 h-3.5 text-amber-400"></i>
+        <span>CIPHER: <strong class="text-slate-200">AES-GCM-256 (ZERO-TRUST)</strong></span>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-2 sm:gap-3">
+      <!-- QUICK SEARCH BUTTON (CMD+K) -->
+      <button onclick="openCmdPalette()" class="px-2.5 py-0.5 rounded-lg bg-[#141a27] hover:bg-[#1a2233] border border-[#232b3d] text-slate-300 hover:text-white flex items-center gap-1.5 transition text-[11px]">
+        <i data-lucide="command" class="w-3 h-3 text-amber-400"></i>
+        <span class="font-sans font-medium">Command Jump</span>
+        <span class="text-[9px] px-1 py-0.2 bg-[#0a0d14] rounded border border-slate-700 text-slate-400 font-mono">⌘K</span>
+      </button>
+
+      <span class="text-slate-700 hidden sm:inline">|</span>
+
+      <!-- LIVE DIGITAL MISSION CLOCK -->
+      <div class="flex items-center gap-1.5 text-slate-200 font-bold tracking-wider">
+        <i data-lucide="clock" class="w-3.5 h-3.5 text-blue-400"></i>
+        <span id="hudMissionClockIST">--:--:-- IST</span>
+        <span id="hudMissionClockUTC" class="hidden lg:inline text-slate-500 font-normal text-[10px]">(--:--:-- UTC)</span>
+      </div>
+    </div>
+  </div>
+
+
   <!-- MAIN CONTAINER -->
   <div class="flex-1 flex overflow-hidden">
 
     <!-- LOGIN SCREEN -->
-    <div id="loginSection" class="flex-1 flex items-center justify-center p-4 sm:p-6 overflow-y-auto bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-blue-950/25 via-[#06090e] to-[#06090e]">
-      <div class="w-full max-w-xl bg-[#0c121d] border border-slate-800 rounded-3xl p-6 sm:p-8 shadow-2xl glow-blue space-y-6">
+    <div id="loginSection" class="flex-1 flex items-center justify-center p-4 sm:p-6 overflow-y-auto bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-blue-950/25 via-[#080a0f] to-[#080a0f]">
+      <div class="w-full max-w-xl bg-[#111622] border border-slate-800 rounded-3xl p-6 sm:p-8 shadow-2xl glow-blue space-y-6">
         
         <!-- CARD HEADER WITH NATIONAL EMBLEM -->
         <div class="text-center space-y-2 pb-2 border-b border-slate-800/70">
@@ -276,7 +315,7 @@
             </label>
             <div class="relative">
               <i data-lucide="shield" class="w-4 h-4 text-slate-400 absolute left-3.5 top-3.5"></i>
-              <input id="loginBadge" type="text" required placeholder="DGP-INDIA-01" value="DGP-INDIA-01" class="w-full bg-[#111927] border border-slate-700/80 rounded-xl pl-10 pr-4 py-2.5 text-sm text-white focus:outline-none focus:border-blue-500 mono font-bold tracking-wide">
+              <input id="loginBadge" type="text" required placeholder="DGP-INDIA-01" value="DGP-INDIA-01" class="w-full bg-[#161c2b] border border-slate-700/80 rounded-xl pl-10 pr-4 py-2.5 text-sm text-white focus:outline-none focus:border-blue-500 mono font-bold tracking-wide">
             </div>
           </div>
 
@@ -287,7 +326,7 @@
             </label>
             <div class="relative">
               <i data-lucide="lock" class="w-4 h-4 text-slate-400 absolute left-3.5 top-3.5"></i>
-              <input id="loginPassword" type="password" required placeholder="••••••••••••" value="Password@123" class="w-full bg-[#111927] border border-slate-700/80 rounded-xl pl-10 pr-4 py-2.5 text-sm text-white focus:outline-none focus:border-blue-500">
+              <input id="loginPassword" type="password" required placeholder="••••••••••••" value="Password@123" class="w-full bg-[#161c2b] border border-slate-700/80 rounded-xl pl-10 pr-4 py-2.5 text-sm text-white focus:outline-none focus:border-blue-500">
             </div>
           </div>
 
@@ -301,13 +340,13 @@
             </div>
             <div class="relative">
               <i data-lucide="key" class="w-4 h-4 text-slate-400 absolute left-3.5 top-3.5"></i>
-              <input id="loginTotp" type="text" maxlength="6" placeholder="000000" class="w-full bg-[#111927] border border-slate-700/80 rounded-xl pl-10 pr-4 py-2.5 text-sm text-amber-300 focus:outline-none focus:border-amber-500 mono font-extrabold tracking-widest text-center text-lg">
+              <input id="loginTotp" type="text" maxlength="6" placeholder="000000" class="w-full bg-[#161c2b] border border-slate-700/80 rounded-xl pl-10 pr-4 py-2.5 text-sm text-amber-300 focus:outline-none focus:border-amber-500 mono font-extrabold tracking-widest text-center text-lg">
             </div>
           </div>
 
           <div id="loginError" class="hidden p-3.5 bg-red-950/50 border border-red-800 rounded-xl text-red-200 text-xs flex items-center gap-2"></div>
 
-          <button type="submit" id="loginBtn" class="w-full py-3.5 bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-700 hover:from-blue-500 hover:to-indigo-500 text-white font-extrabold rounded-xl text-sm transition-all duration-200 flex items-center justify-center gap-2 shadow-xl shadow-blue-600/35 active:scale-[0.99]">
+          <button type="submit" id="loginBtn" class="w-full py-3.5 bg-gradient-to-r from-blue-600 via-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-500 text-white font-extrabold rounded-xl text-sm transition-all duration-200 flex items-center justify-center gap-2 shadow-xl shadow-blue-600/35 active:scale-[0.99]">
             <i data-lucide="shield-check" class="w-4 h-4 text-blue-200"></i>
             <span id="loginBtnText">Authenticate Clearance & Enter Enclave</span>
           </button>
@@ -324,10 +363,10 @@
     </div>
 
     <!-- CIVILIAN PUBLIC SAFETY & SERVICES PORTAL -->
-    <div id="civilianSection" class="hidden flex-1 overflow-y-auto p-4 sm:p-8 bg-[#06090e] space-y-8">
+    <div id="civilianSection" class="hidden flex-1 overflow-y-auto p-4 sm:p-8 bg-[#080a0f] space-y-8">
       
       <!-- HERO BANNER -->
-      <div class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-blue-950/70 via-indigo-950/50 to-slate-900 border border-blue-900/40 p-6 sm:p-8 shadow-2xl">
+      <div class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-blue-950/70 via-blue-950/30 to-slate-900 border border-blue-900/40 p-6 sm:p-8 shadow-2xl">
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-6">
           <div class="max-w-2xl space-y-2">
             <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-bold">
@@ -379,8 +418,8 @@
             </button>
 
             <!-- Trigger 2: Dial Cyber Helpline 1930 -->
-            <button onclick="triggerCivilianSos('PHONE_1930_CYBER')" class="py-3 px-4 bg-indigo-600 hover:bg-indigo-500 text-white font-extrabold text-xs rounded-xl shadow-lg shadow-indigo-600/40 flex items-center justify-center gap-2 transition active:scale-[0.99]">
-              <i data-lucide="phone-call" class="w-4 h-4 text-indigo-200"></i>
+            <button onclick="triggerCivilianSos('PHONE_1930_CYBER')" class="py-3 px-4 bg-blue-600 hover:bg-blue-500 text-white font-extrabold text-xs rounded-xl shadow-lg shadow-indigo-600/40 flex items-center justify-center gap-2 transition active:scale-[0.99]">
+              <i data-lucide="phone-call" class="w-4 h-4 text-blue-200"></i>
               <span>2. DIAL CYBER HELPLINE (1930)</span>
             </button>
 
@@ -396,7 +435,7 @@
       <!-- CITIZEN SERVICES TABS -->
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
         <!-- 1. Report e-FIR -->
-        <div class="bg-[#0c121d] border border-slate-800 rounded-xl p-5 space-y-3 hover:border-blue-500/40 transition">
+        <div class="bg-[#111622] border border-slate-800 rounded-xl p-5 space-y-3 hover:border-blue-500/40 transition">
           <div class="w-10 h-10 rounded-lg bg-blue-600/15 border border-blue-500/20 text-blue-400 flex items-center justify-center">
             <i data-lucide="file-plus" class="w-5 h-5"></i>
           </div>
@@ -410,7 +449,7 @@
         </div>
 
         <!-- 2. Track FIR / Complaint Status -->
-        <div class="bg-[#0c121d] border border-slate-800 rounded-xl p-5 space-y-3 hover:border-emerald-500/40 transition">
+        <div class="bg-[#111622] border border-slate-800 rounded-xl p-5 space-y-3 hover:border-emerald-500/40 transition">
           <div class="w-10 h-10 rounded-lg bg-emerald-600/15 border border-emerald-500/20 text-emerald-400 flex items-center justify-center">
             <i data-lucide="search" class="w-5 h-5"></i>
           </div>
@@ -424,21 +463,21 @@
         </div>
 
         <!-- 3. Anonymous Crime Tip / Whistleblower -->
-        <div class="bg-[#0c121d] border border-slate-800 rounded-xl p-5 space-y-3 hover:border-purple-500/40 transition">
-          <div class="w-10 h-10 rounded-lg bg-purple-600/15 border border-purple-500/20 text-purple-400 flex items-center justify-center">
+        <div class="bg-[#111622] border border-slate-800 rounded-xl p-5 space-y-3 hover:border-amber-500/40 transition">
+          <div class="w-10 h-10 rounded-lg bg-blue-600/15 border border-amber-500/20 text-amber-400 flex items-center justify-center">
             <i data-lucide="eye-off" class="w-5 h-5"></i>
           </div>
           <div class="space-y-1">
             <h3 class="font-bold text-white text-sm">Anonymous Whistleblower</h3>
             <p class="text-xs text-slate-400">Report illegal narcotics, rackets, or corruption with zero IP logging.</p>
           </div>
-          <button onclick="showCivilianModal('tip')" class="w-full py-2 bg-purple-600/20 hover:bg-purple-600/30 text-purple-300 border border-purple-500/30 rounded-lg text-xs font-bold transition">
+          <button onclick="showCivilianModal('tip')" class="w-full py-2 bg-blue-600/20 hover:bg-blue-600/30 text-amber-300 border border-amber-500/30 rounded-lg text-xs font-bold transition">
             Submit Secret Tip →
           </button>
         </div>
 
         <!-- 4. Verify Officer Badge -->
-        <div class="bg-[#0c121d] border border-slate-800 rounded-xl p-5 space-y-3 hover:border-amber-500/40 transition">
+        <div class="bg-[#111622] border border-slate-800 rounded-xl p-5 space-y-3 hover:border-amber-500/40 transition">
           <div class="w-10 h-10 rounded-lg bg-amber-600/15 border border-amber-500/20 text-amber-400 flex items-center justify-center">
             <i data-lucide="user-check" class="w-5 h-5"></i>
           </div>
@@ -452,7 +491,7 @@
         </div>
 
         <!-- 5. Sovereign Blockchain Evidence & BSA §63 Certification -->
-        <div class="bg-[#0c121d] border border-cyan-500/30 rounded-xl p-5 space-y-3 hover:border-cyan-400/70 transition shadow-lg shadow-cyan-950/20 relative overflow-hidden group">
+        <div class="bg-[#111622] border border-cyan-500/30 rounded-xl p-5 space-y-3 hover:border-cyan-400/70 transition shadow-lg shadow-cyan-950/20 relative overflow-hidden group">
           <div class="absolute -right-3 -top-3 w-14 h-14 bg-cyan-500/10 rounded-full blur-xl group-hover:bg-cyan-500/20 transition"></div>
           <div class="w-10 h-10 rounded-lg bg-cyan-600/15 border border-cyan-500/30 text-cyan-400 flex items-center justify-center">
             <i data-lucide="blocks" class="w-5 h-5"></i>
@@ -472,7 +511,7 @@
       </div>
 
       <!-- INTERACTIVE SERVICE CONTAINER -->
-      <div id="civilianContentPanel" class="bg-[#0c121d] border border-slate-800 rounded-2xl p-6 sm:p-8 space-y-6">
+      <div id="civilianContentPanel" class="bg-[#111622] border border-slate-800 rounded-2xl p-6 sm:p-8 space-y-6">
         <!-- Rendered dynamically -->
       </div>
 
@@ -494,7 +533,7 @@
       <div id="mobileDrawerBackdrop" onclick="closeMobileDrawer()" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden md:hidden transition-opacity"></div>
 
       <!-- MOBILE SLIDE-OVER DRAWER -->
-      <aside id="mobileDrawer" class="fixed top-0 bottom-0 left-0 w-72 max-w-[85vw] bg-[#090e17] border-r border-slate-800 z-50 flex flex-col justify-between p-4 transform -translate-x-full transition-transform duration-300 ease-in-out md:hidden shadow-2xl overflow-y-auto">
+      <aside id="mobileDrawer" class="fixed top-0 bottom-0 left-0 w-72 max-w-[85vw] bg-[#0d111a] border-r border-slate-800 z-50 flex flex-col justify-between p-4 transform -translate-x-full transition-transform duration-300 ease-in-out md:hidden shadow-2xl overflow-y-auto">
         <div class="space-y-4">
           <!-- Drawer Header -->
           <div class="flex items-center justify-between pb-3 border-b border-slate-800">
@@ -552,7 +591,7 @@
               <span class="ml-auto bg-amber-500/20 text-amber-300 text-[9px] px-1.5 py-0.5 rounded">RTO/FSL</span>
             </button>
             <button onclick="switchTab('cctv'); closeMobileDrawer();" id="mobTabBtn-cctv" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-400 hover:bg-slate-800/50 hover:text-slate-200">
-              <i data-lucide="video" class="w-4 h-4 text-indigo-400"></i>
+              <i data-lucide="video" class="w-4 h-4 text-blue-400"></i>
               <span>CCTV Feeds</span>
             </button>
           </nav>
@@ -580,7 +619,7 @@
       </aside>
 
       <!-- DESKTOP SIDEBAR -->
-      <aside class="hidden md:flex md:w-64 bg-[#0a0f18] border-r border-slate-800/80 flex-col justify-between p-4 shrink-0 overflow-y-auto">
+      <aside class="hidden md:flex md:w-64 bg-[#0d111a] border-r border-slate-800/80 flex-col justify-between p-4 shrink-0 overflow-y-auto">
         <div class="space-y-6">
           <div class="px-2">
             <div class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">COMMAND CONSOLE</div>
@@ -626,7 +665,7 @@
               <span class="ml-auto bg-amber-500/20 text-amber-300 text-[9px] px-1.5 py-0.5 rounded">RTO/FSL</span>
             </button>
             <button onclick="switchTab('cctv')" id="tabBtn-cctv" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-400 hover:bg-slate-800/50 hover:text-slate-200">
-              <i data-lucide="video" class="w-4 h-4 text-indigo-400"></i>
+              <i data-lucide="video" class="w-4 h-4 text-blue-400"></i>
               <span>CCTV Feeds</span>
             </button>
           </nav>
@@ -674,7 +713,7 @@
 
           <!-- STATS CARDS -->
           <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-            <div class="p-5 bg-[#0c121d] border border-slate-800 rounded-xl space-y-1">
+            <div class="p-5 bg-[#111622] border border-slate-800 rounded-xl space-y-1">
               <div class="flex items-center justify-between text-slate-400 text-xs">
                 <span>Active Cases</span>
                 <i data-lucide="briefcase" class="w-4 h-4 text-blue-400"></i>
@@ -683,7 +722,7 @@
               <div class="text-[11px] text-blue-400 font-medium">1 Critical Priority</div>
             </div>
 
-            <div class="p-5 bg-[#0c121d] border border-slate-800 rounded-xl space-y-1">
+            <div class="p-5 bg-[#111622] border border-slate-800 rounded-xl space-y-1">
               <div class="flex items-center justify-between text-slate-400 text-xs">
                 <span>Officers On Duty</span>
                 <i data-lucide="radio" class="w-4 h-4 text-emerald-400"></i>
@@ -692,7 +731,7 @@
               <div class="text-[11px] text-emerald-400 font-medium">GPS Telemetry Streamed</div>
             </div>
 
-            <div class="p-5 bg-[#0c121d] border border-slate-800 rounded-xl space-y-1">
+            <div class="p-5 bg-[#111622] border border-slate-800 rounded-xl space-y-1">
               <div class="flex items-center justify-between text-slate-400 text-xs">
                 <span>Threat Alerts</span>
                 <i data-lucide="alert-octagon" class="w-4 h-4 text-amber-400"></i>
@@ -701,10 +740,10 @@
               <div class="text-[11px] text-slate-500">0 Critical Level</div>
             </div>
 
-            <div class="p-5 bg-[#0c121d] border border-slate-800 rounded-xl space-y-1">
+            <div class="p-5 bg-[#111622] border border-slate-800 rounded-xl space-y-1">
               <div class="flex items-center justify-between text-slate-400 text-xs">
                 <span>CCTV Grid Status</span>
-                <i data-lucide="video" class="w-4 h-4 text-indigo-400"></i>
+                <i data-lucide="video" class="w-4 h-4 text-blue-400"></i>
               </div>
               <div class="text-2xl font-bold text-emerald-400">ONLINE</div>
               <div class="text-[11px] text-slate-400 font-mono">1 Stream Connected</div>
@@ -712,7 +751,7 @@
           </div>
 
           <!-- RECENT CASES PREVIEW -->
-          <div class="bg-[#0c121d] border border-slate-800 rounded-xl p-5 space-y-4">
+          <div class="bg-[#111622] border border-slate-800 rounded-xl p-5 space-y-4">
             <div class="flex items-center justify-between">
               <h2 class="font-bold text-sm text-white flex items-center gap-2">
                 <i data-lucide="shield" class="w-4 h-4 text-blue-400"></i>
@@ -734,7 +773,7 @@
               </div>
               <p class="text-xs text-slate-400">Section 173 BNSS (Mandatory Cognizable FIR) • Section 174 BNSS (Non-Cognizable Register) • Section 63 BSA Blockchain Sealed</p>
             </div>
-            <button onclick="openStatutoryRegisterModal()" class="px-4 py-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-xs font-bold rounded-xl flex items-center gap-2 text-white transition shadow-lg shadow-blue-600/30">
+            <button onclick="openStatutoryRegisterModal()" class="px-4 py-2 bg-gradient-to-r from-blue-600 to-blue-600 hover:from-blue-500 hover:to-blue-500 text-xs font-bold rounded-xl flex items-center gap-2 text-white transition shadow-lg shadow-blue-600/30">
               <i data-lucide="scale" class="w-4 h-4"></i>
               <span>Register Statutory FIR / NCR</span>
             </button>
@@ -798,7 +837,7 @@
           </div>
 
           <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <div class="lg:col-span-2 bg-[#0c121d] border border-slate-800 rounded-xl flex flex-col h-[520px]">
+            <div class="lg:col-span-2 bg-[#111622] border border-slate-800 rounded-xl flex flex-col h-[520px]">
               <div class="p-4 border-b border-slate-800 flex items-center justify-between text-xs">
                 <span class="font-bold text-slate-300 flex items-center gap-2">
                   <i data-lucide="sparkles" class="w-4 h-4 text-emerald-400"></i>
@@ -819,8 +858,8 @@
                 </div>
               </div>
               <form onsubmit="handleAriaChat(event)" class="p-3 border-t border-slate-800 flex gap-2">
-                <input id="ariaInput" type="text" placeholder="Ask ARIA to analyze Case SHIELD-MH-2026-000001, extract suspects, or evaluate patterns..." class="flex-1 bg-[#111927] border border-slate-700/80 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-indigo-500">
-                <button type="submit" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg text-xs font-semibold transition flex items-center gap-1.5">
+                <input id="ariaInput" type="text" placeholder="Ask ARIA to analyze Case SHIELD-MH-2026-000001, extract suspects, or evaluate patterns..." class="flex-1 bg-[#161c2b] border border-slate-700/80 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-blue-500">
+                <button type="submit" class="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-lg text-xs font-semibold transition flex items-center gap-1.5">
                   <i data-lucide="send" class="w-3.5 h-3.5"></i>
                   <span>Analyze</span>
                 </button>
@@ -829,7 +868,7 @@
 
             <!-- QUICK ACTIONS -->
             <div class="space-y-4">
-              <div class="p-4 bg-[#0c121d] border border-slate-800 rounded-xl space-y-3">
+              <div class="p-4 bg-[#111622] border border-slate-800 rounded-xl space-y-3">
                 <h3 class="font-bold text-xs text-slate-300">Quick Intelligence Prompts</h3>
                 <div class="space-y-2 text-xs">
                   <button onclick="triggerQuickPrompt('Analyze the critical cyber exfiltration case and highlight primary suspect nexus.')" class="w-full text-left p-2.5 bg-slate-900/80 hover:bg-slate-800 border border-slate-800 rounded-lg text-slate-300 transition">
@@ -844,8 +883,8 @@
                 </div>
               </div>
 
-              <div class="p-4 bg-indigo-950/20 border border-indigo-900/30 rounded-xl text-xs space-y-2 text-indigo-300">
-                <div class="font-bold flex items-center gap-1.5 text-indigo-200">
+              <div class="p-4 bg-blue-950/20 border border-blue-900/30 rounded-xl text-xs space-y-2 text-blue-300">
+                <div class="font-bold flex items-center gap-1.5 text-blue-200">
                   <i data-lucide="lock" class="w-3.5 h-3.5"></i>
                   <span>Zero-Trust AI Sandbox</span>
                 </div>
@@ -869,7 +908,7 @@
           </div>
 
           <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <div class="lg:col-span-2 bg-[#0c121d] border border-slate-800 rounded-xl p-5 space-y-4">
+            <div class="lg:col-span-2 bg-[#111622] border border-slate-800 rounded-xl p-5 space-y-4">
               <div class="flex items-center justify-between text-xs">
                 <span class="font-bold text-white flex items-center gap-2">
                   <i data-lucide="map" class="w-4 h-4 text-emerald-400"></i>
@@ -879,7 +918,7 @@
               </div>
               
               <!-- REAL-TIME TACTICAL GIS MAP -->
-              <div class="relative w-full h-[360px] sm:h-96 md:h-[420px] bg-[#080d14] border border-slate-800 rounded-xl overflow-hidden shadow-2xl">
+              <div class="relative w-full h-[360px] sm:h-96 md:h-[420px] bg-[#090c12] border border-slate-800 rounded-xl overflow-hidden shadow-2xl">
                 <div id="tacticalMap" class="w-full h-full z-0"></div>
 
                 <!-- OVERLAY MAP CONTROLS -->
@@ -904,7 +943,7 @@
                     <i data-lucide="crosshair" class="w-3 h-3 text-blue-400"></i>
                     <span>Center</span>
                   </button>
-                  <button type="button" onclick="togglePatrolSim()" id="simPatrolBtn" class="px-2 py-1 bg-slate-900/90 hover:bg-slate-800 border border-slate-700/80 rounded-lg text-[10px] font-semibold text-indigo-300 flex items-center gap-1 backdrop-blur-md shadow transition shrink-0">
+                  <button type="button" onclick="togglePatrolSim()" id="simPatrolBtn" class="px-2 py-1 bg-slate-900/90 hover:bg-slate-800 border border-slate-700/80 rounded-lg text-[10px] font-semibold text-blue-300 flex items-center gap-1 backdrop-blur-md shadow transition shrink-0">
                     <i data-lucide="navigation-2" class="w-3 h-3"></i>
                     <span>Sim Patrol</span>
                   </button>
@@ -949,7 +988,7 @@
 
             <!-- HARDWARE SENSOR MONITOR -->
             <div class="space-y-4">
-              <div class="p-5 bg-[#0c121d] border border-slate-800 rounded-xl space-y-3">
+              <div class="p-5 bg-[#111622] border border-slate-800 rounded-xl space-y-3">
                 <h3 class="font-bold text-xs text-slate-300">Enclave Sensor Monitor</h3>
                 <div class="space-y-2 text-xs">
                   <div class="flex items-center justify-between p-2.5 bg-slate-900/80 rounded-lg">
@@ -961,7 +1000,7 @@
                   </div>
                   <div class="flex items-center justify-between p-2.5 bg-slate-900/80 rounded-lg">
                     <span class="text-slate-400 flex items-center gap-2">
-                      <i data-lucide="camera" class="w-3.5 h-3.5 text-purple-400"></i>
+                      <i data-lucide="camera" class="w-3.5 h-3.5 text-amber-400"></i>
                       <span>Bodycam Stream</span>
                     </span>
                     <span class="text-[10px] mono text-emerald-400 font-bold">STANDBY</span>
@@ -1003,7 +1042,7 @@
 
           <!-- TOP METRICS GRID -->
           <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-            <div class="p-5 bg-[#0c121d] border border-slate-800 rounded-2xl space-y-2">
+            <div class="p-5 bg-[#111622] border border-slate-800 rounded-2xl space-y-2">
               <div class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">COMMAND ENCLAVE THREAT SCORE</div>
               <div id="itisThreatScore" class="text-3xl font-extrabold text-emerald-400 mono">12<span class="text-sm text-slate-500 font-normal">/100</span></div>
               <div id="itisThreatStatus" class="text-xs font-bold text-emerald-400 flex items-center gap-1">
@@ -1012,19 +1051,19 @@
               </div>
             </div>
 
-            <div class="p-5 bg-[#0c121d] border border-slate-800 rounded-2xl space-y-2">
+            <div class="p-5 bg-[#111622] border border-slate-800 rounded-2xl space-y-2">
               <div class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">NOCTURNAL QUERIES (2AM-5AM)</div>
               <div id="itisNocturnalCount" class="text-3xl font-extrabold text-amber-400 mono">1 <span class="text-xs text-slate-500 font-normal font-sans">Flagged</span></div>
               <div class="text-[11px] text-slate-400">Outside standard operational shift</div>
             </div>
 
-            <div class="p-5 bg-[#0c121d] border border-slate-800 rounded-2xl space-y-2">
+            <div class="p-5 bg-[#111622] border border-slate-800 rounded-2xl space-y-2">
               <div class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">BULK EXFILTRATION ATTEMPTS</div>
               <div id="itisExfilCount" class="text-3xl font-extrabold text-slate-200 mono">0 <span class="text-xs text-emerald-400 font-normal font-sans">Blocked</span></div>
               <div class="text-[11px] text-slate-400">Two-Person authorization active</div>
             </div>
 
-            <div class="p-5 bg-[#0c121d] border border-slate-800 rounded-2xl space-y-2">
+            <div class="p-5 bg-[#111622] border border-slate-800 rounded-2xl space-y-2">
               <div class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">INTEGRITY AUDIT LOGS</div>
               <div class="text-3xl font-extrabold text-cyan-400 mono">100%</div>
               <div class="text-[11px] text-cyan-300 font-mono">Chained on Blockchain</div>
@@ -1032,7 +1071,7 @@
           </div>
 
           <!-- FLAGGED SUSPICIOUS PERSONNEL QUEUE -->
-          <div class="p-6 bg-[#0c121d] border border-slate-800 rounded-2xl space-y-4">
+          <div class="p-6 bg-[#111622] border border-slate-800 rounded-2xl space-y-4">
             <div class="flex items-center justify-between">
               <div>
                 <h3 class="font-bold text-sm text-white flex items-center gap-2">
@@ -1134,7 +1173,7 @@
           </div>
 
           <!-- FORM: ANCHOR NEW EVIDENCE ON LEDGER -->
-          <div class="p-6 bg-[#0c121d] border border-cyan-500/30 rounded-2xl space-y-4 shadow-xl shadow-cyan-950/20">
+          <div class="p-6 bg-[#111622] border border-cyan-500/30 rounded-2xl space-y-4 shadow-xl shadow-cyan-950/20">
             <div class="flex items-center justify-between border-b border-slate-800 pb-3">
               <h3 class="font-bold text-sm text-white flex items-center gap-2">
                 <i data-lucide="file-plus" class="w-4 h-4 text-cyan-400"></i>
@@ -1147,15 +1186,15 @@
               <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <div>
                   <label class="block font-semibold text-slate-300 mb-1">Case Number *</label>
-                  <input id="evCaseNum" type="text" required value="SHIELD-KA-2026-000001" class="w-full bg-[#111927] border border-slate-700 rounded-lg p-2.5 text-white font-mono focus:outline-none focus:border-cyan-500">
+                  <input id="evCaseNum" type="text" required value="SHIELD-KA-2026-000001" class="w-full bg-[#161c2b] border border-slate-700 rounded-lg p-2.5 text-white font-mono focus:outline-none focus:border-cyan-500">
                 </div>
                 <div>
                   <label class="block font-semibold text-slate-300 mb-1">Exhibit Tag / Seizure ID *</label>
-                  <input id="evTag" type="text" required placeholder="e.g. EXH-04-SMARTPHONE-DUMP" class="w-full bg-[#111927] border border-slate-700 rounded-lg p-2.5 text-white font-mono focus:outline-none focus:border-cyan-500">
+                  <input id="evTag" type="text" required placeholder="e.g. EXH-04-SMARTPHONE-DUMP" class="w-full bg-[#161c2b] border border-slate-700 rounded-lg p-2.5 text-white font-mono focus:outline-none focus:border-cyan-500">
                 </div>
                 <div>
                   <label class="block font-semibold text-slate-300 mb-1">Evidence Classification *</label>
-                  <select id="evType" class="w-full bg-[#111927] border border-slate-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-cyan-500">
+                  <select id="evType" class="w-full bg-[#161c2b] border border-slate-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-cyan-500">
                     <option value="DIGITAL_FORENSIC_CLONE">Digital Device / NVMe Clone (E01)</option>
                     <option value="CCTV_FOOTAGE_EXHIBIT">CCTV Grid Video Footage (MP4/H.264)</option>
                     <option value="NETWORK_PACKET_DUMP">Cyber Intrusion PCAP / Server Log Dump</option>
@@ -1167,7 +1206,7 @@
 
               <div>
                 <label class="block font-semibold text-slate-300 mb-1">Seizure Chronology & Evidence Description *</label>
-                <input id="evDesc" type="text" required placeholder="Describe where item was seized, chain of custody witness, and packing seal number..." class="w-full bg-[#111927] border border-slate-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-cyan-500">
+                <input id="evDesc" type="text" required placeholder="Describe where item was seized, chain of custody witness, and packing seal number..." class="w-full bg-[#161c2b] border border-slate-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-cyan-500">
               </div>
 
               <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-1">
@@ -1185,7 +1224,7 @@
           </div>
 
           <!-- OFFICER BLOCKCHAIN EXPLORER -->
-          <div class="p-6 bg-[#0c121d] border border-slate-800 rounded-2xl space-y-4">
+          <div class="p-6 bg-[#111622] border border-slate-800 rounded-2xl space-y-4">
             <div class="flex items-center justify-between">
               <div>
                 <h3 class="font-bold text-sm text-white flex items-center gap-2">
@@ -1224,7 +1263,7 @@
               <span>RTO National Portal (VAHAN / SARATHI)</span>
             </button>
             <button onclick="switchInteragencyTab('fsl')" id="iaTabBtn-fsl" class="px-4 py-2 rounded-xl font-semibold text-slate-400 hover:text-white flex items-center gap-1.5 transition">
-              <i data-lucide="microscope" class="w-4 h-4 text-purple-400"></i>
+              <i data-lucide="microscope" class="w-4 h-4 text-amber-400"></i>
               <span>Forensic Science Lab (FSL)</span>
             </button>
             <button onclick="switchInteragencyTab('telecom')" id="iaTabBtn-telecom" class="px-4 py-2 rounded-xl font-semibold text-slate-400 hover:text-white flex items-center gap-1.5 transition">
@@ -1239,7 +1278,7 @@
 
           <!-- SUB-PANEL 1: RTO VAHAN & SARATHI SEARCH -->
           <div id="iaPanel-rto" class="space-y-6">
-            <div class="p-6 bg-[#0c121d] border border-amber-500/30 rounded-2xl space-y-4">
+            <div class="p-6 bg-[#111622] border border-amber-500/30 rounded-2xl space-y-4">
               <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800 pb-3">
                 <div>
                   <h3 class="font-bold text-sm text-white flex items-center gap-2">
@@ -1262,7 +1301,7 @@
               </div>
 
               <div class="flex gap-2">
-                <input id="rtoRegInput" type="text" placeholder="Enter Registration Number (e.g. KA-01-MJ-5021 or KA-04-NB-1109)" class="flex-1 bg-[#111927] border border-slate-700 rounded-lg p-2.5 text-white font-mono uppercase focus:outline-none focus:border-amber-500">
+                <input id="rtoRegInput" type="text" placeholder="Enter Registration Number (e.g. KA-01-MJ-5021 or KA-04-NB-1109)" class="flex-1 bg-[#161c2b] border border-slate-700 rounded-lg p-2.5 text-white font-mono uppercase focus:outline-none focus:border-amber-500">
                 <button onclick="handleRtoLookup()" class="px-6 py-2.5 bg-amber-600 hover:bg-amber-500 text-white font-bold text-xs rounded-lg transition flex items-center gap-2 shadow-lg shadow-amber-600/30">
                   <i data-lucide="search" class="w-4 h-4"></i>
                   <span>Query VAHAN</span>
@@ -1274,7 +1313,7 @@
             </div>
 
             <!-- SARATHI DRIVING LICENCE LOOKUP -->
-            <div class="p-6 bg-[#0c121d] border border-slate-800 rounded-2xl space-y-4">
+            <div class="p-6 bg-[#111622] border border-slate-800 rounded-2xl space-y-4">
               <div class="flex items-center justify-between border-b border-slate-800 pb-3">
                 <h3 class="font-bold text-sm text-white flex items-center gap-2">
                   <i data-lucide="id-card" class="w-4 h-4 text-blue-400"></i>
@@ -1283,7 +1322,7 @@
                 <span class="text-xs text-slate-400">Biometric Aadhaar UIDAI Linked</span>
               </div>
               <div class="flex gap-2">
-                <input id="sarathiDlInput" type="text" value="DL-KA0120220098411" placeholder="Enter Driving Licence Number" class="flex-1 bg-[#111927] border border-slate-700 rounded-lg p-2.5 text-white font-mono uppercase focus:outline-none focus:border-blue-500 text-xs">
+                <input id="sarathiDlInput" type="text" value="DL-KA0120220098411" placeholder="Enter Driving Licence Number" class="flex-1 bg-[#161c2b] border border-slate-700 rounded-lg p-2.5 text-white font-mono uppercase focus:outline-none focus:border-blue-500 text-xs">
                 <button onclick="handleDlLookup()" class="px-5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs rounded-lg transition flex items-center gap-1.5">
                   <i data-lucide="search" class="w-4 h-4"></i>
                   <span>Verify DL</span>
@@ -1294,22 +1333,22 @@
           </div>
 
           <!-- SUB-PANEL 2: FSL DOSSIERS -->
-          <div id="iaPanel-fsl" class="hidden p-6 bg-[#0c121d] border border-slate-800 rounded-2xl space-y-4">
+          <div id="iaPanel-fsl" class="hidden p-6 bg-[#111622] border border-slate-800 rounded-2xl space-y-4">
             <div class="flex items-center justify-between border-b border-slate-800 pb-3">
               <div>
                 <h3 class="font-bold text-sm text-white flex items-center gap-2">
-                  <i data-lucide="microscope" class="w-4 h-4 text-purple-400"></i>
+                  <i data-lucide="microscope" class="w-4 h-4 text-amber-400"></i>
                   <span>State Forensic Science Laboratory (FSL) Evidence Dossiers</span>
                 </h3>
                 <p class="text-xs text-slate-400">Forensic bitstream clones, ballistics toolmarks, and toxicology reports linked to active court FIRs</p>
               </div>
-              <span class="px-2.5 py-1 bg-purple-500/15 text-purple-300 border border-purple-500/30 rounded text-xs font-bold">2 DOSSIERS ACTIVE</span>
+              <span class="px-2.5 py-1 bg-amber-500/15 text-amber-300 border border-amber-500/30 rounded text-xs font-bold">2 DOSSIERS ACTIVE</span>
             </div>
             <div id="fslListContainer" class="space-y-3 text-xs"></div>
           </div>
 
           <!-- SUB-PANEL 3: TELECOM CDR -->
-          <div id="iaPanel-telecom" class="hidden p-6 bg-[#0c121d] border border-slate-800 rounded-2xl space-y-4">
+          <div id="iaPanel-telecom" class="hidden p-6 bg-[#111622] border border-slate-800 rounded-2xl space-y-4">
             <div class="flex items-center justify-between border-b border-slate-800 pb-3">
               <div>
                 <h3 class="font-bold text-sm text-white flex items-center gap-2">
@@ -1324,7 +1363,7 @@
           </div>
 
           <!-- SUB-PANEL 4: CYBER IMMUNITY & BUG SANITIZER (ANTIVIRUS FOR NATIONAL DATABASE) -->
-          <div id="iaPanel-immunity" class="hidden p-6 bg-[#0c121d] border border-emerald-500/40 rounded-2xl space-y-5 shadow-2xl shadow-emerald-950/20">
+          <div id="iaPanel-immunity" class="hidden p-6 bg-[#111622] border border-emerald-500/40 rounded-2xl space-y-5 shadow-2xl shadow-emerald-950/20">
             <div class="border-b border-slate-800 pb-3">
               <div class="flex items-center justify-between">
                 <div class="flex items-center gap-2">
@@ -1343,11 +1382,11 @@
                 <div class="flex gap-2">
                   <button type="button" onclick="loadTestAttackPayload(1)" class="text-[11px] text-rose-300 bg-rose-500/10 border border-rose-500/20 px-2 py-0.5 rounded hover:bg-rose-500/20">Attack 1: SQL Injection</button>
                   <button type="button" onclick="loadTestAttackPayload(2)" class="text-[11px] text-amber-300 bg-amber-500/10 border border-amber-500/20 px-2 py-0.5 rounded hover:bg-amber-500/20">Attack 2: XSS & Script Tag</button>
-                  <button type="button" onclick="loadTestAttackPayload(3)" class="text-[11px] text-purple-300 bg-purple-500/10 border border-purple-500/20 px-2 py-0.5 rounded hover:bg-purple-500/20">Attack 3: Null-Byte Traversal</button>
+                  <button type="button" onclick="loadTestAttackPayload(3)" class="text-[11px] text-amber-300 bg-amber-500/10 border border-amber-500/20 px-2 py-0.5 rounded hover:bg-blue-500/20">Attack 3: Null-Byte Traversal</button>
                 </div>
               </div>
 
-              <textarea id="sanitizerInput" rows="3" class="w-full bg-[#111927] border border-slate-700 rounded-xl p-3 text-white font-mono text-xs focus:outline-none focus:border-emerald-500">SELECT * FROM criminal_records WHERE fir_id=101; &lt;script&gt;alert('trojan_payload')&lt;/script&gt; DROP TABLE cases; --</textarea>
+              <textarea id="sanitizerInput" rows="3" class="w-full bg-[#161c2b] border border-slate-700 rounded-xl p-3 text-white font-mono text-xs focus:outline-none focus:border-emerald-500">SELECT * FROM criminal_records WHERE fir_id=101; &lt;script&gt;alert('trojan_payload')&lt;/script&gt; DROP TABLE cases; --</textarea>
 
               <div class="flex items-center justify-between pt-1">
                 <div class="text-[11px] text-slate-400 flex items-center gap-1.5">
@@ -1380,7 +1419,7 @@
           </div>
 
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div class="bg-[#0c121d] border border-slate-800 rounded-xl overflow-hidden">
+            <div class="bg-[#111622] border border-slate-800 rounded-xl overflow-hidden">
               <div class="p-3 bg-slate-900/80 border-b border-slate-800 flex items-center justify-between text-xs">
                 <span class="font-bold text-slate-200 flex items-center gap-1.5">
                   <i data-lucide="camera" class="w-3.5 h-3.5 text-blue-400"></i>
@@ -1395,7 +1434,7 @@
               </div>
             </div>
 
-            <div class="bg-[#0c121d] border border-slate-800 rounded-xl p-5 space-y-4">
+            <div class="bg-[#111622] border border-slate-800 rounded-xl p-5 space-y-4">
               <h3 class="font-bold text-sm text-white">AI Vision Telemetry Alerts</h3>
               <div class="space-y-2 text-xs">
                 <div class="p-3 bg-slate-900/60 border border-slate-800 rounded-lg flex items-center justify-between">
@@ -1423,16 +1462,16 @@
               </div>
               <p class="text-xs text-slate-400">Complete legal reference, procedural investigations, cognizable vs non-cognizable guidelines, and loophole safeguards</p>
             </div>
-            <button onclick="openStatutoryRegisterModal()" class="px-4 py-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-xs font-bold rounded-xl flex items-center gap-2 text-white transition shadow-lg shadow-blue-600/30">
+            <button onclick="openStatutoryRegisterModal()" class="px-4 py-2 bg-gradient-to-r from-blue-600 to-blue-600 hover:from-blue-500 hover:to-blue-500 text-xs font-bold rounded-xl flex items-center gap-2 text-white transition shadow-lg shadow-blue-600/30">
               <i data-lucide="scale" class="w-4 h-4"></i>
               <span>Register Case under Section</span>
             </button>
           </div>
 
           <!-- TRAINEE LOOPHOLE ELIMINATION MASTERCLASS BANNER -->
-          <div class="p-5 bg-gradient-to-r from-blue-950/40 via-indigo-950/20 to-slate-900 border border-indigo-500/30 rounded-2xl space-y-3">
+          <div class="p-5 bg-gradient-to-r from-blue-950/40 via-blue-950/20 to-slate-900 border border-blue-500/30 rounded-2xl space-y-3">
             <div class="flex items-center justify-between">
-              <span class="text-xs font-bold uppercase tracking-wider text-indigo-300 flex items-center gap-1.5">
+              <span class="text-xs font-bold uppercase tracking-wider text-blue-300 flex items-center gap-1.5">
                 <i data-lucide="shield-check" class="w-4 h-4 text-emerald-400"></i>
                 <span>Statutory Loophole Neutralization Matrix for Police Officers & Trainees</span>
               </span>
@@ -1447,7 +1486,7 @@
                 <p class="text-[11px] text-slate-400">Lalita Kumari & BNSS §173 mandate: Prevents suppressing cognizable crimes into NCRs. BNS §199 penalizes non-registration with up to 2 years rigorous imprisonment.</p>
               </div>
               <div class="p-3 bg-slate-900/80 border border-slate-800 rounded-xl space-y-1">
-                <div class="font-bold text-purple-400 flex items-center gap-1.5">
+                <div class="font-bold text-amber-400 flex items-center gap-1.5">
                   <i data-lucide="globe" class="w-3.5 h-3.5"></i>
                   <span>2. Statutory Zero-FIR</span>
                 </div>
@@ -1474,7 +1513,7 @@
           <div class="flex items-center justify-between flex-wrap gap-3">
             <div class="flex-1 min-w-[280px] relative">
               <i data-lucide="search" class="w-4 h-4 text-slate-500 absolute left-3 top-3"></i>
-              <input id="codexSearchInput" oninput="filterCodex()" type="text" placeholder="Search by section number (e.g. 103, 303, 318), old IPC, crime name, or keywords..." class="w-full bg-[#0c121d] border border-slate-800 rounded-xl pl-9 pr-4 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-blue-500">
+              <input id="codexSearchInput" oninput="filterCodex()" type="text" placeholder="Search by section number (e.g. 103, 303, 318), old IPC, crime name, or keywords..." class="w-full bg-[#111622] border border-slate-800 rounded-xl pl-9 pr-4 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-blue-500">
             </div>
             <div class="flex items-center gap-1.5 text-xs flex-wrap">
               <button onclick="setCodexFilter('ALL')" id="codexFilterBtn-ALL" class="px-3 py-1.5 rounded-lg bg-blue-600/20 text-blue-400 border border-blue-500/30 font-semibold">All Sections</button>
@@ -1809,6 +1848,7 @@
       document.getElementById('totpTicker').classList.add('flex');
       document.getElementById('officerHeaderBadge').classList.remove('hidden');
       document.getElementById('officerHeaderBadge').classList.add('flex');
+      const hud = document.getElementById('tacticalHudStrip'); if(hud){hud.classList.remove('hidden');hud.classList.add('flex');}
 
       const bNav = document.getElementById('mobileBottomNav');
       if (bNav) { bNav.classList.remove('hidden'); bNav.classList.add('flex'); }
@@ -1831,6 +1871,7 @@
       document.getElementById('dashboardSection').classList.add('hidden');
       document.getElementById('totpTicker').classList.add('hidden');
       document.getElementById('officerHeaderBadge').classList.add('hidden');
+      const hud = document.getElementById('tacticalHudStrip'); if(hud){hud.classList.add('hidden');hud.classList.remove('flex');}
       
       const bNav = document.getElementById('mobileBottomNav');
       if (bNav) { bNav.classList.add('hidden'); bNav.classList.remove('flex'); }
@@ -1988,7 +2029,7 @@
       input.value = '';
 
       chatBox.innerHTML += `
-        <div id="ariaThinking" class="p-3 bg-indigo-950/20 border border-indigo-900/30 rounded-xl text-indigo-300 flex items-center gap-2">
+        <div id="ariaThinking" class="p-3 bg-blue-950/20 border border-blue-900/30 rounded-xl text-blue-300 flex items-center gap-2">
           <i data-lucide="loader" class="w-3.5 h-3.5 animate-spin"></i>
           <span>ARIA analyzing local case telemetry...</span>
         </div>
@@ -2010,8 +2051,8 @@
         if (thinking) thinking.remove();
 
         chatBox.innerHTML += `
-          <div class="p-3 bg-indigo-950/25 border border-indigo-900/40 rounded-xl text-slate-200 space-y-1 leading-relaxed">
-            <div class="font-bold text-indigo-400 text-[10px] mb-1 flex items-center gap-1.5">
+          <div class="p-3 bg-blue-950/25 border border-blue-900/40 rounded-xl text-slate-200 space-y-1 leading-relaxed">
+            <div class="font-bold text-blue-400 text-[10px] mb-1 flex items-center gap-1.5">
               <i data-lucide="bot" class="w-3.5 h-3.5"></i>
               <span>ARIA INTELLIGENCE (NEURAL REASONING CORE)</span>
             </div>
@@ -2154,7 +2195,7 @@
       // CCTV Camera Markers
       const cctvIcon = L.divIcon({
         className: 'cctv-icon',
-        html: '<div class="w-5 h-5 rounded bg-indigo-600 text-white flex items-center justify-center font-bold text-[9px] shadow border border-white">CAM</div>',
+        html: '<div class="w-5 h-5 rounded bg-blue-600 text-white flex items-center justify-center font-bold text-[9px] shadow border border-white">CAM</div>',
         iconSize: [20, 20],
         iconAnchor: [10, 10]
       });
@@ -2527,17 +2568,17 @@
         const dossiers = data.dossiers || [];
 
         container.innerHTML = dossiers.map(d => `
-          <div class="p-4 bg-slate-950/80 border border-purple-500/30 rounded-xl space-y-2">
+          <div class="p-4 bg-slate-950/80 border border-amber-500/30 rounded-xl space-y-2">
             <div class="flex items-center justify-between">
               <div class="flex items-center gap-2">
-                <span class="px-2 py-0.5 rounded bg-purple-500/20 text-purple-300 font-mono text-[10px] font-bold">${d.dossier_id}</span>
+                <span class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-mono text-[10px] font-bold">${d.dossier_id}</span>
                 <span class="font-bold text-white text-xs">${d.case_number}</span>
                 <span class="text-[10px] text-slate-400 uppercase">(${d.evidence_type})</span>
               </div>
               <span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 text-[10px] font-bold">${d.status}</span>
             </div>
             <p class="text-slate-300 text-xs">${d.description}</p>
-            <div class="p-2 bg-slate-900 rounded font-mono text-[11px] text-purple-300 break-all">
+            <div class="p-2 bg-slate-900 rounded font-mono text-[11px] text-amber-300 break-all">
               <span class="text-slate-500">Forensic SHA-256 Clone Hash:</span> ${d.sha256_hash}
             </div>
             <div class="flex items-center justify-between text-[11px] text-slate-400 pt-1">
@@ -2917,18 +2958,18 @@
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label class="block font-semibold text-slate-300 mb-1">Complainant Full Name *</label>
-                  <input id="civName" type="text" required placeholder="e.g. Vikramaditya Rathore" class="w-full bg-[#111927] border border-slate-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-blue-500">
+                  <input id="civName" type="text" required placeholder="e.g. Vikramaditya Rathore" class="w-full bg-[#161c2b] border border-slate-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-blue-500">
                 </div>
                 <div>
                   <label class="block font-semibold text-slate-300 mb-1">Contact Mobile Number *</label>
-                  <input id="civPhone" type="tel" required placeholder="+91 98765 43210" class="w-full bg-[#111927] border border-slate-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-blue-500">
+                  <input id="civPhone" type="tel" required placeholder="+91 98765 43210" class="w-full bg-[#161c2b] border border-slate-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-blue-500">
                 </div>
               </div>
 
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label class="block font-semibold text-slate-300 mb-1">Incident Category *</label>
-                  <select id="civCategory" class="w-full bg-[#111927] border border-slate-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-blue-500">
+                  <select id="civCategory" class="w-full bg-[#161c2b] border border-slate-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-blue-500">
                     <option value="CYBERCRIME">Online Financial Fraud / Cyber Extortion</option>
                     <option value="THEFT">Theft / Burglary / Property Loss</option>
                     <option value="WOMEN_SAFETY">Women Safety & Harassment Grievance</option>
@@ -2938,13 +2979,13 @@
                 </div>
                 <div>
                   <label class="block font-semibold text-slate-300 mb-1">Incident Location / Landmark *</label>
-                  <input id="civLocation" type="text" required placeholder="e.g. MG Road / Koramangala / Indiranagar, Bengaluru" class="w-full bg-[#111927] border border-slate-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-blue-500">
+                  <input id="civLocation" type="text" required placeholder="e.g. MG Road / Koramangala / Indiranagar, Bengaluru" class="w-full bg-[#161c2b] border border-slate-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-blue-500">
                 </div>
               </div>
 
               <div>
                 <label class="block font-semibold text-slate-300 mb-1">Detailed Description of Incident & Evidence *</label>
-                <textarea id="civDescription" rows="4" required placeholder="Provide chronology of events, transaction IDs, phone numbers, or suspect physical descriptions..." class="w-full bg-[#111927] border border-slate-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-blue-500"></textarea>
+                <textarea id="civDescription" rows="4" required placeholder="Provide chronology of events, transaction IDs, phone numbers, or suspect physical descriptions..." class="w-full bg-[#161c2b] border border-slate-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-blue-500"></textarea>
               </div>
 
               <div class="flex items-center justify-between pt-2">
@@ -2979,7 +3020,7 @@
 
             <form onsubmit="handleTrackComplaint(event)" class="space-y-4 text-xs">
               <div class="flex gap-2">
-                <input id="civTrackId" type="text" required placeholder="Enter Complaint Tracking ID (e.g. CIT-2026-89412)" class="flex-1 bg-[#111927] border border-slate-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-emerald-500 font-mono">
+                <input id="civTrackId" type="text" required placeholder="Enter Complaint Tracking ID (e.g. CIT-2026-89412)" class="flex-1 bg-[#161c2b] border border-slate-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-emerald-500 font-mono">
                 <button id="trackFormBtn" type="submit" class="px-6 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-lg transition flex items-center gap-2 shadow-lg shadow-emerald-600/30">
                   <i data-lucide="search" class="w-4 h-4"></i>
                   <span>Track Status</span>
@@ -2996,19 +3037,19 @@
             <div class="border-b border-slate-800 pb-3 flex items-center justify-between">
               <div>
                 <h2 class="text-lg font-bold text-white flex items-center gap-2">
-                  <i data-lucide="eye-off" class="w-5 h-5 text-purple-400"></i>
+                  <i data-lucide="eye-off" class="w-5 h-5 text-amber-400"></i>
                   <span>Confidential Whistleblower Crime Tip</span>
                 </h2>
                 <p class="text-xs text-slate-400">Zero IP logging • Sovereign end-to-end encrypted tip line directly to Special Task Force</p>
               </div>
-              <span class="px-2.5 py-1 rounded bg-purple-500/10 text-purple-400 border border-purple-500/20 text-[11px] font-bold">100% ANONYMOUS</span>
+              <span class="px-2.5 py-1 rounded bg-amber-500/10 text-amber-400 border border-amber-500/20 text-[11px] font-bold">100% ANONYMOUS</span>
             </div>
 
             <form onsubmit="handleAnonymousTip(event)" class="space-y-4 text-xs">
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label class="block font-semibold text-slate-300 mb-1">Crime Category *</label>
-                  <select id="tipCategory" class="w-full bg-[#111927] border border-slate-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-purple-500">
+                  <select id="tipCategory" class="w-full bg-[#161c2b] border border-slate-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-amber-500">
                     <option value="NARCOTICS">Narcotics / Drug Trafficking</option>
                     <option value="WEAPONS">Illegal Firearm Racket</option>
                     <option value="FINANCIAL_HAWALA">Hawala / Black Money Network</option>
@@ -3018,26 +3059,26 @@
                 </div>
                 <div>
                   <label class="block font-semibold text-slate-300 mb-1">Location of Activity / Warehouse *</label>
-                  <input id="tipLocation" type="text" required placeholder="e.g. Near Dockyard Road Warehouse 7" class="w-full bg-[#111927] border border-slate-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-purple-500">
+                  <input id="tipLocation" type="text" required placeholder="e.g. Near Dockyard Road Warehouse 7" class="w-full bg-[#161c2b] border border-slate-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-amber-500">
                 </div>
               </div>
 
               <div>
                 <label class="block font-semibold text-slate-300 mb-1">Suspect Names / Vehicle Plates / Phone Numbers (Optional)</label>
-                <input id="tipSuspects" type="text" placeholder="e.g. White Scorpio MH-01-AB-1234, Alias 'Rocky'" class="w-full bg-[#111927] border border-slate-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-purple-500">
+                <input id="tipSuspects" type="text" placeholder="e.g. White Scorpio MH-01-AB-1234, Alias 'Rocky'" class="w-full bg-[#161c2b] border border-slate-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-amber-500">
               </div>
 
               <div>
                 <label class="block font-semibold text-slate-300 mb-1">Intelligence Information Details *</label>
-                <textarea id="tipDescription" rows="4" required placeholder="Describe what you observed, dates, patterns, or dangerous activities..." class="w-full bg-[#111927] border border-slate-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-purple-500"></textarea>
+                <textarea id="tipDescription" rows="4" required placeholder="Describe what you observed, dates, patterns, or dangerous activities..." class="w-full bg-[#161c2b] border border-slate-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-amber-500"></textarea>
               </div>
 
               <div class="flex items-center justify-between pt-2">
                 <span class="text-slate-400 text-[11px] flex items-center gap-1">
-                  <i data-lucide="lock" class="w-3.5 h-3.5 text-purple-400"></i>
+                  <i data-lucide="lock" class="w-3.5 h-3.5 text-amber-400"></i>
                   <span>Zero user identifiers, IP headers, or telemetry metadata are retained</span>
                 </span>
-                <button type="submit" class="px-5 py-2.5 bg-purple-600 hover:bg-purple-500 text-white font-bold rounded-lg transition shadow-lg shadow-purple-600/30 flex items-center gap-2">
+                <button type="submit" class="px-5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-lg transition shadow-lg shadow-purple-600/30 flex items-center gap-2">
                   <i data-lucide="send" class="w-4 h-4"></i>
                   <span>Transmit Secret Tip</span>
                 </button>
@@ -3069,7 +3110,7 @@
 
             <form onsubmit="handleVerifyBadge(event)" class="space-y-4 text-xs">
               <div class="flex gap-2">
-                <input id="verifyBadgeInput" type="text" required placeholder="Enter Badge Number (e.g. SI-MH-2026-089 or IPS-MH-2024-001)" class="flex-1 bg-[#111927] border border-slate-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-amber-500 font-mono">
+                <input id="verifyBadgeInput" type="text" required placeholder="Enter Badge Number (e.g. SI-MH-2026-089 or IPS-MH-2024-001)" class="flex-1 bg-[#161c2b] border border-slate-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-amber-500 font-mono">
                 <button id="verifyBadgeBtn" type="submit" class="px-6 py-2.5 bg-amber-600 hover:bg-amber-500 text-white font-bold rounded-lg transition flex items-center gap-2 shadow-lg shadow-amber-600/30">
                   <i data-lucide="shield-check" class="w-4 h-4"></i>
                   <span>Verify Badge</span>
@@ -3105,7 +3146,7 @@
             <!-- SEARCH / VERIFY INPUT -->
             <form onsubmit="handleVerifyBlockchain(event)" class="space-y-4 text-xs">
               <div class="flex gap-2">
-                <input id="blockchainVerifyInput" type="text" required placeholder="Enter Complaint Tracking ID or Case ID (e.g. CIT-2026-89412)" class="flex-1 bg-[#111927] border border-slate-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-cyan-500 font-mono">
+                <input id="blockchainVerifyInput" type="text" required placeholder="Enter Complaint Tracking ID or Case ID (e.g. CIT-2026-89412)" class="flex-1 bg-[#161c2b] border border-slate-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-cyan-500 font-mono">
                 <button id="blockchainVerifyBtn" type="submit" class="px-6 py-2.5 bg-cyan-600 hover:bg-cyan-500 text-white font-bold rounded-lg transition flex items-center gap-2 shadow-lg shadow-cyan-600/30">
                   <i data-lucide="shield-check" class="w-4 h-4"></i>
                   <span>Verify Cryptographic Block</span>
@@ -3203,7 +3244,7 @@
               </div>
               <div class="p-3 bg-slate-900/90 border border-slate-800 rounded-xl">
                 <span class="text-[10px] text-slate-400 uppercase font-bold">NONCE PROOF</span>
-                <div class="font-mono font-bold text-purple-300 text-sm mt-0.5">${data.nonce}</div>
+                <div class="font-mono font-bold text-amber-300 text-sm mt-0.5">${data.nonce}</div>
               </div>
               <div class="p-3 bg-slate-900/90 border border-slate-800 rounded-xl">
                 <span class="text-[10px] text-slate-400 uppercase font-bold">ANCHOR TIMESTAMP</span>
@@ -3458,7 +3499,7 @@
       const description = document.getElementById('tipDescription').value.trim();
       const resContainer = document.getElementById('civTipResult');
 
-      resContainer.innerHTML = `<div class="p-4 text-xs text-purple-400 bg-purple-950/20 rounded-xl border border-purple-900/30">Encrypting & stripping client headers...</div>`;
+      resContainer.innerHTML = `<div class="p-4 text-xs text-amber-400 bg-amber-950/20 rounded-xl border border-amber-900/30">Encrypting & stripping client headers...</div>`;
 
       try {
         const res = await fetch('/api/v1/citizen/anonymous-tip', {
@@ -3475,14 +3516,14 @@
         if (!res.ok) throw new Error(data.detail || 'Failed to submit tip');
 
         resContainer.innerHTML = `
-          <div class="p-5 bg-purple-950/20 border border-purple-900/40 rounded-xl space-y-3">
-            <div class="flex items-center gap-2 text-purple-400 font-bold text-sm">
+          <div class="p-5 bg-amber-950/20 border border-amber-900/40 rounded-xl space-y-3">
+            <div class="flex items-center gap-2 text-amber-400 font-bold text-sm">
               <i data-lucide="shield-check" class="w-5 h-5"></i>
               <span>Confidential Tip Sealed & Transmitted</span>
             </div>
             <div class="p-3 bg-slate-900/80 rounded-lg text-xs space-y-1">
               <div class="text-[10px] text-slate-400">SECRET RECEIPT TOKEN</div>
-              <div class="mono font-bold text-purple-300 text-sm">${data.tip_id}</div>
+              <div class="mono font-bold text-amber-300 text-sm">${data.tip_id}</div>
               <p class="text-[11px] text-slate-400 pt-1">Your tip has been securely routed to the Anti-Corruption & Intelligence Task Force. All transport traces have been wiped.</p>
             </div>
           </div>
@@ -3985,11 +4026,11 @@
         </div>
 
         <!-- Zero-FIR Jurisdiction Toggle -->
-        <div class="p-3 rounded-xl bg-purple-950/20 border border-purple-900/40 flex items-center justify-between text-xs">
+        <div class="p-3 rounded-xl bg-amber-950/20 border border-amber-900/40 flex items-center justify-between text-xs">
           <div class="flex items-center gap-2">
-            <i data-lucide="globe" class="w-4 h-4 text-purple-400"></i>
+            <i data-lucide="globe" class="w-4 h-4 text-amber-400"></i>
             <div>
-              <span class="font-bold text-purple-300">Section 173(1) BNSS — Statutory Zero-FIR Protocol</span>
+              <span class="font-bold text-amber-300">Section 173(1) BNSS — Statutory Zero-FIR Protocol</span>
               <p class="text-[10px] text-slate-400">Check if crime took place outside this station's territorial beat. Zero-FIR will be registered & transferred in 24h.</p>
             </div>
           </div>
@@ -4022,7 +4063,7 @@
         <div class="space-y-1.5">
           <div class="flex items-center justify-between">
             <label class="block font-bold text-slate-300 uppercase tracking-wider">2. Statutory Penal Code Sections Broken (BNS 2023) *</label>
-            <span class="text-[10px] text-indigo-400 font-mono">Click tags to attach charges</span>
+            <span class="text-[10px] text-blue-400 font-mono">Click tags to attach charges</span>
           </div>
           
           <div id="registrationSectionsTagsContainer" class="flex flex-wrap gap-1.5 p-3 bg-slate-950/70 border border-slate-800 rounded-xl max-h-36 overflow-y-auto">
@@ -4031,7 +4072,7 @@
 
           <div class="flex items-center gap-2 pt-1">
             <span class="text-[10px] text-slate-400">Custom / Special Acts:</span>
-            <input id="statutoryCustomSectionsInput" type="text" placeholder="e.g. Arms Act §25, NDPS §20, IT Act §66C" class="flex-1 bg-[#111927] border border-slate-800 rounded-lg px-2.5 py-1 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-blue-500">
+            <input id="statutoryCustomSectionsInput" type="text" placeholder="e.g. Arms Act §25, NDPS §20, IT Act §66C" class="flex-1 bg-[#161c2b] border border-slate-800 rounded-lg px-2.5 py-1 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-blue-500">
           </div>
         </div>
 
@@ -4039,11 +4080,11 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div>
             <label class="block font-semibold text-slate-300 mb-1">Incident Subject / Title *</label>
-            <input id="statTitle" type="text" required placeholder="e.g. Armed Snatching at Metro Pillar 42" class="w-full bg-[#111927] border border-slate-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-blue-500">
+            <input id="statTitle" type="text" required placeholder="e.g. Armed Snatching at Metro Pillar 42" class="w-full bg-[#161c2b] border border-slate-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-blue-500">
           </div>
           <div>
             <label class="block font-semibold text-slate-300 mb-1">Crime Classification Category *</label>
-            <select id="statCategory" class="w-full bg-[#111927] border border-slate-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-blue-500">
+            <select id="statCategory" class="w-full bg-[#161c2b] border border-slate-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-blue-500">
               <option value="BODY">Crimes Against Body (Assault / Homicide)</option>
               <option value="PROPERTY">Crimes Against Property (Theft / Snatching / Robbery)</option>
               <option value="FRAUD_ECONOMIC">Fraud & Economic Crimes (Cheating / Forgery)</option>
@@ -4058,32 +4099,32 @@
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
           <div>
             <label class="block font-semibold text-slate-300 mb-1">Informant / Complainant Name *</label>
-            <input id="statComplainantName" type="text" required placeholder="e.g. Rohan Deshmukh" class="w-full bg-[#111927] border border-slate-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-blue-500">
+            <input id="statComplainantName" type="text" required placeholder="e.g. Rohan Deshmukh" class="w-full bg-[#161c2b] border border-slate-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-blue-500">
           </div>
           <div>
             <label class="block font-semibold text-slate-300 mb-1">Contact Mobile Number *</label>
-            <input id="statComplainantContact" type="tel" required placeholder="e.g. +91 98450 11200" class="w-full bg-[#111927] border border-slate-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-blue-500">
+            <input id="statComplainantContact" type="tel" required placeholder="e.g. +91 98450 11200" class="w-full bg-[#161c2b] border border-slate-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-blue-500">
           </div>
           <div>
             <label class="block font-semibold text-slate-300 mb-1">Identity Proof / Aadhaar</label>
-            <input id="statComplainantId" type="text" placeholder="e.g. Aadhaar Verified (Last 4: 9812)" class="w-full bg-[#111927] border border-slate-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-blue-500">
+            <input id="statComplainantId" type="text" placeholder="e.g. Aadhaar Verified (Last 4: 9812)" class="w-full bg-[#161c2b] border border-slate-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-blue-500">
           </div>
         </div>
 
         <div>
           <label class="block font-semibold text-slate-300 mb-1">Informant Residential Address *</label>
-          <input id="statComplainantAddress" type="text" required placeholder="e.g. Flat 302, Palm Heights, Indiranagar, Bengaluru" class="w-full bg-[#111927] border border-slate-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-blue-500">
+          <input id="statComplainantAddress" type="text" required placeholder="e.g. Flat 302, Palm Heights, Indiranagar, Bengaluru" class="w-full bg-[#161c2b] border border-slate-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-blue-500">
         </div>
 
         <!-- Place and Time of Occurrence -->
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div>
             <label class="block font-semibold text-slate-300 mb-1">Place of Occurrence & Distance from Station *</label>
-            <input id="statIncidentLocation" type="text" required placeholder="e.g. Indiranagar 100ft Road (1.8 km North-East)" class="w-full bg-[#111927] border border-slate-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-blue-500">
+            <input id="statIncidentLocation" type="text" required placeholder="e.g. Indiranagar 100ft Road (1.8 km North-East)" class="w-full bg-[#161c2b] border border-slate-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-blue-500">
           </div>
           <div>
             <label class="block font-semibold text-slate-300 mb-1">Date & Time of Occurrence *</label>
-            <input id="statIncidentDatetime" type="datetime-local" required class="w-full bg-[#111927] border border-slate-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-blue-500">
+            <input id="statIncidentDatetime" type="datetime-local" required class="w-full bg-[#161c2b] border border-slate-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-blue-500">
           </div>
         </div>
 
@@ -4091,24 +4132,24 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div>
             <label class="block font-semibold text-slate-300 mb-1">Name of Accused / Suspects</label>
-            <input id="statAccusedName" type="text" placeholder="e.g. Vikram Sethi @ Vicky or Unknown Assailants" class="w-full bg-[#111927] border border-slate-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-blue-500">
+            <input id="statAccusedName" type="text" placeholder="e.g. Vikram Sethi @ Vicky or Unknown Assailants" class="w-full bg-[#161c2b] border border-slate-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-blue-500">
           </div>
           <div>
             <label class="block font-semibold text-slate-300 mb-1">Suspect Description / Vehicle / Mobile</label>
-            <input id="statAccusedDetails" type="text" placeholder="e.g. Black Pulsar KA-04-NB-1109, Height ~5'9, Blue jacket" class="w-full bg-[#111927] border border-slate-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-blue-500">
+            <input id="statAccusedDetails" type="text" placeholder="e.g. Black Pulsar KA-04-NB-1109, Height ~5'9, Blue jacket" class="w-full bg-[#161c2b] border border-slate-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-blue-500">
           </div>
         </div>
 
         <!-- Factual Chronology Narrative -->
         <div>
           <label class="block font-semibold text-slate-300 mb-1">Factual Chronology of Incident (Actus Reus & Mens Rea) *</label>
-          <textarea id="statChronology" rows="3" required placeholder="State exact facts: what happened, weapons used, injuries caused, words spoken, property stolen, or electronic transaction trace..." class="w-full bg-[#111927] border border-slate-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-blue-500"></textarea>
+          <textarea id="statChronology" rows="3" required placeholder="State exact facts: what happened, weapons used, injuries caused, words spoken, property stolen, or electronic transaction trace..." class="w-full bg-[#161c2b] border border-slate-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-blue-500"></textarea>
         </div>
 
         <!-- Stolen Property or Medical Memo -->
         <div>
           <label class="block font-semibold text-slate-300 mb-1">Particulars of Stolen Property / Medical Injury Memo (if any)</label>
-          <input id="statStolenProperty" type="text" placeholder="e.g. 1 iPhone 15 Pro, Gold chain 22k (25 grams), MLC No. BLR/2026/891" class="w-full bg-[#111927] border border-slate-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-blue-500">
+          <input id="statStolenProperty" type="text" placeholder="e.g. 1 iPhone 15 Pro, Gold chain 22k (25 grams), MLC No. BLR/2026/891" class="w-full bg-[#161c2b] border border-slate-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-blue-500">
         </div>
 
         <!-- Submit Actions -->
@@ -4120,7 +4161,7 @@
 
           <div class="flex items-center gap-3">
             <button type="button" onclick="closeStatutoryRegisterModal()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 rounded-xl text-slate-300 font-semibold transition">Cancel</button>
-            <button type="submit" class="px-5 py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 rounded-xl text-white font-extrabold shadow-lg shadow-blue-600/30 flex items-center gap-2 transition">
+            <button type="submit" class="px-5 py-2.5 bg-gradient-to-r from-blue-600 to-blue-600 hover:from-blue-500 hover:to-blue-500 rounded-xl text-white font-extrabold shadow-lg shadow-blue-600/30 flex items-center gap-2 transition">
               <i data-lucide="stamp" class="w-4 h-4"></i>
               <span>Sign, Seal & Register on Blockchain</span>
             </button>
@@ -4133,7 +4174,7 @@
 
   <!-- OFFICIAL STATUTORY FIR / NCR DOCUMENT MODAL (FORM II / FORM I WITH BSA §63 SEAL) -->
   <div id="officialFirModal" class="hidden fixed inset-0 z-[9999] flex items-center justify-center p-3 sm:p-5 bg-black/90 backdrop-blur-xl animate-fade-in overflow-y-auto">
-    <div class="w-full max-w-4xl my-auto bg-[#0a0f18] border-2 border-slate-700 rounded-3xl p-6 sm:p-8 shadow-2xl text-slate-100 space-y-6 relative max-h-[94vh] overflow-y-auto">
+    <div class="w-full max-w-4xl my-auto bg-[#0d111a] border-2 border-slate-700 rounded-3xl p-6 sm:p-8 shadow-2xl text-slate-100 space-y-6 relative max-h-[94vh] overflow-y-auto">
       
       <!-- Top Action Bar -->
       <div class="flex items-center justify-between border-b border-slate-800 pb-3 no-print">
@@ -4367,7 +4408,7 @@
 
       if (!records || records.length === 0) {
         container.innerHTML = `
-          <div class="p-8 text-center bg-[#0c121d] border border-slate-800 rounded-2xl text-slate-400 space-y-2">
+          <div class="p-8 text-center bg-[#111622] border border-slate-800 rounded-2xl text-slate-400 space-y-2">
             <i data-lucide="folder-search" class="w-8 h-8 text-slate-600 mx-auto"></i>
             <div class="text-xs font-bold text-slate-300">No statutory records found in this category</div>
             <p class="text-[11px] text-slate-500">Click "Register Statutory FIR / NCR" to record a new cognizable or non-cognizable case.</p>
@@ -4381,13 +4422,13 @@
         const isFir = r.record_type === 'FIR';
         const isZero = r.is_zero_fir;
 
-        const badgeColor = isZero ? 'bg-purple-500/20 text-purple-300 border-purple-500/40' : (isFir ? 'bg-rose-500/20 text-rose-300 border-rose-500/40' : 'bg-amber-500/20 text-amber-300 border-amber-500/40');
+        const badgeColor = isZero ? 'bg-amber-500/20 text-amber-300 border-amber-500/40' : (isFir ? 'bg-rose-500/20 text-rose-300 border-rose-500/40' : 'bg-amber-500/20 text-amber-300 border-amber-500/40');
         const badgeLabel = isZero ? '🌐 ZERO-FIR (BNSS §173(1))' : (isFir ? '🔴 COGNIZABLE FIR (BNSS §173)' : '🟡 NON-COGNIZABLE NCR (BNSS §174)');
 
         const sectionsBadges = (r.sections || []).map(s => `<span class="px-2 py-0.5 rounded bg-slate-800 text-slate-300 font-mono text-[10px] border border-slate-700">${s}</span>`).join(' ');
 
         return `
-          <div class="p-4 bg-[#0c121d] hover:bg-[#0f1726] border border-slate-800 hover:border-slate-700 rounded-2xl transition space-y-3">
+          <div class="p-4 bg-[#111622] hover:bg-[#0f1726] border border-slate-800 hover:border-slate-700 rounded-2xl transition space-y-3">
             <div class="flex items-start justify-between flex-wrap gap-2">
               <div class="flex items-center gap-2">
                 <span class="mono font-extrabold text-sm text-white">${r.record_id}</span>
@@ -4514,7 +4555,7 @@
         const bailBadge = i.bailable ? `<span class="px-1.5 py-0.5 rounded text-[9px] bg-emerald-500/10 text-emerald-300 border border-emerald-500/20">BAILABLE</span>` : `<span class="px-1.5 py-0.5 rounded text-[9px] bg-rose-500/10 text-rose-300 border border-rose-500/20">NON-BAILABLE</span>`;
 
         return `
-          <div class="p-4 bg-[#0c121d] border border-slate-800 hover:border-slate-700 rounded-2xl space-y-3 flex flex-col justify-between">
+          <div class="p-4 bg-[#111622] border border-slate-800 hover:border-slate-700 rounded-2xl space-y-3 flex flex-col justify-between">
             <div class="space-y-2">
               <div class="flex items-start justify-between gap-2">
                 <div>
@@ -4537,7 +4578,7 @@
                 <div><strong class="text-amber-400">Max Punishment:</strong> <span class="text-slate-300">${i.max_punishment}</span></div>
                 <div><strong class="text-blue-400">Legal Ingredients:</strong> <span class="text-slate-400">${i.ingredients}</span></div>
                 <div><strong class="text-emerald-400">BNSS Procedure:</strong> <span class="text-slate-400">${i.procedure_guidelines}</span></div>
-                <div><strong class="text-purple-400">Loophole Fix:</strong> <span class="text-slate-400">${i.loophole_safeguards}</span></div>
+                <div><strong class="text-amber-400">Loophole Fix:</strong> <span class="text-slate-400">${i.loophole_safeguards}</span></div>
               </div>
             </div>
 
@@ -4823,10 +4864,146 @@
       window.print();
     }
     window.printOfficialDocument = printOfficialDocument;
-  </script>
+  
+    // ─── MISSION CLOCK & COMMAND PALETTE ─────────────────────
+    function updateMissionClock() {
+      const now = new Date();
+      const istTime = new Date(now.getTime() + (now.getTimezoneOffset() + 330) * 60000);
+      const istStr = istTime.toTimeString().split(' ')[0] + ' IST';
+      const utcStr = now.toISOString().split('T')[1].substring(0, 8) + ' UTC';
+
+      const elIST = document.getElementById('hudMissionClockIST');
+      const elUTC = document.getElementById('hudMissionClockUTC');
+      if (elIST) elIST.innerText = istStr;
+      if (elUTC) elUTC.innerText = '(' + utcStr + ')';
+    }
+    setInterval(updateMissionClock, 1000);
+    updateMissionClock();
+
+    const CMD_ITEMS = [
+      { id: 'overview', title: 'Tactical HQ GIS Overview & Telemetry', icon: 'layout-dashboard', cat: 'Modules' },
+      { id: 'cases', title: 'Case Management & Investigation Vault', icon: 'folder-lock', cat: 'Modules' },
+      { id: 'codex', title: 'Statutory Legal Codex (BNSS §173 FIR / §174 NCR)', icon: 'scale', cat: 'Modules' },
+      { id: 'aria', title: 'ARIA Cyber Intelligence Analyst', icon: 'bot', cat: 'AI Core' },
+      { id: 'duty', title: 'Duty Mode & Field Officer Patrol Tracking', icon: 'map-pin', cat: 'Operations' },
+      { id: 'traitor', title: 'Traitor Sentinel & Anti-Burking Audit', icon: 'shield-alert', cat: 'Security' },
+      { id: 'blockchain', title: 'Sovereign Police Blockchain Ledger (BSA §63)', icon: 'link', cat: 'Forensics' },
+      { id: 'interagency', title: 'Inter-Agency Grid (RTO, FSL, Telecom)', icon: 'network', cat: 'Inter-Agency' },
+      { id: 'cctv', title: 'Perimeter CCTV & Surveillance Grid', icon: 'camera', cat: 'Surveillance' },
+      { action: 'new_fir', title: 'Register New Statutory FIR (BNSS §173)', icon: 'file-plus', cat: 'Actions' },
+      { action: 'new_ncr', title: 'Register New Non-Cognizable NCR (BNSS §174)', icon: 'file-text', cat: 'Actions' },
+      { action: 'sos', title: 'Trigger Emergency Level-1 First Response', icon: 'alert-triangle', cat: 'Emergency' },
+    ];
+
+    let cmdSelectedIndex = 0;
+    let filteredCmds = [...CMD_ITEMS];
+
+    function openCmdPalette() {
+      const modal = document.getElementById('cmdPaletteModal');
+      if (!modal) return;
+      modal.classList.remove('hidden');
+      const input = document.getElementById('cmdPaletteInput');
+      if (input) {
+        input.value = '';
+        input.focus();
+      }
+      filterCmdPalette('');
+      if (window.lucide) lucide.createIcons();
+    }
+    window.openCmdPalette = openCmdPalette;
+
+    function closeCmdPalette() {
+      const modal = document.getElementById('cmdPaletteModal');
+      if (modal) modal.classList.add('hidden');
+    }
+    window.closeCmdPalette = closeCmdPalette;
+
+    function filterCmdPalette(query) {
+      const q = (query || '').toLowerCase().trim();
+      filteredCmds = CMD_ITEMS.filter(item => 
+        item.title.toLowerCase().includes(q) || item.cat.toLowerCase().includes(q)
+      );
+      cmdSelectedIndex = 0;
+      renderCmdList();
+    }
+    window.filterCmdPalette = filterCmdPalette;
+
+    function renderCmdList() {
+      const list = document.getElementById('cmdPaletteList');
+      if (!list) return;
+      if (filteredCmds.length === 0) {
+        list.innerHTML = '<div class="p-6 text-center text-slate-500 font-mono text-xs">No matching commands or modules found.</div>';
+        return;
+      }
+      list.innerHTML = filteredCmds.map((item, idx) => `
+        <div onclick="executeCmdItem(${idx})" class="p-2.5 rounded-xl cursor-pointer flex items-center justify-between transition ${idx === cmdSelectedIndex ? 'bg-blue-600/20 border border-blue-500/40 text-white' : 'hover:bg-slate-800/40 text-slate-300'}">
+          <div class="flex items-center gap-3">
+            <span class="p-1.5 rounded-lg ${idx === cmdSelectedIndex ? 'bg-blue-600 text-white' : 'bg-slate-800 text-slate-400'}">
+              <i data-lucide="${item.icon}" class="w-4 h-4"></i>
+            </span>
+            <div>
+              <div class="font-medium text-xs">${item.title}</div>
+              <div class="text-[10px] text-slate-500 font-mono">${item.cat}</div>
+            </div>
+          </div>
+          <span class="text-[10px] text-slate-500 font-mono">↵ Jump</span>
+        </div>
+      `).join('');
+      if (window.lucide) lucide.createIcons();
+    }
+
+    function handleCmdKeyDown(e) {
+      if (e.key === 'Escape') {
+        closeCmdPalette();
+      } else if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        cmdSelectedIndex = (cmdSelectedIndex + 1) % Math.max(1, filteredCmds.length);
+        renderCmdList();
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        cmdSelectedIndex = (cmdSelectedIndex - 1 + filteredCmds.length) % Math.max(1, filteredCmds.length);
+        renderCmdList();
+      } else if (e.key === 'Enter') {
+        e.preventDefault();
+        executeCmdItem(cmdSelectedIndex);
+      }
+    }
+    window.handleCmdKeyDown = handleCmdKeyDown;
+
+    function executeCmdItem(idx) {
+      const item = filteredCmds[idx];
+      if (!item) return;
+      closeCmdPalette();
+      if (item.id) {
+        switchTab(item.id);
+      } else if (item.action === 'new_fir') {
+        switchTab('codex');
+        openFirRegistrationModal('COGNIZABLE_FIR');
+      } else if (item.action === 'new_ncr') {
+        switchTab('codex');
+        openFirRegistrationModal('NON_COGNIZABLE_NCR');
+      } else if (item.action === 'sos') {
+        switchTab('overview');
+        triggerSosEmergency();
+      }
+    }
+    window.executeCmdItem = executeCmdItem;
+
+    window.addEventListener('keydown', (e) => {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        const modal = document.getElementById('cmdPaletteModal');
+        if (modal && !modal.classList.contains('hidden')) {
+          closeCmdPalette();
+        } else {
+          openCmdPalette();
+        }
+      }
+    });
+</script>
 
   <!-- MOBILE BOTTOM NAVIGATION (Visible on mobile/tablet when in Police Command Enclave) -->
-  <nav id="mobileBottomNav" class="hidden fixed bottom-0 left-0 right-0 z-40 bg-[#090e17]/95 backdrop-blur-xl border-t border-slate-800/90 py-2 px-3 flex items-center justify-around md:hidden shadow-[0_-4px_25px_rgba(0,0,0,0.6)] safe-bottom">
+  <nav id="mobileBottomNav" class="hidden fixed bottom-0 left-0 right-0 z-40 bg-[#0d111a]/95 backdrop-blur-xl border-t border-slate-800/90 py-2 px-3 flex items-center justify-around md:hidden shadow-[0_-4px_25px_rgba(0,0,0,0.6)] safe-bottom">
     <button onclick="switchTab('overview')" id="bottomNavBtn-overview" class="flex flex-col items-center gap-1 text-blue-400 font-bold transition active:scale-95" aria-label="HQ Overview">
       <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
       <span class="text-[10px]">HQ</span>
@@ -4851,5 +5028,28 @@
       <span class="text-[10px]">Menu</span>
     </button>
   </nav>
+
+  <!-- COMMAND PALETTE (CMD+K / CTRL+K) -->
+  <div id="cmdPaletteModal" class="hidden fixed inset-0 z-[10000] flex items-start justify-center pt-16 sm:pt-24 px-4 bg-black/80 backdrop-blur-md animate-fade-in" onclick="if(event.target === this) closeCmdPalette()">
+    <div class="w-full max-w-xl bg-[#0f1420] border border-[#232b3d] rounded-2xl shadow-2xl overflow-hidden text-slate-200">
+      <div class="p-3.5 border-b border-[#232b3d] flex items-center gap-3 bg-[#131926]">
+        <i data-lucide="search" class="w-4 h-4 text-amber-400"></i>
+        <input id="cmdPaletteInput" type="text" placeholder="Type a command, module name, or action (or press Esc)..." 
+               class="flex-1 bg-transparent text-sm text-white placeholder-slate-500 focus:outline-none font-sans"
+               oninput="filterCmdPalette(this.value)" onkeydown="handleCmdKeyDown(event)">
+        <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-[#1a2336] text-slate-400 border border-[#2d3a54]">ESC</span>
+      </div>
+      <div id="cmdPaletteList" class="max-h-[380px] overflow-y-auto p-2 space-y-1 text-xs">
+      </div>
+      <div class="px-4 py-2 border-t border-[#232b3d] bg-[#0c101a] flex items-center justify-between text-[11px] text-slate-400 font-mono">
+        <span class="flex items-center gap-2">
+          <span>Navigate: <strong>↑ ↓</strong></span>
+          <span>Select: <strong>↵ Enter</strong></span>
+        </span>
+        <span class="text-amber-400 font-sans font-medium">SHIELD Tactical Command Core</span>
+      </div>
+    </div>
+  </div>
+
 </body>
 </html>

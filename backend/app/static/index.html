@@ -87,25 +87,50 @@
     <div class="flex items-center gap-3.5">
       <!-- OFFICIAL STATE EMBLEM OF INDIA (ASHOKA LION CAPITAL) -->
       <div class="flex items-center gap-2 group cursor-pointer" onclick="setPortalMode('police')">
-        <svg class="w-10 h-12 text-amber-400 drop-shadow-[0_2px_12px_rgba(251,191,36,0.45)] shrink-0 transition-transform group-hover:scale-105" viewBox="0 0 100 120" fill="currentColor">
-          <g>
-            <!-- Central Lion Head -->
-            <path d="M50 6 C43 6 39 11 39 17 C39 21 41 24 44 26 C41 28 37 32 37 38 C37 45 42 50 46 52 L46 64 L33 64 C31 64 29 66 29 68 C29 70 31 72 33 72 L67 72 C69 72 71 70 71 68 C71 66 69 64 67 64 L54 64 L54 52 C58 50 63 45 63 38 C63 32 59 28 56 26 C59 24 61 21 61 17 C61 11 57 6 50 6 Z M50 12 C53 12 55.5 14.5 55.5 18 C55.5 21.5 53 24 50 24 C47 24 44.5 21.5 44.5 18 C44.5 14.5 47 12 50 12 Z" opacity="0.98"/>
-            <!-- Left & Right Flanking Lions Silhouette -->
-            <path d="M37 22 C32 22 28 26 28 32 C28 35 30 38 32 40 C28 42 25 46 25 51 C25 57 29 62 34 64 L35 63 C31 61 28 56 28 51 C28 47 30 43 33 42 C32 40 31 37 31 34 C31 30 34 26 38 25 Z" opacity="0.85"/>
-            <path d="M63 22 C68 22 72 26 72 32 C72 35 70 38 68 40 C72 42 75 46 75 51 C75 57 71 62 66 64 L65 63 C69 61 72 56 72 51 C72 47 70 43 67 42 C68 40 69 37 69 34 C69 30 66 26 62 25 Z" opacity="0.85"/>
-            <!-- Abacus Base Pedestal -->
-            <rect x="20" y="74" width="60" height="12" rx="2" fill="currentColor" opacity="0.95"/>
-            <!-- Dharma Chakra / Ashoka Chakra Centerpiece -->
-            <circle cx="50" cy="80" r="5" fill="#000080" stroke="#FFD700" stroke-width="0.9"/>
-            <path d="M50 75 L50 85 M45 80 L55 80 M46.5 76.5 L53.5 83.5 M46.5 83.5 L53.5 76.5" stroke="#FFD700" stroke-width="0.7"/>
-            <!-- Flanking Motifs (Galloping Horse & Bull) -->
-            <circle cx="32" cy="80" r="2.4" fill="#000080"/>
-            <circle cx="68" cy="80" r="2.4" fill="#000080"/>
-            <!-- Lotus Base -->
-            <path d="M24 88 C31 94 40 96 50 96 C60 96 69 94 76 88 L74 87 C68 92 59 94 50 94 C41 94 32 92 26 87 Z" opacity="0.9"/>
-            <!-- Satyameva Jayate Motto in Devanagari -->
-            <text x="50" y="110" font-family="'Noto Sans Devanagari', 'Mukta', 'Tiro Devanagari Hindi', serif, sans-serif" font-size="10" font-weight="900" text-anchor="middle" fill="#FBBF24" letter-spacing="1.2">सत्यमेव जयते</text>
+        <svg class="w-10 h-12 text-amber-400 drop-shadow-[0_2px_14px_rgba(251,191,36,0.55)] shrink-0 transition-transform group-hover:scale-105" viewBox="0 0 100 125" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="emblemGoldGradNav" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#FDE68A"/>
+              <stop offset="35%" stop-color="#F59E0B"/>
+              <stop offset="100%" stop-color="#B45309"/>
+            </linearGradient>
+            <linearGradient id="pedestalGradNav" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#FBBF24"/>
+              <stop offset="100%" stop-color="#92400E"/>
+            </linearGradient>
+          </defs>
+          <g fill="url(#emblemGoldGradNav)">
+            <!-- CENTRAL ASIATIC LION HEAD & MANE -->
+            <path d="M50 4 C43 4 39 8 39 14 C39 17 41 19 43 21 C40 23 37 27 37 32 C37 39 41 45 45 47 L45 62 L35 62 C33 62 31 63.5 31 65.5 C31 67.5 33 69 35 69 L65 69 C67 69 69 67.5 69 65.5 C69 63.5 67 62 65 62 L55 62 L55 47 C59 45 63 39 63 32 C63 27 60 23 57 21 C59 19 61 17 61 14 C61 8 57 4 50 4 Z"/>
+            <path d="M47 13 C47 11.5 48.3 10 50 10 C51.7 10 53 11.5 53 13 C53 14.5 51.7 16 50 16 C48.3 16 47 14.5 47 13 Z" fill="#78350F"/>
+            <path d="M45 20 C47 22 53 22 55 20 C56 22 54 25 50 25 C46 25 44 22 45 20 Z" fill="#78350F"/>
+            <circle cx="46" cy="12" r="1.2" fill="#FEF3C7"/>
+            <circle cx="54" cy="12" r="1.2" fill="#FEF3C7"/>
+            <path d="M42 27 C46 28 54 28 58 27 C57 32 54 36 50 36 C46 36 43 32 42 27 Z" fill="#92400E"/>
+            <!-- LEFT PROFILE LION -->
+            <path d="M37 14 C31 14 27 18 27 24 C27 27 29 30 31 32 C27 34 24 38 24 43 C24 50 28 56 34 59 L35 58 C30 55 27 50 27 44 C27 40 29 36 32 35 C30 33 29 30 29 27 C29 22 32 17 37 16 Z"/>
+            <path d="M26 25 C23 26 21 28 20 31 C22 32 25 32 27 31 Z" fill="#78350F"/>
+            <!-- RIGHT PROFILE LION -->
+            <path d="M63 14 C69 14 73 18 73 24 C73 27 71 30 69 32 C73 34 76 38 76 43 C76 50 72 56 66 59 L65 58 C70 55 73 50 73 44 C73 40 71 36 68 35 C70 33 71 30 71 27 C71 22 68 17 63 16 Z"/>
+            <path d="M74 25 C77 26 79 28 80 31 C78 32 75 32 73 31 Z" fill="#78350F"/>
+            <!-- ABACUS FRIEZE PEDESTAL -->
+            <rect x="18" y="70" width="64" height="15" rx="2.5" fill="url(#pedestalGradNav)" stroke="#FDE68A" stroke-width="0.75"/>
+            <!-- CENTRAL 24-SPOKE DHARMA CHAKRA -->
+            <circle cx="50" cy="77.5" r="5.8" fill="#000080" stroke="#FDE68A" stroke-width="1"/>
+            <circle cx="50" cy="77.5" r="1.3" fill="#FDE68A"/>
+            <path d="M50 72 L50 83 M44.5 77.5 L55.5 77.5 M46 73.5 L54 81.5 M46 81.5 L54 73.5 M47.8 72.3 L52.2 82.7 M47.8 82.7 L52.2 72.3 M44.8 75.3 L55.2 79.7 M44.8 79.7 L55.2 75.3" stroke="#FDE68A" stroke-width="0.6"/>
+            <!-- GALLOPING HORSE & BULL -->
+            <path d="M30 78 C28 75 25 75 24 77 C25 78 27 79 29 80 L32 80 C33 78 31 77 30 78 Z" fill="#FDE68A"/>
+            <circle cx="28" cy="75" r="1.2" fill="#FDE68A"/>
+            <path d="M68 76 C70 75 73 75 74 77 C73 78 71 79 69 80 L67 80 C66 78 67 77 68 76 Z" fill="#FDE68A"/>
+            <circle cx="71" cy="75" r="1.2" fill="#FDE68A"/>
+            <!-- INVERTED BELL-SHAPED LOTUS PEDESTAL -->
+            <path d="M22 87 C30 95 40 98 50 98 C60 98 70 95 78 87 L76 86 C69 93 59 96 50 96 C41 96 31 93 24 86 Z" fill="url(#emblemGoldGradNav)"/>
+            <path d="M30 89 L32 94 M38 91 L41 96 M45 92 L47 97 M55 92 L53 97 M62 91 L59 96 M70 89 L68 94" stroke="#78350F" stroke-width="0.8"/>
+            <!-- LOWER MOULDING BASE -->
+            <rect x="25" y="99" width="50" height="3" rx="1.5" fill="url(#pedestalGradNav)"/>
+            <!-- SATYAMEVA JAYATE MOTTO PLAQUE -->
+            <text x="50" y="117" font-family="'Noto Sans Devanagari', 'Mukta', 'Tiro Devanagari Hindi', serif, sans-serif" font-size="11" font-weight="900" text-anchor="middle" fill="#FBBF24" letter-spacing="1.4">सत्यमेव जयते</text>
           </g>
         </svg>
 
@@ -169,17 +194,41 @@
         <!-- CARD HEADER WITH NATIONAL EMBLEM -->
         <div class="text-center space-y-2 pb-2 border-b border-slate-800/70">
           <div class="inline-flex items-center justify-center p-2 rounded-2xl bg-gradient-to-b from-amber-500/10 to-blue-500/5 border border-amber-500/30 mb-1">
-            <svg class="w-12 h-14 text-amber-400 drop-shadow-[0_2px_14px_rgba(251,191,36,0.5)]" viewBox="0 0 100 120" fill="currentColor">
-              <g>
-                <path d="M50 6 C43 6 39 11 39 17 C39 21 41 24 44 26 C41 28 37 32 37 38 C37 45 42 50 46 52 L46 64 L33 64 C31 64 29 66 29 68 C29 70 31 72 33 72 L67 72 C69 72 71 70 71 68 C71 66 69 64 67 64 L54 64 L54 52 C58 50 63 45 63 38 C63 32 59 28 56 26 C59 24 61 21 61 17 C61 11 57 6 50 6 Z M50 12 C53 12 55.5 14.5 55.5 18 C55.5 21.5 53 24 50 24 C47 24 44.5 21.5 44.5 18 C44.5 14.5 47 12 50 12 Z" opacity="0.98"/>
-                <path d="M37 22 C32 22 28 26 28 32 C28 35 30 38 32 40 C28 42 25 46 25 51 C25 57 29 62 34 64 L35 63 C31 61 28 56 28 51 C28 47 30 43 33 42 C32 40 31 37 31 34 C31 30 34 26 38 25 Z" opacity="0.85"/>
-                <path d="M63 22 C68 22 72 26 72 32 C72 35 70 38 68 40 C72 42 75 46 75 51 C75 57 71 62 66 64 L65 63 C69 61 72 56 72 51 C72 47 70 43 67 42 C68 40 69 37 69 34 C69 30 66 26 62 25 Z" opacity="0.85"/>
-                <rect x="20" y="74" width="60" height="12" rx="2" fill="currentColor" opacity="0.95"/>
-                <circle cx="50" cy="80" r="5" fill="#000080" stroke="#FFD700" stroke-width="0.9"/>
-                <circle cx="32" cy="80" r="2.4" fill="#000080"/>
-                <circle cx="68" cy="80" r="2.4" fill="#000080"/>
-                <path d="M24 88 C31 94 40 96 50 96 C60 96 69 94 76 88 L74 87 C68 92 59 94 50 94 C41 94 32 92 26 87 Z" opacity="0.9"/>
-                <text x="50" y="110" font-family="'Noto Sans Devanagari', 'Mukta', 'Tiro Devanagari Hindi', serif, sans-serif" font-size="10" font-weight="900" text-anchor="middle" fill="#FBBF24" letter-spacing="1.2">सत्यमेव जयते</text>
+            <svg class="w-12 h-14 text-amber-400 drop-shadow-[0_2px_14px_rgba(251,191,36,0.5)]" viewBox="0 0 100 125" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="emblemGoldGradLogin" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#FDE68A"/>
+                  <stop offset="35%" stop-color="#F59E0B"/>
+                  <stop offset="100%" stop-color="#B45309"/>
+                </linearGradient>
+                <linearGradient id="pedestalGradLogin" x1="0%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" stop-color="#FBBF24"/>
+                  <stop offset="100%" stop-color="#92400E"/>
+                </linearGradient>
+              </defs>
+              <g fill="url(#emblemGoldGradLogin)">
+                <path d="M50 4 C43 4 39 8 39 14 C39 17 41 19 43 21 C40 23 37 27 37 32 C37 39 41 45 45 47 L45 62 L35 62 C33 62 31 63.5 31 65.5 C31 67.5 33 69 35 69 L65 69 C67 69 69 67.5 69 65.5 C69 63.5 67 62 65 62 L55 62 L55 47 C59 45 63 39 63 32 C63 27 60 23 57 21 C59 19 61 17 61 14 C61 8 57 4 50 4 Z"/>
+                <path d="M47 13 C47 11.5 48.3 10 50 10 C51.7 10 53 11.5 53 13 C53 14.5 51.7 16 50 16 C48.3 16 47 14.5 47 13 Z" fill="#78350F"/>
+                <path d="M45 20 C47 22 53 22 55 20 C56 22 54 25 50 25 C46 25 44 22 45 20 Z" fill="#78350F"/>
+                <circle cx="46" cy="12" r="1.2" fill="#FEF3C7"/>
+                <circle cx="54" cy="12" r="1.2" fill="#FEF3C7"/>
+                <path d="M42 27 C46 28 54 28 58 27 C57 32 54 36 50 36 C46 36 43 32 42 27 Z" fill="#92400E"/>
+                <path d="M37 14 C31 14 27 18 27 24 C27 27 29 30 31 32 C27 34 24 38 24 43 C24 50 28 56 34 59 L35 58 C30 55 27 50 27 44 C27 40 29 36 32 35 C30 33 29 30 29 27 C29 22 32 17 37 16 Z"/>
+                <path d="M26 25 C23 26 21 28 20 31 C22 32 25 32 27 31 Z" fill="#78350F"/>
+                <path d="M63 14 C69 14 73 18 73 24 C73 27 71 30 69 32 C73 34 76 38 76 43 C76 50 72 56 66 59 L65 58 C70 55 73 50 73 44 C73 40 71 36 68 35 C70 33 71 30 71 27 C71 22 68 17 63 16 Z"/>
+                <path d="M74 25 C77 26 79 28 80 31 C78 32 75 32 73 31 Z" fill="#78350F"/>
+                <rect x="18" y="70" width="64" height="15" rx="2.5" fill="url(#pedestalGradLogin)" stroke="#FDE68A" stroke-width="0.75"/>
+                <circle cx="50" cy="77.5" r="5.8" fill="#000080" stroke="#FDE68A" stroke-width="1"/>
+                <circle cx="50" cy="77.5" r="1.3" fill="#FDE68A"/>
+                <path d="M50 72 L50 83 M44.5 77.5 L55.5 77.5 M46 73.5 L54 81.5 M46 81.5 L54 73.5 M47.8 72.3 L52.2 82.7 M47.8 82.7 L52.2 72.3 M44.8 75.3 L55.2 79.7 M44.8 79.7 L55.2 75.3" stroke="#FDE68A" stroke-width="0.6"/>
+                <path d="M30 78 C28 75 25 75 24 77 C25 78 27 79 29 80 L32 80 C33 78 31 77 30 78 Z" fill="#FDE68A"/>
+                <circle cx="28" cy="75" r="1.2" fill="#FDE68A"/>
+                <path d="M68 76 C70 75 73 75 74 77 C73 78 71 79 69 80 L67 80 C66 78 67 77 68 76 Z" fill="#FDE68A"/>
+                <circle cx="71" cy="75" r="1.2" fill="#FDE68A"/>
+                <path d="M22 87 C30 95 40 98 50 98 C60 98 70 95 78 87 L76 86 C69 93 59 96 50 96 C41 96 31 93 24 86 Z" fill="url(#emblemGoldGradLogin)"/>
+                <path d="M30 89 L32 94 M38 91 L41 96 M45 92 L47 97 M55 92 L53 97 M62 91 L59 96 M70 89 L68 94" stroke="#78350F" stroke-width="0.8"/>
+                <rect x="25" y="99" width="50" height="3" rx="1.5" fill="url(#pedestalGradLogin)"/>
+                <text x="50" y="117" font-family="'Noto Sans Devanagari', 'Mukta', 'Tiro Devanagari Hindi', serif, sans-serif" font-size="11" font-weight="900" text-anchor="middle" fill="#FBBF24" letter-spacing="1.4">सत्यमेव जयते</text>
               </g>
             </svg>
           </div>
@@ -347,16 +396,44 @@
           </div>
 
           <div class="hidden sm:flex flex-col items-center justify-center p-4 bg-slate-900/60 rounded-2xl border border-slate-800 shrink-0">
-            <svg class="w-12 h-14 text-amber-400 drop-shadow-[0_2px_12px_rgba(251,191,36,0.4)]" viewBox="0 0 100 120" fill="currentColor">
-              <path d="M50 6 C43 6 39 11 39 17 C39 21 41 24 44 26 C41 28 37 32 37 38 C37 45 42 50 46 52 L46 64 L33 64 C31 64 29 66 29 68 C29 70 31 72 33 72 L67 72 C69 72 71 70 71 68 C71 66 69 64 67 64 L54 64 L54 52 C58 50 63 45 63 38 C63 32 59 28 56 26 C59 24 61 21 61 17 C61 11 57 6 50 6 Z M50 12 C53 12 55.5 14.5 55.5 18 C55.5 21.5 53 24 50 24 C47 24 44.5 21.5 44.5 18 C44.5 14.5 47 12 50 12 Z" opacity="0.98"/>
-              <rect x="20" y="74" width="60" height="12" rx="2" fill="currentColor" opacity="0.95"/>
-              <circle cx="50" cy="80" r="5" fill="#000080" stroke="#FFD700" stroke-width="0.9"/>
-              <circle cx="32" cy="80" r="2.4" fill="#000080"/>
-              <circle cx="68" cy="80" r="2.4" fill="#000080"/>
-              <path d="M24 88 C31 94 40 96 50 96 C60 96 69 94 76 88 L74 87 C68 92 59 94 50 94 C41 94 32 92 26 87 Z" opacity="0.9"/>
-              <text x="50" y="110" font-family="'Noto Sans Devanagari', 'Mukta', serif, sans-serif" font-size="10" font-weight="900" text-anchor="middle" fill="#FBBF24">सत्यमेव जयते</text>
+            <svg class="w-12 h-14 text-amber-400 drop-shadow-[0_2px_12px_rgba(251,191,36,0.4)]" viewBox="0 0 100 125" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="emblemGoldGradCiv" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#FDE68A"/>
+                  <stop offset="35%" stop-color="#F59E0B"/>
+                  <stop offset="100%" stop-color="#B45309"/>
+                </linearGradient>
+                <linearGradient id="pedestalGradCiv" x1="0%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" stop-color="#FBBF24"/>
+                  <stop offset="100%" stop-color="#92400E"/>
+                </linearGradient>
+              </defs>
+              <g fill="url(#emblemGoldGradCiv)">
+                <path d="M50 4 C43 4 39 8 39 14 C39 17 41 19 43 21 C40 23 37 27 37 32 C37 39 41 45 45 47 L45 62 L35 62 C33 62 31 63.5 31 65.5 C31 67.5 33 69 35 69 L65 69 C67 69 69 67.5 69 65.5 C69 63.5 67 62 65 62 L55 62 L55 47 C59 45 63 39 63 32 C63 27 60 23 57 21 C59 19 61 17 61 14 C61 8 57 4 50 4 Z"/>
+                <path d="M47 13 C47 11.5 48.3 10 50 10 C51.7 10 53 11.5 53 13 C53 14.5 51.7 16 50 16 C48.3 16 47 14.5 47 13 Z" fill="#78350F"/>
+                <path d="M45 20 C47 22 53 22 55 20 C56 22 54 25 50 25 C46 25 44 22 45 20 Z" fill="#78350F"/>
+                <circle cx="46" cy="12" r="1.2" fill="#FEF3C7"/>
+                <circle cx="54" cy="12" r="1.2" fill="#FEF3C7"/>
+                <path d="M42 27 C46 28 54 28 58 27 C57 32 54 36 50 36 C46 36 43 32 42 27 Z" fill="#92400E"/>
+                <path d="M37 14 C31 14 27 18 27 24 C27 27 29 30 31 32 C27 34 24 38 24 43 C24 50 28 56 34 59 L35 58 C30 55 27 50 27 44 C27 40 29 36 32 35 C30 33 29 30 29 27 C29 22 32 17 37 16 Z"/>
+                <path d="M26 25 C23 26 21 28 20 31 C22 32 25 32 27 31 Z" fill="#78350F"/>
+                <path d="M63 14 C69 14 73 18 73 24 C73 27 71 30 69 32 C73 34 76 38 76 43 C76 50 72 56 66 59 L65 58 C70 55 73 50 73 44 C73 40 71 36 68 35 C70 33 71 30 71 27 C71 22 68 17 63 16 Z"/>
+                <path d="M74 25 C77 26 79 28 80 31 C78 32 75 32 73 31 Z" fill="#78350F"/>
+                <rect x="18" y="70" width="64" height="15" rx="2.5" fill="url(#pedestalGradCiv)" stroke="#FDE68A" stroke-width="0.75"/>
+                <circle cx="50" cy="77.5" r="5.8" fill="#000080" stroke="#FDE68A" stroke-width="1"/>
+                <circle cx="50" cy="77.5" r="1.3" fill="#FDE68A"/>
+                <path d="M50 72 L50 83 M44.5 77.5 L55.5 77.5 M46 73.5 L54 81.5 M46 81.5 L54 73.5 M47.8 72.3 L52.2 82.7 M47.8 82.7 L52.2 72.3 M44.8 75.3 L55.2 79.7 M44.8 79.7 L55.2 75.3" stroke="#FDE68A" stroke-width="0.6"/>
+                <path d="M30 78 C28 75 25 75 24 77 C25 78 27 79 29 80 L32 80 C33 78 31 77 30 78 Z" fill="#FDE68A"/>
+                <circle cx="28" cy="75" r="1.2" fill="#FDE68A"/>
+                <path d="M68 76 C70 75 73 75 74 77 C73 78 71 79 69 80 L67 80 C66 78 67 77 68 76 Z" fill="#FDE68A"/>
+                <circle cx="71" cy="75" r="1.2" fill="#FDE68A"/>
+                <path d="M22 87 C30 95 40 98 50 98 C60 98 70 95 78 87 L76 86 C69 93 59 96 50 96 C41 96 31 93 24 86 Z" fill="url(#emblemGoldGradCiv)"/>
+                <path d="M30 89 L32 94 M38 91 L41 96 M45 92 L47 97 M55 92 L53 97 M62 91 L59 96 M70 89 L68 94" stroke="#78350F" stroke-width="0.8"/>
+                <rect x="25" y="99" width="50" height="3" rx="1.5" fill="url(#pedestalGradCiv)"/>
+                <text x="50" y="117" font-family="'Noto Sans Devanagari', 'Mukta', 'Tiro Devanagari Hindi', serif, sans-serif" font-size="11" font-weight="900" text-anchor="middle" fill="#FBBF24" letter-spacing="1.4">सत्यमेव जयते</text>
+              </g>
             </svg>
-            <span class="text-[9px] text-amber-300 font-bold mt-1">NATIONAL EMBLEM</span>
+            <span class="text-[9px] text-amber-300 font-bold mt-1">STATE EMBLEM</span>
           </div>
         </div>
 
@@ -506,8 +583,13 @@
             </button>
             <button onclick="switchTab('cases')" id="tabBtn-cases" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-400 hover:bg-slate-800/50 hover:text-slate-200">
               <i data-lucide="folder-lock" class="w-4 h-4"></i>
-              <span>Active Cases</span>
+              <span>Active Cases & FIR</span>
               <span id="caseCountBadge" class="ml-auto bg-slate-800 px-1.5 py-0.5 rounded text-[10px] font-mono text-slate-300">2</span>
+            </button>
+            <button onclick="switchTab('codex')" id="tabBtn-codex" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-400 hover:bg-slate-800/50 hover:text-slate-200">
+              <i data-lucide="scale" class="w-4 h-4 text-emerald-400"></i>
+              <span>Legal Codex & Rules</span>
+              <span class="ml-auto bg-emerald-500/20 text-emerald-300 text-[9px] px-1.5 py-0.5 rounded font-mono">BNS/BNSS</span>
             </button>
             <button onclick="switchTab('aria')" id="tabBtn-aria" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-400 hover:bg-slate-800/50 hover:text-slate-200">
               <i data-lucide="bot" class="w-4 h-4 text-indigo-400"></i>
@@ -630,20 +712,62 @@
           </div>
         </div>
 
-        <!-- 2. CASES TAB -->
+        <!-- 2. CASES TAB & STATUTORY FIR / NCR REGISTRY -->
         <div id="panel-cases" class="hidden space-y-6">
-          <div class="flex items-center justify-between">
+          <div class="flex items-center justify-between flex-wrap gap-4">
             <div>
-              <h1 class="text-2xl font-bold text-white">Case Management Repository</h1>
-              <p class="text-xs text-slate-400">Zero-Leakage RBAC • Enforced by PostgreSQL RLS</p>
+              <div class="flex items-center gap-2">
+                <h1 class="text-2xl font-bold text-white">Statutory FIR / NCR Registry & Case Vault</h1>
+                <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-blue-500/15 text-blue-300 border border-blue-500/30 font-mono">BNSS §173 & §174</span>
+              </div>
+              <p class="text-xs text-slate-400">Section 173 BNSS (Mandatory Cognizable FIR) • Section 174 BNSS (Non-Cognizable Register) • Section 63 BSA Blockchain Sealed</p>
             </div>
-            <button onclick="openNewCaseModal()" class="px-3.5 py-1.5 bg-blue-600 hover:bg-blue-500 text-xs font-semibold rounded-lg flex items-center gap-1.5 text-white transition">
-              <i data-lucide="plus" class="w-4 h-4"></i>
-              <span>New Incident Report</span>
+            <button onclick="openStatutoryRegisterModal()" class="px-4 py-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-xs font-bold rounded-xl flex items-center gap-2 text-white transition shadow-lg shadow-blue-600/30">
+              <i data-lucide="scale" class="w-4 h-4"></i>
+              <span>Register Statutory FIR / NCR</span>
             </button>
           </div>
 
-          <div id="allCasesList" class="space-y-3"></div>
+          <!-- Dual Sub-Tab Switcher: Statutory Register vs Enclave Investigation Dockets -->
+          <div class="flex border-b border-slate-800 text-xs gap-2">
+            <button onclick="switchCasesSubTab('statutory')" id="subTabBtn-statutory" class="px-4 py-2.5 font-bold border-b-2 border-blue-500 text-blue-400 flex items-center gap-2 transition">
+              <i data-lucide="file-check-2" class="w-4 h-4"></i>
+              <span>Statutory FIR / NCR Register (BNSS 2023)</span>
+              <span id="statutoryCountBadge" class="bg-blue-900/60 text-blue-200 px-1.5 py-0.5 rounded text-[10px] font-mono">2</span>
+            </button>
+            <button onclick="switchCasesSubTab('enclave')" id="subTabBtn-enclave" class="px-4 py-2.5 font-medium text-slate-400 hover:text-slate-200 flex items-center gap-2 transition">
+              <i data-lucide="folder-lock" class="w-4 h-4"></i>
+              <span>Enclave Investigation Dockets</span>
+              <span id="caseCountBadge2" class="bg-slate-800 px-1.5 py-0.5 rounded text-[10px] text-slate-300">2</span>
+            </button>
+          </div>
+
+          <!-- SUB-VIEW 1: Statutory Registry List -->
+          <div id="subView-statutory" class="space-y-4">
+            <!-- Filter Pills -->
+            <div class="flex items-center justify-between flex-wrap gap-2 text-xs">
+              <div class="flex items-center gap-1.5 flex-wrap">
+                <button onclick="filterStatutoryRecords('ALL')" id="firFilterBtn-ALL" class="px-3 py-1 rounded-lg bg-blue-600/20 text-blue-400 border border-blue-500/30 font-semibold">All Records</button>
+                <button onclick="filterStatutoryRecords('FIR')" id="firFilterBtn-FIR" class="px-3 py-1 rounded-lg bg-slate-900 text-slate-400 border border-slate-800 hover:text-white">🔴 Cognizable FIRs (§173)</button>
+                <button onclick="filterStatutoryRecords('NCR')" id="firFilterBtn-NCR" class="px-3 py-1 rounded-lg bg-slate-900 text-slate-400 border border-slate-800 hover:text-white">🟡 Non-Cognizable NCRs (§174)</button>
+                <button onclick="filterStatutoryRecords('ZERO')" id="firFilterBtn-ZERO" class="px-3 py-1 rounded-lg bg-slate-900 text-slate-400 border border-slate-800 hover:text-white">🌐 Zero-FIRs (§173(1))</button>
+              </div>
+              <div class="text-[11px] text-emerald-400 font-mono flex items-center gap-1">
+                <i data-lucide="shield-check" class="w-3.5 h-3.5"></i>
+                <span>Primary Evidence Admissible Under BSA 2023 §63</span>
+              </div>
+            </div>
+
+            <!-- List Container -->
+            <div id="statutoryRecordsList" class="space-y-3">
+              <div class="p-6 text-center text-slate-500 text-xs">Loading statutory register records...</div>
+            </div>
+          </div>
+
+          <!-- SUB-VIEW 2: Enclave Investigation Dockets (Original Cases) -->
+          <div id="subView-enclave" class="hidden space-y-3">
+            <div id="allCasesList" class="space-y-3"></div>
+          </div>
         </div>
 
         <!-- 3. ARIA AI TAB -->
@@ -1271,6 +1395,85 @@
           </div>
         </div>
 
+        <!-- 8. STATUTORY LEGAL CODEX & TRAINEE BOOKLET TAB -->
+        <div id="panel-codex" class="hidden space-y-6">
+          <div class="flex items-center justify-between flex-wrap gap-4">
+            <div>
+              <div class="flex items-center gap-2">
+                <h1 class="text-2xl font-bold text-white">Statutory Penal Code Codex & Trainee Handbook</h1>
+                <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/15 text-emerald-300 border border-emerald-500/30">BNS 2023 • BNSS 2023</span>
+              </div>
+              <p class="text-xs text-slate-400">Complete legal reference, procedural investigations, cognizable vs non-cognizable guidelines, and loophole safeguards</p>
+            </div>
+            <button onclick="openStatutoryRegisterModal()" class="px-4 py-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-xs font-bold rounded-xl flex items-center gap-2 text-white transition shadow-lg shadow-blue-600/30">
+              <i data-lucide="scale" class="w-4 h-4"></i>
+              <span>Register Case under Section</span>
+            </button>
+          </div>
+
+          <!-- TRAINEE LOOPHOLE ELIMINATION MASTERCLASS BANNER -->
+          <div class="p-5 bg-gradient-to-r from-blue-950/40 via-indigo-950/20 to-slate-900 border border-indigo-500/30 rounded-2xl space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold uppercase tracking-wider text-indigo-300 flex items-center gap-1.5">
+                <i data-lucide="shield-check" class="w-4 h-4 text-emerald-400"></i>
+                <span>Statutory Loophole Neutralization Matrix for Police Officers & Trainees</span>
+              </span>
+              <span class="text-[11px] font-mono text-emerald-400 bg-emerald-950/40 px-2 py-0.5 rounded border border-emerald-800/40">7 SYSTEMIC LOOPHOLES CLOSED</span>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 text-xs pt-1">
+              <div class="p-3 bg-slate-900/80 border border-slate-800 rounded-xl space-y-1">
+                <div class="font-bold text-rose-400 flex items-center gap-1.5">
+                  <i data-lucide="alert-octagon" class="w-3.5 h-3.5"></i>
+                  <span>1. Anti-Burking Protocol</span>
+                </div>
+                <p class="text-[11px] text-slate-400">Lalita Kumari & BNSS §173 mandate: Prevents suppressing cognizable crimes into NCRs. BNS §199 penalizes non-registration with up to 2 years rigorous imprisonment.</p>
+              </div>
+              <div class="p-3 bg-slate-900/80 border border-slate-800 rounded-xl space-y-1">
+                <div class="font-bold text-purple-400 flex items-center gap-1.5">
+                  <i data-lucide="globe" class="w-3.5 h-3.5"></i>
+                  <span>2. Statutory Zero-FIR</span>
+                </div>
+                <p class="text-[11px] text-slate-400">BNSS §173(1): Ends jurisdictional ping-pong. FIR registered anywhere without refusing citizen, anchored to blockchain, and electronically transferred in 24h.</p>
+              </div>
+              <div class="p-3 bg-slate-900/80 border border-slate-800 rounded-xl space-y-1">
+                <div class="font-bold text-cyan-400 flex items-center gap-1.5">
+                  <i data-lucide="blocks" class="w-3.5 h-3.5"></i>
+                  <span>3. Backdating Prevention</span>
+                </div>
+                <p class="text-[11px] text-slate-400">BNSS §176 & BSA §63: Immediate automated cryptographic copy transmitted to Chief Judicial Magistrate prevents retroactive charge alteration.</p>
+              </div>
+              <div class="p-3 bg-slate-900/80 border border-slate-800 rounded-xl space-y-1">
+                <div class="font-bold text-amber-400 flex items-center gap-1.5">
+                  <i data-lucide="shield-alert" class="w-3.5 h-3.5"></i>
+                  <span>4. Arrest Safeguards</span>
+                </div>
+                <p class="text-[11px] text-slate-400">BNSS §35(3) & Arnesh Kumar rule: For offenses with punishment ≤ 7 years, Notice of Appearance is mandatory. Blocks arbitrary custodial arrests.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- SEARCH & CODEX FILTERS -->
+          <div class="flex items-center justify-between flex-wrap gap-3">
+            <div class="flex-1 min-w-[280px] relative">
+              <i data-lucide="search" class="w-4 h-4 text-slate-500 absolute left-3 top-3"></i>
+              <input id="codexSearchInput" oninput="filterCodex()" type="text" placeholder="Search by section number (e.g. 103, 303, 318), old IPC, crime name, or keywords..." class="w-full bg-[#0c121d] border border-slate-800 rounded-xl pl-9 pr-4 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-blue-500">
+            </div>
+            <div class="flex items-center gap-1.5 text-xs flex-wrap">
+              <button onclick="setCodexFilter('ALL')" id="codexFilterBtn-ALL" class="px-3 py-1.5 rounded-lg bg-blue-600/20 text-blue-400 border border-blue-500/30 font-semibold">All Sections</button>
+              <button onclick="setCodexFilter('COGNIZABLE')" id="codexFilterBtn-COGNIZABLE" class="px-3 py-1.5 rounded-lg bg-slate-900 text-slate-400 border border-slate-800 hover:text-white">🔴 Cognizable (§173 FIR)</button>
+              <button onclick="setCodexFilter('NON_COGNIZABLE')" id="codexFilterBtn-NON_COGNIZABLE" class="px-3 py-1.5 rounded-lg bg-slate-900 text-slate-400 border border-slate-800 hover:text-white">🟡 Non-Cognizable (§174 NCR)</button>
+              <button onclick="setCodexFilter('BODY')" id="codexFilterBtn-BODY" class="px-3 py-1.5 rounded-lg bg-slate-900 text-slate-400 border border-slate-800 hover:text-white">Crimes vs Body</button>
+              <button onclick="setCodexFilter('PROPERTY')" id="codexFilterBtn-PROPERTY" class="px-3 py-1.5 rounded-lg bg-slate-900 text-slate-400 border border-slate-800 hover:text-white">Property & Theft</button>
+              <button onclick="setCodexFilter('WOMEN_CHILDREN')" id="codexFilterBtn-WOMEN_CHILDREN" class="px-3 py-1.5 rounded-lg bg-slate-900 text-slate-400 border border-slate-800 hover:text-white">Women & Children (POCSO)</button>
+            </div>
+          </div>
+
+          <!-- CODEX CARDS GRID -->
+          <div id="codexCardsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div class="p-6 text-center text-slate-500 text-xs col-span-full">Loading Statutory Penal Codex...</div>
+          </div>
+        </div>
+
       </main>
     </div>
   </div>
@@ -1566,7 +1769,7 @@
     }
 
     function switchTab(tab) {
-      ['overview', 'cases', 'aria', 'duty', 'traitor', 'cctv', 'blockchain', 'interagency'].forEach(t => {
+      ['overview', 'cases', 'aria', 'duty', 'traitor', 'cctv', 'blockchain', 'interagency', 'codex'].forEach(t => {
         const p = document.getElementById(`panel-${t}`);
         if (p) p.classList.add('hidden');
         const btn = document.getElementById(`tabBtn-${t}`);
@@ -1596,6 +1799,12 @@
       }
       if (tab === 'interagency') {
         switchInteragencyTab('rto');
+      }
+      if (tab === 'cases') {
+        loadStatutoryRecords();
+      }
+      if (tab === 'codex') {
+        loadCodexBooklet();
       }
     }
 
@@ -2829,10 +3038,13 @@
         resContainer.innerHTML = `
           <div class="p-6 bg-gradient-to-br from-slate-950 via-[#0a121f] to-slate-950 border-2 border-cyan-500/40 rounded-2xl space-y-4 shadow-2xl relative overflow-hidden">
             <!-- Background Watermark Emblem -->
-            <div class="absolute -right-10 -bottom-10 opacity-5 pointer-events-none">
-              <svg class="w-64 h-64 text-cyan-400" viewBox="0 0 100 120" fill="currentColor">
-                <path d="M50 6 C43 6 39 11 39 17 C39 21 41 24 44 26 C41 28 37 32 37 38 C37 45 42 50 46 52 L46 64 L33 64 C31 64 29 66 29 68 C29 70 31 72 33 72 L67 72 C69 72 71 70 71 68 C71 66 69 64 67 64 L54 64 L54 52 C58 50 63 45 63 38 C63 32 59 28 56 26 C59 24 61 21 61 17 C61 11 57 6 50 6 Z M50 12 C53 12 55.5 14.5 55.5 18 C55.5 21.5 53 24 50 24 C47 24 44.5 21.5 44.5 18 C44.5 14.5 47 12 50 12 Z"/>
-                <rect x="20" y="74" width="60" height="12" rx="2"/>
+            <div class="absolute -right-6 -bottom-6 opacity-10 pointer-events-none">
+              <svg class="w-72 h-72 text-cyan-400" viewBox="0 0 100 125" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M50 4 C43 4 39 8 39 14 C39 17 41 19 43 21 C40 23 37 27 37 32 C37 39 41 45 45 47 L45 62 L35 62 C33 62 31 63.5 31 65.5 C31 67.5 33 69 35 69 L65 69 C67 69 69 67.5 69 65.5 C69 63.5 67 62 65 62 L55 62 L55 47 C59 45 63 39 63 32 C63 27 60 23 57 21 C59 19 61 17 61 14 C61 8 57 4 50 4 Z" fill="currentColor"/>
+                <rect x="18" y="70" width="64" height="15" rx="2.5" fill="currentColor"/>
+                <circle cx="50" cy="77.5" r="5.8" stroke="#ffffff" stroke-width="1.2"/>
+                <path d="M22 87 C30 95 40 98 50 98 C60 98 70 95 78 87 Z" fill="currentColor"/>
+                <text x="50" y="117" font-family="'Noto Sans Devanagari', 'Mukta', sans-serif" font-size="11" font-weight="900" text-anchor="middle" fill="currentColor">सत्यमेव जयते</text>
               </svg>
             </div>
 
@@ -3598,5 +3810,895 @@
 
     </div>
   </div>
+
+  <!-- STATUTORY FIR & NCR REGISTRATION CONSOLE MODAL (BNSS §173 & §174) -->
+  <div id="statutoryRegisterModal" class="hidden fixed inset-0 z-[9998] flex items-center justify-center p-3 sm:p-5 bg-black/85 backdrop-blur-xl animate-fade-in overflow-y-auto">
+    <div class="w-full max-w-3xl my-auto bg-gradient-to-b from-[#0b1322] via-[#090d16] to-[#06080e] border-2 border-blue-500/40 rounded-3xl p-5 sm:p-7 shadow-2xl text-white space-y-5 relative max-h-[92vh] overflow-y-auto">
+      
+      <!-- Modal Header -->
+      <div class="flex items-start justify-between border-b border-slate-800 pb-3">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-blue-600/20 border border-blue-500/40 flex items-center justify-center text-blue-400 shrink-0">
+            <i data-lucide="scale" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <h2 class="text-lg font-extrabold text-white">Statutory Police Registration Console</h2>
+              <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-500/15 text-amber-300 border border-amber-500/30 font-mono">BNSS 2023</span>
+            </div>
+            <p class="text-xs text-slate-400">Official recording of information under Section 173 (Cognizable FIR) or Section 174 (Non-Cognizable NCR)</p>
+          </div>
+        </div>
+        <button onclick="closeStatutoryRegisterModal()" class="w-8 h-8 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white flex items-center justify-center text-sm font-bold transition">✕</button>
+      </div>
+
+      <!-- LEGAL MANDATE SELECTOR: COGNIZABLE FIR vs NON-COGNIZABLE NCR -->
+      <div class="space-y-2">
+        <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider">1. Select Statutory Classification *</label>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+          <!-- Option A: Cognizable FIR -->
+          <label id="labelOptionFir" class="p-3.5 rounded-2xl border-2 border-rose-500 bg-rose-950/20 cursor-pointer flex items-start gap-3 transition">
+            <input type="radio" name="statutoryRecordType" value="FIR" checked onchange="handleOffenseTypeChange()" class="mt-1 text-rose-500 focus:ring-rose-500">
+            <div>
+              <div class="font-extrabold text-rose-300 flex items-center gap-1.5">
+                <span>🔴 Cognizable Offense</span>
+                <span class="text-[9px] bg-rose-500/20 text-rose-200 px-1.5 py-0.2 rounded font-mono">BNSS §173</span>
+              </div>
+              <p class="text-[11px] text-slate-300 mt-1 leading-snug">Theft, Murder, Assault, Cyber Fraud, Snatching. Police are <strong>legally bound to register an FIR</strong> immediately (Lalita Kumari mandate). Full powers to investigate and arrest without magistrate warrant.</p>
+            </div>
+          </label>
+
+          <!-- Option B: Non-Cognizable NCR -->
+          <label id="labelOptionNcr" class="p-3.5 rounded-2xl border border-slate-800 bg-slate-900/60 hover:border-amber-500/40 cursor-pointer flex items-start gap-3 transition">
+            <input type="radio" name="statutoryRecordType" value="NCR" onchange="handleOffenseTypeChange()" class="mt-1 text-amber-500 focus:ring-amber-500">
+            <div>
+              <div class="font-extrabold text-amber-300 flex items-center gap-1.5">
+                <span>🟡 Non-Cognizable Offense</span>
+                <span class="text-[9px] bg-amber-500/20 text-amber-200 px-1.5 py-0.2 rounded font-mono">BNSS §174</span>
+              </div>
+              <p class="text-[11px] text-slate-300 mt-1 leading-snug">Simple hurt, minor threat, defamation, nuisance. Entered into Non-Cognizable Register. <strong>Police CANNOT arrest or investigate without a Magistrate's order.</strong> Informant referred to Court.</p>
+            </div>
+          </label>
+        </div>
+
+        <!-- Zero-FIR Jurisdiction Toggle -->
+        <div class="p-3 rounded-xl bg-purple-950/20 border border-purple-900/40 flex items-center justify-between text-xs">
+          <div class="flex items-center gap-2">
+            <i data-lucide="globe" class="w-4 h-4 text-purple-400"></i>
+            <div>
+              <span class="font-bold text-purple-300">Section 173(1) BNSS — Statutory Zero-FIR Protocol</span>
+              <p class="text-[10px] text-slate-400">Check if crime took place outside this station's territorial beat. Zero-FIR will be registered & transferred in 24h.</p>
+            </div>
+          </div>
+          <input type="checkbox" id="statutoryIsZeroFir" onchange="handleZeroFirToggle()" class="w-4 h-4 rounded text-purple-600 focus:ring-purple-500 bg-slate-800 border-slate-700">
+        </div>
+      </div>
+
+      <!-- ANTI-BURKING VIOLATION ALERT (DYNAMIC) -->
+      <div id="antiBurkingAlertBox" class="hidden p-3.5 rounded-xl bg-rose-950/70 border-2 border-rose-500 text-xs text-rose-200 space-y-1 animate-pulse">
+        <div class="font-extrabold text-rose-100 flex items-center gap-1.5">
+          <i data-lucide="alert-octagon" class="w-4 h-4 text-rose-400"></i>
+          <span>🚨 STATUTORY ANTI-BURKING LOCK (Section 173 BNSS & Lalita Kumari Mandate)</span>
+        </div>
+        <p class="text-[11px] leading-relaxed">The selected offenses contain a <strong>COGNIZABLE CRIME</strong>. Police officers are legally forbidden from burying or demoting cognizable complaints into a Non-Cognizable Register (NCR). Refusal to record an FIR is an offense under <strong>Section 199 of Bharatiya Nyaya Sanhita, 2023</strong> (punishable with up to 2 years rigorous imprisonment). The registration mode has been automatically locked to <strong>Cognizable FIR</strong>.</p>
+      </div>
+
+      <!-- ARREST SAFEGUARD BADGE (SECTION 35(3) BNSS / ARNESH KUMAR) -->
+      <div id="section35ArrestSafeguardBox" class="p-3 rounded-xl bg-blue-950/30 border border-blue-900/50 text-xs text-blue-300 flex items-center gap-2">
+        <i data-lucide="shield-alert" class="w-4 h-4 text-blue-400 shrink-0"></i>
+        <div>
+          <span class="font-bold text-blue-200">BNSS Section 35(3) Safeguard Active (Arnesh Kumar Compliance):</span>
+          <span class="text-[11px] text-slate-400"> Maximum punishment ≤ 7 years. Mandatory Notice of Appearance will be generated; arbitrary physical arrest is barred without recorded written reasons.</span>
+        </div>
+      </div>
+
+      <!-- REGISTRATION FORM -->
+      <form onsubmit="handleStatutoryRegisterSubmit(event)" class="space-y-4 text-xs">
+        
+        <!-- Penal Sections Selection Grid -->
+        <div class="space-y-1.5">
+          <div class="flex items-center justify-between">
+            <label class="block font-bold text-slate-300 uppercase tracking-wider">2. Statutory Penal Code Sections Broken (BNS 2023) *</label>
+            <span class="text-[10px] text-indigo-400 font-mono">Click tags to attach charges</span>
+          </div>
+          
+          <div id="registrationSectionsTagsContainer" class="flex flex-wrap gap-1.5 p-3 bg-slate-950/70 border border-slate-800 rounded-xl max-h-36 overflow-y-auto">
+            <!-- Dynamically populated tags from codex -->
+          </div>
+
+          <div class="flex items-center gap-2 pt-1">
+            <span class="text-[10px] text-slate-400">Custom / Special Acts:</span>
+            <input id="statutoryCustomSectionsInput" type="text" placeholder="e.g. Arms Act §25, NDPS §20, IT Act §66C" class="flex-1 bg-[#111927] border border-slate-800 rounded-lg px-2.5 py-1 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-blue-500">
+          </div>
+        </div>
+
+        <!-- Incident Information -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block font-semibold text-slate-300 mb-1">Incident Subject / Title *</label>
+            <input id="statTitle" type="text" required placeholder="e.g. Armed Snatching at Metro Pillar 42" class="w-full bg-[#111927] border border-slate-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-blue-500">
+          </div>
+          <div>
+            <label class="block font-semibold text-slate-300 mb-1">Crime Classification Category *</label>
+            <select id="statCategory" class="w-full bg-[#111927] border border-slate-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-blue-500">
+              <option value="BODY">Crimes Against Body (Assault / Homicide)</option>
+              <option value="PROPERTY">Crimes Against Property (Theft / Snatching / Robbery)</option>
+              <option value="FRAUD_ECONOMIC">Fraud & Economic Crimes (Cheating / Forgery)</option>
+              <option value="CYBERCRIME">Cybercrime & Digital Extortion</option>
+              <option value="WOMEN_CHILDREN">Offenses Against Women & Children (POCSO)</option>
+              <option value="PUBLIC_ORDER">Public Order & Defamation</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Complainant / Informant Details -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <div>
+            <label class="block font-semibold text-slate-300 mb-1">Informant / Complainant Name *</label>
+            <input id="statComplainantName" type="text" required placeholder="e.g. Rohan Deshmukh" class="w-full bg-[#111927] border border-slate-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-blue-500">
+          </div>
+          <div>
+            <label class="block font-semibold text-slate-300 mb-1">Contact Mobile Number *</label>
+            <input id="statComplainantContact" type="tel" required placeholder="e.g. +91 98450 11200" class="w-full bg-[#111927] border border-slate-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-blue-500">
+          </div>
+          <div>
+            <label class="block font-semibold text-slate-300 mb-1">Identity Proof / Aadhaar</label>
+            <input id="statComplainantId" type="text" placeholder="e.g. Aadhaar Verified (Last 4: 9812)" class="w-full bg-[#111927] border border-slate-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-blue-500">
+          </div>
+        </div>
+
+        <div>
+          <label class="block font-semibold text-slate-300 mb-1">Informant Residential Address *</label>
+          <input id="statComplainantAddress" type="text" required placeholder="e.g. Flat 302, Palm Heights, Indiranagar, Bengaluru" class="w-full bg-[#111927] border border-slate-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-blue-500">
+        </div>
+
+        <!-- Place and Time of Occurrence -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block font-semibold text-slate-300 mb-1">Place of Occurrence & Distance from Station *</label>
+            <input id="statIncidentLocation" type="text" required placeholder="e.g. Indiranagar 100ft Road (1.8 km North-East)" class="w-full bg-[#111927] border border-slate-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-blue-500">
+          </div>
+          <div>
+            <label class="block font-semibold text-slate-300 mb-1">Date & Time of Occurrence *</label>
+            <input id="statIncidentDatetime" type="datetime-local" required class="w-full bg-[#111927] border border-slate-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-blue-500">
+          </div>
+        </div>
+
+        <!-- Accused Details -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block font-semibold text-slate-300 mb-1">Name of Accused / Suspects</label>
+            <input id="statAccusedName" type="text" placeholder="e.g. Vikram Sethi @ Vicky or Unknown Assailants" class="w-full bg-[#111927] border border-slate-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-blue-500">
+          </div>
+          <div>
+            <label class="block font-semibold text-slate-300 mb-1">Suspect Description / Vehicle / Mobile</label>
+            <input id="statAccusedDetails" type="text" placeholder="e.g. Black Pulsar KA-04-NB-1109, Height ~5'9, Blue jacket" class="w-full bg-[#111927] border border-slate-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-blue-500">
+          </div>
+        </div>
+
+        <!-- Factual Chronology Narrative -->
+        <div>
+          <label class="block font-semibold text-slate-300 mb-1">Factual Chronology of Incident (Actus Reus & Mens Rea) *</label>
+          <textarea id="statChronology" rows="3" required placeholder="State exact facts: what happened, weapons used, injuries caused, words spoken, property stolen, or electronic transaction trace..." class="w-full bg-[#111927] border border-slate-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-blue-500"></textarea>
+        </div>
+
+        <!-- Stolen Property or Medical Memo -->
+        <div>
+          <label class="block font-semibold text-slate-300 mb-1">Particulars of Stolen Property / Medical Injury Memo (if any)</label>
+          <input id="statStolenProperty" type="text" placeholder="e.g. 1 iPhone 15 Pro, Gold chain 22k (25 grams), MLC No. BLR/2026/891" class="w-full bg-[#111927] border border-slate-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-blue-500">
+        </div>
+
+        <!-- Submit Actions -->
+        <div class="flex items-center justify-between pt-2 border-t border-slate-800">
+          <div class="text-[11px] text-slate-400 font-mono flex items-center gap-1.5">
+            <i data-lucide="lock" class="w-3.5 h-3.5 text-cyan-400"></i>
+            <span>Will be cryptographically anchored to Sovereign Blockchain (BSA §63)</span>
+          </div>
+
+          <div class="flex items-center gap-3">
+            <button type="button" onclick="closeStatutoryRegisterModal()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 rounded-xl text-slate-300 font-semibold transition">Cancel</button>
+            <button type="submit" class="px-5 py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 rounded-xl text-white font-extrabold shadow-lg shadow-blue-600/30 flex items-center gap-2 transition">
+              <i data-lucide="stamp" class="w-4 h-4"></i>
+              <span>Sign, Seal & Register on Blockchain</span>
+            </button>
+          </div>
+        </div>
+
+      </form>
+    </div>
+  </div>
+
+  <!-- OFFICIAL STATUTORY FIR / NCR DOCUMENT MODAL (FORM II / FORM I WITH BSA §63 SEAL) -->
+  <div id="officialFirModal" class="hidden fixed inset-0 z-[9999] flex items-center justify-center p-3 sm:p-5 bg-black/90 backdrop-blur-xl animate-fade-in overflow-y-auto">
+    <div class="w-full max-w-4xl my-auto bg-[#0a0f18] border-2 border-slate-700 rounded-3xl p-6 sm:p-8 shadow-2xl text-slate-100 space-y-6 relative max-h-[94vh] overflow-y-auto">
+      
+      <!-- Top Action Bar -->
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3 no-print">
+        <span class="text-xs font-mono text-emerald-400 font-bold flex items-center gap-1.5">
+          <i data-lucide="check-circle" class="w-4 h-4 text-emerald-400"></i>
+          <span>Primary Electronic Evidence • BSA 2023 §63 Certified</span>
+        </span>
+        <div class="flex items-center gap-2">
+          <button onclick="printOfficialDocument()" class="px-3.5 py-1.5 bg-blue-600 hover:bg-blue-500 rounded-lg text-xs font-bold text-white flex items-center gap-1.5 shadow transition">
+            <i data-lucide="printer" class="w-4 h-4"></i>
+            <span>Print / Save Official PDF</span>
+          </button>
+          <button onclick="closeOfficialFirModal()" class="w-8 h-8 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white flex items-center justify-center text-sm font-bold transition">✕</button>
+        </div>
+      </div>
+
+      <!-- PRINTABLE DOCUMENT CONTAINER -->
+      <div id="printableOfficialDoc" class="bg-white text-slate-900 p-6 sm:p-10 rounded-2xl shadow-xl space-y-6 font-serif border border-slate-300">
+        <!-- Document Header with Official Emblem -->
+        <div class="text-center space-y-1.5 border-b-2 border-slate-900 pb-4">
+          <div class="flex justify-center mb-1">
+            <svg class="w-14 h-16 text-amber-600 shrink-0" viewBox="0 0 100 125" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M50 4 C43 4 39 8 39 14 C39 17 41 19 43 21 C40 23 37 27 37 32 C37 39 41 45 45 47 L45 62 L35 62 C33 62 31 63.5 31 65.5 C31 67.5 33 69 35 69 L65 69 C67 69 69 67.5 69 65.5 C69 63.5 67 62 65 62 L55 62 L55 47 C59 45 63 39 63 32 C63 27 60 23 57 21 C59 19 61 17 61 14 C61 8 57 4 50 4 Z" fill="#92400e"/>
+              <rect x="18" y="70" width="64" height="15" rx="2.5" fill="#92400e"/>
+              <circle cx="50" cy="77.5" r="5.8" stroke="#ffffff" stroke-width="1.2" fill="#000080"/>
+              <path d="M22 87 C30 95 40 98 50 98 C60 98 70 95 78 87 Z" fill="#92400e"/>
+              <text x="50" y="117" font-family="'Noto Sans Devanagari', 'Mukta', serif, sans-serif" font-size="11" font-weight="900" text-anchor="middle" fill="#92400e" letter-spacing="1.4">सत्यमेव जयते</text>
+            </svg>
+          </div>
+          <div class="text-[11px] font-sans font-bold tracking-widest uppercase text-slate-700">GOVERNMENT OF INDIA • STATE POLICE DEPARTMENT</div>
+          <h1 id="docMainFormTitle" class="text-xl font-bold uppercase tracking-tight text-slate-900">FORM II: FIRST INFORMATION REPORT</h1>
+          <p id="docStatuteCitation" class="text-xs text-slate-600 font-sans italic">(Under Section 173 of Bharatiya Nagarik Suraksha Sanhita, 2023 / Section 154 CrPC)</p>
+          <div class="inline-block mt-2 px-3 py-0.5 border border-slate-900 rounded font-sans text-[11px] font-extrabold uppercase" id="docRegistrationStamp">REGISTERED UNDER BNSS 2023</div>
+        </div>
+
+        <!-- Metadata Table -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs font-sans border-b border-slate-300 pb-4">
+          <div>
+            <span class="text-slate-500 font-bold block text-[10px]">RECORD NUMBER:</span>
+            <span id="docRecordId" class="font-mono font-bold text-slate-900 text-sm">FIR-KA-BLR-2026-00412</span>
+          </div>
+          <div>
+            <span class="text-slate-500 font-bold block text-[10px]">POLICE STATION:</span>
+            <span id="docStation" class="font-bold text-slate-900">Cyber Crime P.S., Bengaluru</span>
+          </div>
+          <div>
+            <span class="text-slate-500 font-bold block text-[10px]">DISTRICT & STATE:</span>
+            <span id="docDistrict" class="font-bold text-slate-900">Bengaluru Urban, Karnataka</span>
+          </div>
+          <div>
+            <span class="text-slate-500 font-bold block text-[10px]">DATE & TIME OF REGISTRATION:</span>
+            <span id="docRegTime" class="font-bold text-slate-900">2026-10-31 11:30 IST</span>
+          </div>
+        </div>
+
+        <!-- Statutory Enumerated Details -->
+        <div class="space-y-4 text-xs font-sans leading-relaxed">
+          <div class="border-b border-slate-200 pb-2">
+            <strong class="text-slate-900 block font-bold">1. Acts and Sections Charged:</strong>
+            <div id="docSectionsList" class="font-bold text-rose-700 text-sm pt-0.5">Section 318(4) BNS, Section 66D IT Act</div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 border-b border-slate-200 pb-2">
+            <div>
+              <strong class="text-slate-900 block font-bold">2. Occurrence of Offense:</strong>
+              <div id="docOccurrenceTime" class="text-slate-700">Date/Time: 2026-10-30 18:45 IST</div>
+              <div class="text-slate-500 text-[11px]">General Diary Entry Ref: GD-094/2026</div>
+            </div>
+            <div>
+              <strong class="text-slate-900 block font-bold">3. Place of Occurrence:</strong>
+              <div id="docLocation" class="text-slate-700">Indiranagar 100ft Road, Bengaluru (1.8 km North-East)</div>
+              <div id="docJurisdictionTransfer" class="text-purple-700 font-semibold text-[11px]">Jurisdiction: Local Territorial Police Station</div>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 border-b border-slate-200 pb-2">
+            <div>
+              <strong class="text-slate-900 block font-bold">4. Informant / Complainant Particulars:</strong>
+              <div id="docComplainantInfo" class="text-slate-700">Rohan Deshmukh • +91 98450 11200<br>Indiranagar, Bengaluru</div>
+            </div>
+            <div>
+              <strong class="text-slate-900 block font-bold">5. Details of Known / Suspected / Unknown Accused:</strong>
+              <div id="docAccusedInfo" class="text-slate-700 font-semibold">Vikram Sethi & Unknown Associates</div>
+              <div id="docArrestNoticeStatus" class="text-blue-700 font-mono text-[11px] pt-0.5">Notice of Appearance under BNSS §35(3) Issued</div>
+            </div>
+          </div>
+
+          <div class="border-b border-slate-200 pb-2">
+            <strong class="text-slate-900 block font-bold">6. Factual Narrative & Ingredients of Information:</strong>
+            <p id="docNarrative" class="text-slate-800 text-xs italic bg-slate-50 p-3 rounded border border-slate-200 leading-normal">Factual narrative of the crime...</p>
+          </div>
+
+          <div class="border-b border-slate-200 pb-2">
+            <strong class="text-slate-900 block font-bold">7. Particulars of Stolen Property / Injury Memo:</strong>
+            <div id="docPropertyInjury" class="text-slate-700">Stolen goods and medical notes...</div>
+          </div>
+
+          <!-- Section 63 BSA 2023 Seal & Signatures -->
+          <div class="p-4 bg-slate-100 rounded-xl border border-slate-300 space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="font-extrabold text-slate-800 text-[11px] uppercase tracking-wider">BHARATIYA SAKSHYA ADHINIYAM (BSA), 2023 — SECTION 63 CERTIFICATE</span>
+              <span class="text-[10px] font-mono text-emerald-700 font-extrabold bg-emerald-100 px-2 py-0.5 rounded border border-emerald-300">BLOCKCHAIN SEALED</span>
+            </div>
+            <div class="text-[10px] text-slate-600 font-mono break-all">
+              <strong>SHA-256 Distributed Ledger Block Hash:</strong> <span id="docBlockchainHash">a4f89d3c1782e5b410928f643198de70c651982a7f3941bd58291f038472bb51</span>
+            </div>
+            <div class="text-[10px] text-slate-500">
+              This electronic record is generated from the sovereign police database and anchored on an immutable blockchain ledger without modification or manual tampering. Under Section 63(4) of the BSA 2023, this record operates as primary electronic evidence in all courts of law.
+            </div>
+          </div>
+
+          <!-- Judicial Transmission & Officer Signature -->
+          <div class="flex items-end justify-between pt-4 border-t border-slate-300">
+            <div>
+              <div class="text-[10px] text-slate-600 font-bold">MAGISTRATE DISPATCH COMPLIANCE (BNSS §176):</div>
+              <div id="docCjmStatus" class="text-[11px] text-slate-800 font-mono">Transmitted to Chief Judicial Magistrate Court, Bengaluru</div>
+              <div class="text-[10px] text-emerald-700 pt-0.5">Free copy dispatched to informant under Section 173(2) BNSS.</div>
+            </div>
+            <div class="text-right">
+              <div class="h-10 border-b border-slate-400 w-48 mb-1 flex items-end justify-center font-cursive text-slate-800 text-sm">Digitally Sealed & Verified</div>
+              <div id="docOfficerSign" class="text-xs font-bold text-slate-900">Insp. S. Kulkarni</div>
+              <div class="text-[10px] text-slate-600">Station House Officer / Investigating Officer</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    // ══════════════════════════════════════════════════════════════
+    // STATUTORY FIR / NCR & PENAL CODEX MODULE JAVASCRIPT
+    // ══════════════════════════════════════════════════════════════
+    let cachedStatutoryRecords = [];
+    let cachedCodexItems = [];
+    let activeFirFilter = 'ALL';
+    let activeCodexCategory = 'ALL';
+    let selectedFormSections = [];
+
+    // Sub-tab switcher inside Active Cases panel
+    function switchCasesSubTab(tab) {
+      const btnStat = document.getElementById('subTabBtn-statutory');
+      const btnEnc = document.getElementById('subTabBtn-enclave');
+      const viewStat = document.getElementById('subView-statutory');
+      const viewEnc = document.getElementById('subView-enclave');
+
+      if (tab === 'statutory') {
+        if (btnStat) {
+          btnStat.classList.add('border-b-2', 'border-blue-500', 'text-blue-400', 'font-bold');
+          btnStat.classList.remove('text-slate-400', 'font-medium');
+        }
+        if (btnEnc) {
+          btnEnc.classList.remove('border-b-2', 'border-blue-500', 'text-blue-400', 'font-bold');
+          btnEnc.classList.add('text-slate-400', 'font-medium');
+        }
+        if (viewStat) viewStat.classList.remove('hidden');
+        if (viewEnc) viewEnc.classList.add('hidden');
+        loadStatutoryRecords();
+      } else {
+        if (btnEnc) {
+          btnEnc.classList.add('border-b-2', 'border-blue-500', 'text-blue-400', 'font-bold');
+          btnEnc.classList.remove('text-slate-400', 'font-medium');
+        }
+        if (btnStat) {
+          btnStat.classList.remove('border-b-2', 'border-blue-500', 'text-blue-400', 'font-bold');
+          btnStat.classList.add('text-slate-400', 'font-medium');
+        }
+        if (viewEnc) viewEnc.classList.remove('hidden');
+        if (viewStat) viewStat.classList.add('hidden');
+        refreshData();
+      }
+      if (window.lucide) lucide.createIcons();
+    }
+    window.switchCasesSubTab = switchCasesSubTab;
+
+    // Load registered statutory records
+    async function loadStatutoryRecords() {
+      const listEl = document.getElementById('statutoryRecordsList');
+      if (!listEl) return;
+
+      try {
+        const res = await fetch('/api/v1/legal/records', {
+          headers: { 'Authorization': `Bearer ${authToken}` }
+        });
+        if (!res.ok) throw new Error('Failed to fetch statutory records');
+        const data = await res.json();
+        cachedStatutoryRecords = data.records || [];
+
+        const countBadge = document.getElementById('statutoryCountBadge');
+        if (countBadge) countBadge.innerText = cachedStatutoryRecords.length;
+
+        filterStatutoryRecords(activeFirFilter);
+      } catch (e) {
+        console.error('Error loading statutory records:', e);
+        if (listEl) listEl.innerHTML = `<div class="p-4 text-xs text-rose-400 bg-rose-950/20 rounded-xl border border-rose-900/40">Failed to load statutory records: ${e.message}</div>`;
+      }
+    }
+    window.loadStatutoryRecords = loadStatutoryRecords;
+
+    function filterStatutoryRecords(filterType) {
+      activeFirFilter = filterType;
+      ['ALL', 'FIR', 'NCR', 'ZERO'].forEach(f => {
+        const btn = document.getElementById(`firFilterBtn-${f}`);
+        if (!btn) return;
+        if (f === filterType) {
+          btn.className = 'px-3 py-1 rounded-lg bg-blue-600/20 text-blue-400 border border-blue-500/30 font-semibold';
+        } else {
+          btn.className = 'px-3 py-1 rounded-lg bg-slate-900 text-slate-400 border border-slate-800 hover:text-white';
+        }
+      });
+
+      let filtered = cachedStatutoryRecords;
+      if (filterType === 'FIR') {
+        filtered = cachedStatutoryRecords.filter(r => r.record_type === 'FIR');
+      } else if (filterType === 'NCR') {
+        filtered = cachedStatutoryRecords.filter(r => r.record_type === 'NCR');
+      } else if (filterType === 'ZERO') {
+        filtered = cachedStatutoryRecords.filter(r => r.is_zero_fir);
+      }
+
+      renderStatutoryCards(filtered);
+    }
+    window.filterStatutoryRecords = filterStatutoryRecords;
+
+    function renderStatutoryCards(records) {
+      const container = document.getElementById('statutoryRecordsList');
+      if (!container) return;
+
+      if (!records || records.length === 0) {
+        container.innerHTML = `
+          <div class="p-8 text-center bg-[#0c121d] border border-slate-800 rounded-2xl text-slate-400 space-y-2">
+            <i data-lucide="folder-search" class="w-8 h-8 text-slate-600 mx-auto"></i>
+            <div class="text-xs font-bold text-slate-300">No statutory records found in this category</div>
+            <p class="text-[11px] text-slate-500">Click "Register Statutory FIR / NCR" to record a new cognizable or non-cognizable case.</p>
+          </div>
+        `;
+        if (window.lucide) lucide.createIcons();
+        return;
+      }
+
+      container.innerHTML = records.map(r => {
+        const isFir = r.record_type === 'FIR';
+        const isZero = r.is_zero_fir;
+
+        const badgeColor = isZero ? 'bg-purple-500/20 text-purple-300 border-purple-500/40' : (isFir ? 'bg-rose-500/20 text-rose-300 border-rose-500/40' : 'bg-amber-500/20 text-amber-300 border-amber-500/40');
+        const badgeLabel = isZero ? '🌐 ZERO-FIR (BNSS §173(1))' : (isFir ? '🔴 COGNIZABLE FIR (BNSS §173)' : '🟡 NON-COGNIZABLE NCR (BNSS §174)');
+
+        const sectionsBadges = (r.sections || []).map(s => `<span class="px-2 py-0.5 rounded bg-slate-800 text-slate-300 font-mono text-[10px] border border-slate-700">${s}</span>`).join(' ');
+
+        return `
+          <div class="p-4 bg-[#0c121d] hover:bg-[#0f1726] border border-slate-800 hover:border-slate-700 rounded-2xl transition space-y-3">
+            <div class="flex items-start justify-between flex-wrap gap-2">
+              <div class="flex items-center gap-2">
+                <span class="mono font-extrabold text-sm text-white">${r.record_id}</span>
+                <span class="px-2 py-0.5 rounded text-[10px] font-bold border ${badgeColor}">${badgeLabel}</span>
+                <span class="text-[10px] text-slate-500 font-mono">${r.police_station}</span>
+              </div>
+              <button onclick="viewOfficialStatutoryDocument('${r.record_id}')" class="px-3 py-1 bg-blue-600/20 hover:bg-blue-600/30 text-blue-300 border border-blue-500/30 rounded-lg text-xs font-bold flex items-center gap-1.5 transition">
+                <i data-lucide="file-text" class="w-3.5 h-3.5"></i>
+                <span>View Official Form</span>
+              </button>
+            </div>
+
+            <div>
+              <h3 class="text-sm font-bold text-slate-200">${r.incident_title}</h3>
+              <p class="text-xs text-slate-400 pt-0.5">${r.statutory_mandate}</p>
+            </div>
+
+            <div class="flex flex-wrap items-center gap-1.5 pt-1">
+              <span class="text-[10px] text-slate-500 font-bold">SECTIONS CHARGED:</span>
+              ${sectionsBadges}
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-[11px] pt-2 border-t border-slate-800/80">
+              <div>
+                <span class="text-slate-500 block text-[10px]">INFORMANT / COMPLAINANT:</span>
+                <span class="font-semibold text-slate-300">${r.complainant_name} (${r.complainant_contact})</span>
+              </div>
+              <div>
+                <span class="text-slate-500 block text-[10px]">ACCUSED / SUSPECTS:</span>
+                <span class="font-semibold text-slate-300">${r.accused_name}</span>
+              </div>
+              <div>
+                <span class="text-slate-500 block text-[10px]">MAGISTRATE / ARREST SAFEGUARD:</span>
+                <span class="font-mono text-cyan-300">${r.cjm_intimation_status ? 'TRANSMITTED TO CJM' : 'LOCAL'} • ${r.section_35_notice_issued ? 'BNSS §35 NOTICE' : 'WARRANT REQ'}</span>
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between text-[10px] font-mono text-slate-500 pt-1">
+              <span class="flex items-center gap-1 text-emerald-400">
+                <i data-lucide="blocks" class="w-3 h-3 text-emerald-400"></i>
+                <span>BSA §63 Hash: ${r.blockchain_tx_hash ? r.blockchain_tx_hash.substring(0, 18) + '...' : 'SEALED'}</span>
+              </span>
+              <span>Registered by: ${r.registered_by_officer || 'Duty Officer'}</span>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      if (window.lucide) lucide.createIcons();
+    }
+
+    // ── LEGAL CODEX & TRAINEE BOOKLET ──
+    async function loadCodexBooklet() {
+      const grid = document.getElementById('codexCardsGrid');
+      if (!grid) return;
+
+      try {
+        const res = await fetch('/api/v1/legal/codex');
+        if (!res.ok) throw new Error('Failed to load legal codex');
+        const data = await res.json();
+        cachedCodexItems = data.codex || [];
+        filterCodex();
+      } catch (e) {
+        console.error('Error loading codex:', e);
+        if (grid) grid.innerHTML = `<div class="p-4 text-xs text-rose-400 bg-rose-950/20 rounded-xl border border-rose-900/40">Failed to load legal codex: ${e.message}</div>`;
+      }
+    }
+    window.loadCodexBooklet = loadCodexBooklet;
+
+    function setCodexFilter(cat) {
+      activeCodexCategory = cat;
+      ['ALL', 'COGNIZABLE', 'NON_COGNIZABLE', 'BODY', 'PROPERTY', 'WOMEN_CHILDREN'].forEach(c => {
+        const btn = document.getElementById(`codexFilterBtn-${c}`);
+        if (!btn) return;
+        if (c === cat) {
+          btn.className = 'px-3 py-1.5 rounded-lg bg-blue-600/20 text-blue-400 border border-blue-500/30 font-semibold';
+        } else {
+          btn.className = 'px-3 py-1.5 rounded-lg bg-slate-900 text-slate-400 border border-slate-800 hover:text-white';
+        }
+      });
+      filterCodex();
+    }
+    window.setCodexFilter = setCodexFilter;
+
+    function filterCodex() {
+      const searchInput = document.getElementById('codexSearchInput');
+      const q = searchInput ? searchInput.value.trim().toLowerCase() : '';
+
+      let results = cachedCodexItems;
+
+      if (activeCodexCategory === 'COGNIZABLE') {
+        results = results.filter(i => i.cognizable_flag);
+      } else if (activeCodexCategory === 'NON_COGNIZABLE') {
+        results = results.filter(i => !i.cognizable_flag);
+      } else if (activeCodexCategory !== 'ALL') {
+        results = results.filter(i => i.category === activeCodexCategory);
+      }
+
+      if (q) {
+        results = results.filter(i => 
+          i.bns_section.toLowerCase().includes(q) ||
+          i.ipc_section.toLowerCase().includes(q) ||
+          i.title.toLowerCase().includes(q) ||
+          (i.ingredients && i.ingredients.toLowerCase().includes(q))
+        );
+      }
+
+      renderCodexGrid(results);
+    }
+    window.filterCodex = filterCodex;
+
+    function renderCodexGrid(items) {
+      const grid = document.getElementById('codexCardsGrid');
+      if (!grid) return;
+
+      if (!items || items.length === 0) {
+        grid.innerHTML = `<div class="p-8 text-center text-slate-400 text-xs col-span-full">No statutory sections match the search query.</div>`;
+        return;
+      }
+
+      grid.innerHTML = items.map(i => {
+        const isCog = i.cognizable_flag;
+        const cogBadge = isCog ? `<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-rose-500/20 text-rose-300 border border-rose-500/40">🔴 COGNIZABLE (MANDATORY FIR)</span>` : `<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40">🟡 NON-COGNIZABLE (NCR)</span>`;
+        const bailBadge = i.bailable ? `<span class="px-1.5 py-0.5 rounded text-[9px] bg-emerald-500/10 text-emerald-300 border border-emerald-500/20">BAILABLE</span>` : `<span class="px-1.5 py-0.5 rounded text-[9px] bg-rose-500/10 text-rose-300 border border-rose-500/20">NON-BAILABLE</span>`;
+
+        return `
+          <div class="p-4 bg-[#0c121d] border border-slate-800 hover:border-slate-700 rounded-2xl space-y-3 flex flex-col justify-between">
+            <div class="space-y-2">
+              <div class="flex items-start justify-between gap-2">
+                <div>
+                  <div class="text-[10px] font-mono text-slate-400">${i.act}</div>
+                  <h3 class="text-sm font-extrabold text-white flex items-center gap-1.5">
+                    <span>${i.bns_section}</span>
+                    <span class="text-slate-500 font-normal text-xs">(Old ${i.ipc_section})</span>
+                  </h3>
+                  <div class="text-xs font-bold text-slate-200">${i.title}</div>
+                </div>
+              </div>
+
+              <div class="flex flex-wrap items-center gap-1 pt-0.5">
+                ${cogBadge}
+                ${bailBadge}
+                <span class="px-1.5 py-0.5 rounded text-[9px] bg-blue-500/10 text-blue-300 border border-blue-500/20 font-mono">${i.triable_by}</span>
+              </div>
+
+              <div class="p-2.5 bg-slate-950/70 border border-slate-800/80 rounded-xl space-y-1 text-[11px]">
+                <div><strong class="text-amber-400">Max Punishment:</strong> <span class="text-slate-300">${i.max_punishment}</span></div>
+                <div><strong class="text-blue-400">Legal Ingredients:</strong> <span class="text-slate-400">${i.ingredients}</span></div>
+                <div><strong class="text-emerald-400">BNSS Procedure:</strong> <span class="text-slate-400">${i.procedure_guidelines}</span></div>
+                <div><strong class="text-purple-400">Loophole Fix:</strong> <span class="text-slate-400">${i.loophole_safeguards}</span></div>
+              </div>
+            </div>
+
+            <button onclick="openStatutoryRegisterModal('${i.bns_section} - ${i.title}')" class="w-full mt-2 py-2 bg-blue-600/20 hover:bg-blue-600/30 text-blue-300 border border-blue-500/30 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition">
+              <i data-lucide="plus-circle" class="w-3.5 h-3.5"></i>
+              <span>Add to New FIR / NCR</span>
+            </button>
+          </div>
+        `;
+      }).join('');
+
+      if (window.lucide) lucide.createIcons();
+    }
+
+    // ── MODAL: STATUTORY REGISTER CONSOLE ──
+    async function openStatutoryRegisterModal(preselectedSection = null) {
+      const modal = document.getElementById('statutoryRegisterModal');
+      if (!modal) return;
+      modal.classList.remove('hidden');
+
+      if (cachedCodexItems.length === 0) {
+        await loadCodexBooklet();
+      }
+
+      selectedFormSections = [];
+      if (preselectedSection) {
+        selectedFormSections.push(preselectedSection);
+      }
+
+      populateFormSectionTags();
+      handleOffenseTypeChange();
+
+      // Default incident date-time to now
+      const dtInput = document.getElementById('statIncidentDatetime');
+      if (dtInput) {
+        const now = new Date();
+        now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+        dtInput.value = now.toISOString().slice(0, 16);
+      }
+
+      if (window.lucide) lucide.createIcons();
+    }
+    window.openStatutoryRegisterModal = openStatutoryRegisterModal;
+    window.openNewCaseModal = openStatutoryRegisterModal; // Hook existing button
+
+    function closeStatutoryRegisterModal() {
+      const modal = document.getElementById('statutoryRegisterModal');
+      if (modal) modal.classList.add('hidden');
+    }
+    window.closeStatutoryRegisterModal = closeStatutoryRegisterModal;
+
+    function populateFormSectionTags() {
+      const container = document.getElementById('registrationSectionsTagsContainer');
+      if (!container) return;
+
+      container.innerHTML = cachedCodexItems.map(item => {
+        const tagText = `${item.bns_section} - ${item.title}`;
+        const isSelected = selectedFormSections.includes(tagText);
+        const tagClass = isSelected ? 'bg-blue-600 text-white border-blue-400 font-bold' : 'bg-slate-900 text-slate-400 border-slate-800 hover:text-white';
+        const cogDot = item.cognizable_flag ? '🔴' : '🟡';
+
+        return `
+          <button type="button" onclick="toggleSectionTag('${tagText}')" class="px-2.5 py-1 rounded-lg text-xs border transition flex items-center gap-1 ${tagClass}">
+            <span>${cogDot}</span>
+            <span>${item.bns_section}</span>
+          </button>
+        `;
+      }).join('');
+    }
+
+    function toggleSectionTag(tagText) {
+      if (selectedFormSections.includes(tagText)) {
+        selectedFormSections = selectedFormSections.filter(t => t !== tagText);
+      } else {
+        selectedFormSections.push(tagText);
+      }
+      populateFormSectionTags();
+      handleSectionSelectionChange();
+    }
+    window.toggleSectionTag = toggleSectionTag;
+
+    function handleOffenseTypeChange() {
+      const recTypeEl = document.querySelector('input[name="statutoryRecordType"]:checked');
+      const recType = recTypeEl ? recTypeEl.value : 'FIR';
+
+      const labelFir = document.getElementById('labelOptionFir');
+      const labelNcr = document.getElementById('labelOptionNcr');
+
+      if (recType === 'FIR') {
+        if (labelFir) { labelFir.className = 'p-3.5 rounded-2xl border-2 border-rose-500 bg-rose-950/20 cursor-pointer flex items-start gap-3 transition'; }
+        if (labelNcr) { labelNcr.className = 'p-3.5 rounded-2xl border border-slate-800 bg-slate-900/60 hover:border-amber-500/40 cursor-pointer flex items-start gap-3 transition'; }
+      } else {
+        if (labelNcr) { labelNcr.className = 'p-3.5 rounded-2xl border-2 border-amber-500 bg-amber-950/20 cursor-pointer flex items-start gap-3 transition'; }
+        if (labelFir) { labelFir.className = 'p-3.5 rounded-2xl border border-slate-800 bg-slate-900/60 hover:border-rose-500/40 cursor-pointer flex items-start gap-3 transition'; }
+      }
+
+      handleSectionSelectionChange();
+    }
+    window.handleOffenseTypeChange = handleOffenseTypeChange;
+
+    function handleZeroFirToggle() {
+      const chk = document.getElementById('statutoryIsZeroFir');
+      if (chk && chk.checked) {
+        // Enforce FIR mode
+        const radioFir = document.querySelector('input[name="statutoryRecordType"][value="FIR"]');
+        if (radioFir) { radioFir.checked = true; handleOffenseTypeChange(); }
+      }
+    }
+    window.handleZeroFirToggle = handleZeroFirToggle;
+
+    function handleSectionSelectionChange() {
+      const recTypeEl = document.querySelector('input[name="statutoryRecordType"]:checked');
+      const recType = recTypeEl ? recTypeEl.value : 'FIR';
+      const alertBox = document.getElementById('antiBurkingAlertBox');
+
+      // Check if any selected section is Cognizable
+      let hasCognizable = false;
+      let isLessSevenYears = true;
+
+      selectedFormSections.forEach(secStr => {
+        const item = cachedCodexItems.find(c => secStr.includes(c.bns_section));
+        if (item) {
+          if (item.cognizable_flag) hasCognizable = true;
+          if (item.max_punishment.includes('Life') || item.max_punishment.includes('Death') || item.max_punishment.includes('10 years')) {
+            isLessSevenYears = false;
+          }
+        }
+      });
+
+      // Anti-burking protection
+      if (recType === 'NCR' && hasCognizable) {
+        if (alertBox) alertBox.classList.remove('hidden');
+        // Automatically enforce FIR mode
+        const radioFir = document.querySelector('input[name="statutoryRecordType"][value="FIR"]');
+        if (radioFir) {
+          radioFir.checked = true;
+          setTimeout(() => handleOffenseTypeChange(), 50);
+        }
+      } else {
+        if (alertBox) alertBox.classList.add('hidden');
+      }
+
+      // Section 35(3) Notice requirement
+      const sec35Box = document.getElementById('section35ArrestSafeguardBox');
+      if (sec35Box) {
+        if (isLessSevenYears && recType === 'FIR') {
+          sec35Box.classList.remove('hidden');
+        } else {
+          sec35Box.classList.add('hidden');
+        }
+      }
+    }
+
+    async function handleStatutoryRegisterSubmit(e) {
+      e.preventDefault();
+
+      const recTypeEl = document.querySelector('input[name="statutoryRecordType"]:checked');
+      const recType = recTypeEl ? recTypeEl.value : 'FIR';
+      const isZero = document.getElementById('statutoryIsZeroFir')?.checked || false;
+
+      const customSec = document.getElementById('statutoryCustomSectionsInput')?.value.trim();
+      let allSections = [...selectedFormSections];
+      if (customSec) allSections.push(customSec);
+
+      if (allSections.length === 0) {
+        alert('Please select at least one statutory section or enter custom charge.');
+        return;
+      }
+
+      const payload = {
+        record_type: recType,
+        is_zero_fir: isZero,
+        title: document.getElementById('statTitle')?.value.trim() || 'Incident Report',
+        category: document.getElementById('statCategory')?.value || 'BODY',
+        complainant_name: document.getElementById('statComplainantName')?.value.trim(),
+        complainant_contact: document.getElementById('statComplainantContact')?.value.trim(),
+        complainant_id_proof: document.getElementById('statComplainantId')?.value.trim() || 'Verified Citizen',
+        complainant_address: document.getElementById('statComplainantAddress')?.value.trim(),
+        incident_datetime: document.getElementById('statIncidentDatetime')?.value,
+        incident_location: document.getElementById('statIncidentLocation')?.value.trim(),
+        sections: allSections,
+        accused_name: document.getElementById('statAccusedName')?.value.trim() || 'Unknown Accused',
+        accused_details: document.getElementById('statAccusedDetails')?.value.trim() || 'Under identification',
+        factual_chronology: document.getElementById('statChronology')?.value.trim(),
+        stolen_property_or_injury: document.getElementById('statStolenProperty')?.value.trim() || 'None reported',
+        station_name: 'Bengaluru Central Police Station'
+      };
+
+      try {
+        const res = await fetch('/api/v1/legal/register', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${authToken}`
+          },
+          body: JSON.stringify(payload)
+        });
+
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.detail || 'Failed to register record');
+
+        closeStatutoryRegisterModal();
+        loadStatutoryRecords();
+
+        // Pop up the official document immediately
+        viewOfficialStatutoryDocument(data.record.record_id);
+
+      } catch (err) {
+        alert(`Statutory Registration Error: ${err.message}`);
+      }
+    }
+    window.handleStatutoryRegisterSubmit = handleStatutoryRegisterSubmit;
+
+    // ── VIEW OFFICIAL STATUTORY DOCUMENT (FORM II / FORM I) ──
+    async function viewOfficialStatutoryDocument(recordId) {
+      const modal = document.getElementById('officialFirModal');
+      if (!modal) return;
+      modal.classList.remove('hidden');
+
+      try {
+        const res = await fetch(`/api/v1/legal/record/${recordId}`, {
+          headers: { 'Authorization': `Bearer ${authToken}` }
+        });
+        if (!res.ok) throw new Error('Record details not found');
+        const data = await res.json();
+        const r = data.record;
+
+        const isFir = r.record_type === 'FIR';
+        const isZero = r.is_zero_fir;
+
+        const mainTitle = document.getElementById('docMainFormTitle');
+        const statCite = document.getElementById('docStatuteCitation');
+        const stamp = document.getElementById('docRegistrationStamp');
+
+        if (mainTitle) {
+          mainTitle.innerText = isZero ? 'FORM II: ZERO FIRST INFORMATION REPORT' : (isFir ? 'FORM II: FIRST INFORMATION REPORT' : 'FORM I: NON-COGNIZABLE REPORT');
+        }
+        if (statCite) {
+          statCite.innerText = isFir ? '(Under Section 173 of Bharatiya Nagarik Suraksha Sanhita, 2023 / Section 154 CrPC)' : '(Under Section 174 of Bharatiya Nagarik Suraksha Sanhita, 2023 / Section 155 CrPC)';
+        }
+        if (stamp) {
+          stamp.innerText = isZero ? 'ZERO-FIR REGISTERED (BNSS §173(1))' : (isFir ? 'REGISTERED UNDER BNSS §173' : 'ENTERED IN NON-COGNIZABLE REGISTER (§174)');
+        }
+
+        document.getElementById('docRecordId').innerText = r.record_id;
+        document.getElementById('docStation').innerText = r.police_station;
+        document.getElementById('docDistrict').innerText = `${r.district}, ${r.state}`;
+        document.getElementById('docRegTime').innerText = r.registration_datetime ? r.registration_datetime.replace('T', ' ').substring(0, 16) + ' IST' : 'Live Registered';
+
+        document.getElementById('docSectionsList').innerText = (r.sections || []).join(' • ');
+        document.getElementById('docOccurrenceTime').innerText = `Date/Time: ${r.incident_datetime ? r.incident_datetime.replace('T', ' ') : 'Immediate'}`;
+        document.getElementById('docLocation').innerText = r.incident_location || r.incident_title;
+        document.getElementById('docJurisdictionTransfer').innerText = isZero ? 'Zero-FIR: Transmitted to Jurisdictional SP within 24 Hours' : 'Territorial Jurisdiction: Local Police Station';
+
+        document.getElementById('docComplainantInfo').innerHTML = `<strong>${r.complainant_name}</strong> • Phone: ${r.complainant_contact}<br>Address: ${r.complainant_address}`;
+        document.getElementById('docAccusedInfo').innerText = `${r.accused_name} (${r.accused_details || 'Under identification'})`;
+
+        const noticeStatusEl = document.getElementById('docArrestNoticeStatus');
+        if (noticeStatusEl) {
+          noticeStatusEl.innerText = r.section_35_notice_issued ? 'Notice of Appearance under BNSS §35(3) Issued (Arnesh Kumar Compliance)' : (isFir ? 'Arrest Warrant Requisitioned / Heinous Crime' : 'Custodial Arrest Barred by Law without Judicial Magistrate Order');
+        }
+
+        document.getElementById('docNarrative').innerText = r.factual_chronology || r.incident_title;
+        document.getElementById('docPropertyInjury').innerText = r.stolen_property_or_injury || 'None reported';
+        document.getElementById('docBlockchainHash').innerText = r.blockchain_tx_hash || 'SHA-256 SEALED BLOCK';
+        document.getElementById('docOfficerSign').innerText = r.registered_by_officer || 'Station House Officer';
+
+        if (window.lucide) lucide.createIcons();
+
+      } catch (err) {
+        alert(`Error opening document: ${err.message}`);
+      }
+    }
+    window.viewOfficialStatutoryDocument = viewOfficialStatutoryDocument;
+
+    function closeOfficialFirModal() {
+      const modal = document.getElementById('officialFirModal');
+      if (modal) modal.classList.add('hidden');
+    }
+    window.closeOfficialFirModal = closeOfficialFirModal;
+
+    function printOfficialDocument() {
+      window.print();
+    }
+    window.printOfficialDocument = printOfficialDocument;
+  </script>
 </body>
 </html>

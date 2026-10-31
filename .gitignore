@@ -15,6 +15,9 @@ venv.bak/
 .env.local
 
 # Database
+*.db
+*.sqlite
+*.sqlite3
 *.db-journal
 *.sqlite3-journal
 

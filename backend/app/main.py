@@ -125,11 +125,31 @@ async def health_check():
 app.include_router(api_v1_router, prefix="/api/v1")
 
 
-# ─── Interactive Web Portal ────────────────────────────────
+# ─── Interactive Web Portal & Static Files ─────────────────
 import os
 from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
 
-STATIC_INDEX = os.path.join(os.path.dirname(__file__), "static", "index.html")
+STATIC_DIR = os.path.join(os.path.dirname(__file__), "static")
+STATIC_INDEX = os.path.join(STATIC_DIR, "index.html")
+
+if os.path.exists(STATIC_DIR):
+    app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
+
+@app.get("/emblem.png", include_in_schema=False)
+@app.get("/static/emblem.png", include_in_schema=False)
+async def serve_emblem():
+    emblem_path = os.path.join(STATIC_DIR, "emblem.png")
+    if os.path.exists(emblem_path):
+        return FileResponse(
+            emblem_path,
+            media_type="image/png",
+            headers={
+                "Cache-Control": "public, max-age=86400",
+                "Access-Control-Allow-Origin": "*"
+            }
+        )
+    return JSONResponse({"error": "Emblem not found"}, status_code=404)
 
 @app.get("/", include_in_schema=False)
 async def serve_dashboard():

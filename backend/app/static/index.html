@@ -113,7 +113,9 @@
           <p class="text-[10px] sm:text-[11px] text-slate-300 flex items-center gap-1 font-medium">
             <span class="text-amber-400 font-semibold">गृह मंत्रालय</span>
             <span class="hidden md:inline text-slate-500">•</span>
-            <span class="hidden md:inline text-slate-400">Ministry of Home Affairs • National Intelligence Command</span>
+            <span class="hidden md:inline text-slate-400">Ministry of Home Affairs</span>
+            <span class="hidden lg:inline text-slate-500">•</span>
+            <span class="hidden lg:inline text-amber-300 font-semibold">Prepared by Gaurav Dixit</span>
           </p>
         </div>
       </div>
@@ -173,6 +175,10 @@
           <p class="text-xs text-slate-300 max-w-md mx-auto">
             Ministry of Home Affairs • High-Security Law Enforcement Enclave with Zero-Trust Device Cryptography
           </p>
+          <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-900/90 border border-amber-500/30 text-[11px] text-slate-300 font-medium shadow-sm">
+            <span>Platform Architect:</span>
+            <span class="text-amber-400 font-extrabold">Prepared by Gaurav Dixit</span>
+          </div>
         </div>
 
         <!-- 1-CLICK OFFICER ROLE SELECTOR (FAST DEMO CARDS) -->
@@ -468,6 +474,17 @@
       <div id="civilianContentPanel" class="bg-[#0c121d] border border-slate-800 rounded-2xl p-6 sm:p-8 space-y-6">
         <!-- Rendered dynamically -->
       </div>
+
+      <!-- CITIZEN PORTAL SECURITY FOOTER -->
+      <footer class="pt-6 pb-2 border-t border-slate-800/80 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-3">
+        <div class="flex items-center gap-2">
+          <img src="/static/emblem.png" alt="Emblem" class="h-6 w-auto object-contain opacity-80">
+          <span class="text-slate-400">SHIELD • Sovereign Citizen Public Safety & Digital Police Infrastructure</span>
+        </div>
+        <div class="font-mono text-[11px] text-slate-400">
+          Platform Architecture • <span class="text-amber-400 font-bold">Prepared by Gaurav Dixit</span>
+        </div>
+      </footer>
     </div>
 
     <!-- AUTHENTICATED DASHBOARD -->
@@ -555,6 +572,9 @@
             <i data-lucide="log-out" class="w-3.5 h-3.5"></i>
             <span>Logout Session</span>
           </button>
+          <div class="text-[10px] text-slate-500 font-mono text-center pt-2 border-t border-slate-800/70">
+            Platform Architecture • Prepared by <span class="text-amber-400 font-bold">Gaurav Dixit</span>
+          </div>
         </div>
       </aside>
 
@@ -622,6 +642,9 @@
           <div class="text-[10px] text-slate-500 flex items-center gap-1">
             <i data-lucide="shield-check" class="w-3 h-3 text-emerald-400"></i>
             <span>No anomalous activities logged</span>
+          </div>
+          <div class="text-[10px] text-slate-500 font-mono text-center pt-2 border-t border-slate-800/80">
+            Platform Architecture • Prepared by <span class="text-amber-400 font-bold">Gaurav Dixit</span>
           </div>
         </div>
       </aside>
@@ -3184,9 +3207,9 @@
               <p>This electronic certificate certifies that the digital record registered under Tracking ID <strong>${data.record_id}</strong> is preserved on the Sovereign Police Distributed Ledger without modification, interception, or alteration. The SHA-256 cryptographic digest acts as admissible primary electronic evidence under the Bharatiya Sakshya Adhiniyam, 2023.</p>
             </div>
 
-            <div class="flex items-center justify-between text-xs pt-2">
-              <span class="font-mono text-[11px] text-slate-400">CERTIFICATE NO: <strong class="text-white">${data.certificate_id}</strong></span>
-              <button onclick="window.print()" class="px-4 py-1.5 bg-cyan-600/30 hover:bg-cyan-600/50 text-cyan-200 border border-cyan-500/40 rounded-lg font-bold text-xs flex items-center gap-1.5 transition">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between text-xs pt-2 gap-2 border-t border-slate-800/80">
+              <span class="font-mono text-[11px] text-slate-400">CERTIFICATE NO: <strong class="text-white">${data.certificate_id}</strong> • Prepared by <span class="text-amber-400 font-bold">Gaurav Dixit</span></span>
+              <button onclick="window.print()" class="px-4 py-1.5 bg-cyan-600/30 hover:bg-cyan-600/50 text-cyan-200 border border-cyan-500/40 rounded-lg font-bold text-xs flex items-center justify-center gap-1.5 transition">
                 <i data-lucide="printer" class="w-3.5 h-3.5"></i>
                 <span>Print Certificate</span>
               </button>
@@ -4200,6 +4223,12 @@
               <div id="docOfficerSign" class="text-xs font-bold text-slate-900">Insp. S. Kulkarni</div>
               <div class="text-[10px] text-slate-600">Station House Officer / Investigating Officer</div>
             </div>
+          </div>
+
+          <!-- Official Document Bottom Architecture Tag -->
+          <div class="pt-3 border-t border-slate-200 mt-4 flex items-center justify-between text-[9px] text-slate-500 font-sans">
+            <span>SHIELD Sovereign Crime Intelligence & Digital Evidence Engine • <strong>Prepared by Gaurav Dixit</strong></span>
+            <span>Government of India Statutory Standard (BNSS / BNS / BSA 2023)</span>
           </div>
         </div>
 

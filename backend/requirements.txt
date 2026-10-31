@@ -17,3 +17,4 @@ minio==7.2.9
 Pillow==10.4.0
 python-jose[cryptography]==3.3.0
 slowapi==0.1.9
+aiosqlite==0.20.0

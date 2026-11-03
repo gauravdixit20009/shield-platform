@@ -14,6 +14,39 @@
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <style>
+
+    /* Android & Mobile Viewport / Touch Optimizations */
+    html {
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
+      height: 100%;
+    }
+    body {
+      min-height: 100%;
+      min-height: 100dvh;
+      overflow-x: hidden;
+      touch-action: pan-y;
+      -webkit-tap-highlight-color: transparent;
+    }
+    /* Prevent Android & iOS auto-zoom when tapping inputs (triggers if font < 16px) */
+    @media (max-width: 768px) {
+      input, select, textarea {
+        font-size: 16px !important;
+      }
+      .mobile-compact-text {
+        font-size: 11px !important;
+      }
+    }
+    /* Smooth native touch scrolling */
+    .overflow-y-auto {
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior-y: contain;
+    }
+    /* Touch target comfort */
+    button, a, input, select {
+      touch-action: manipulation;
+    }
+
     @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
     html, body {
       overflow-x: hidden;
@@ -94,7 +127,7 @@
   </div>
 
   <!-- TOP SECURITY BANNER -->
-  <header class="bg-[#0d111a]/95 border-b border-slate-800/80 px-2.5 sm:px-6 py-2 sm:py-2.5 flex items-center justify-between sticky top-1.5 z-50 backdrop-blur-md shadow-lg shadow-black/40 gap-2">
+  <header class="bg-[#0d111a]/95 border-b border-slate-800/80 px-2 sm:px-6 py-1.5 sm:py-2.5 flex items-center justify-between sticky top-0 sm:top-1.5 z-50 backdrop-blur-md shadow-lg shadow-black/40 gap-1.5 sm:gap-2 max-w-full overflow-hidden">
     <div class="flex items-center gap-2 sm:gap-3.5 shrink-0">
       <!-- MOBILE MENU HAMBURGER BUTTON (Visible on phone/tablet when logged in) -->
       <button id="mobileMenuToggle" onclick="toggleMobileDrawer()" class="hidden p-1.5 sm:p-2 rounded-xl bg-slate-900 border border-slate-700/80 text-slate-300 hover:text-white md:hidden active:scale-95 transition" aria-label="Open Navigation Menu">
@@ -103,7 +136,7 @@
 
       <!-- OFFICIAL STATE EMBLEM OF INDIA (ASHOKA LION CAPITAL) -->
       <div class="flex items-center gap-2 group cursor-pointer" onclick="setPortalMode('police')">
-        <img src="/static/emblem.png" alt="State Emblem of India" class="h-10 sm:h-14 md:h-16 w-auto object-contain drop-shadow-[0_2px_16px_rgba(251,191,36,0.7)] shrink-0 transition-transform group-hover:scale-105">
+        <img src="/static/emblem.png" alt="State Emblem of India" class="h-8 sm:h-12 md:h-14 w-auto object-contain drop-shadow-[0_2px_16px_rgba(251,191,36,0.7)] shrink-0 transition-transform group-hover:scale-105">
 
         <div>
           <div class="flex items-center gap-1.5 sm:gap-2">
@@ -122,17 +155,17 @@
       </div>
     </div>
 
-    <!-- CENTER PORTAL SWITCHER -->
-    <div class="flex items-center bg-[#161c2b] border border-slate-700/80 p-0.5 sm:p-1 rounded-xl text-xs shadow-inner shrink-0">
-      <button id="switchBtnPolice" onclick="setPortalMode('police')" class="px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-lg font-bold text-white bg-blue-600 transition flex items-center gap-1 sm:gap-1.5 shadow">
+    <!-- CENTER PORTAL SWITCHER (COMPACT ON MOBILE) -->
+    <div class="flex items-center bg-[#161c2b] border border-slate-700/80 p-0.5 rounded-lg sm:rounded-xl text-xs shadow-inner shrink-0">
+      <button id="switchBtnPolice" onclick="setPortalMode('police')" class="px-2 sm:px-3.5 py-1 sm:py-1.5 rounded-md sm:rounded-lg font-bold text-white bg-blue-600 transition flex items-center gap-1 sm:gap-1.5 shadow text-[10px] sm:text-xs">
         <i data-lucide="shield" class="w-3.5 h-3.5 text-blue-200"></i>
-        <span class="hidden sm:inline">Police Command Enclave</span>
-        <span class="sm:hidden text-[11px]">Police</span>
+        <span class="hidden md:inline">Police Command Enclave</span>
+        <span class="md:hidden">Police</span>
       </button>
-      <button id="switchBtnCivilian" onclick="setPortalMode('civilian')" class="px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-lg font-semibold text-slate-400 hover:text-white transition flex items-center gap-1 sm:gap-1.5">
+      <button id="switchBtnCivilian" onclick="setPortalMode('civilian')" class="px-2 sm:px-3.5 py-1 sm:py-1.5 rounded-md sm:rounded-lg font-semibold text-slate-400 hover:text-white transition flex items-center gap-1 sm:gap-1.5 text-[10px] sm:text-xs">
         <i data-lucide="users" class="w-3.5 h-3.5 text-slate-400"></i>
-        <span class="hidden sm:inline">Citizen Public Services</span>
-        <span class="sm:hidden text-[11px]">Citizens</span>
+        <span class="hidden md:inline">Citizen Public Services</span>
+        <span class="md:hidden">Citizens</span>
       </button>
     </div>
 
@@ -202,13 +235,13 @@
   <div class="flex-1 flex overflow-hidden">
 
     <!-- LOGIN SCREEN -->
-    <div id="loginSection" class="flex-1 flex items-center justify-center p-4 sm:p-6 overflow-y-auto bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-blue-950/25 via-[#080a0f] to-[#080a0f]">
-      <div class="w-full max-w-xl bg-[#111622] border border-slate-800 rounded-3xl p-6 sm:p-8 shadow-2xl glow-blue space-y-6">
+    <div id="loginSection" class="flex-1 flex items-start sm:items-center justify-center p-2.5 sm:p-6 overflow-y-auto overscroll-contain py-4 sm:py-8 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-blue-950/25 via-[#080a0f] to-[#080a0f]">
+      <div class="w-full max-w-xl bg-[#111622] border border-slate-800 rounded-2xl sm:rounded-3xl p-4 sm:p-8 shadow-2xl glow-blue space-y-4 sm:space-y-6 my-auto">
         
         <!-- CARD HEADER WITH NATIONAL EMBLEM -->
         <div class="text-center space-y-2 pb-2 border-b border-slate-800/70">
           <div class="inline-flex flex-col items-center justify-center p-3 rounded-2xl bg-gradient-to-b from-amber-500/10 to-blue-500/5 border border-amber-500/30 mb-1">
-            <img src="/static/emblem.png" alt="State Emblem of India" class="h-24 w-auto object-contain drop-shadow-[0_2px_22px_rgba(251,191,36,0.75)]">
+            <img src="/static/emblem.png" alt="State Emblem of India" class="h-14 sm:h-20 md:h-24 w-auto object-contain drop-shadow-[0_2px_22px_rgba(251,191,36,0.75)]">
             <span class="text-[10px] text-amber-300 font-serif font-bold mt-1.5 tracking-widest uppercase">सत्यमेव जयते</span>
           </div>
           <h1 class="text-xl sm:text-2xl font-extrabold text-white tracking-tight">Officer Clearance Authentication</h1>
@@ -231,32 +264,32 @@
             <span class="text-[10px] bg-blue-500/20 text-blue-300 border border-blue-500/30 px-2 py-0.5 rounded-full font-bold">INSTANT CLEARANCE</span>
           </div>
 
-          <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+          <div class="grid grid-cols-3 gap-1.5 sm:gap-2.5">
             <!-- 1. DGP -->
-            <button type="button" id="roleBtn-DGP" onclick="fillDemo('DGP')" class="role-select-card p-3 bg-slate-900/90 hover:bg-blue-950/40 border border-slate-700/80 rounded-xl text-left transition duration-150 focus:outline-none focus:ring-2 focus:ring-blue-500">
-              <div class="flex items-center justify-between mb-1">
-                <span class="text-[10px] font-extrabold text-amber-400 bg-amber-500/10 px-1.5 py-0.5 rounded border border-amber-500/20">APEX STATE</span>
-                <i data-lucide="crown" class="w-3.5 h-3.5 text-amber-400"></i>
+            <button type="button" id="roleBtn-DGP" onclick="fillDemo('DGP')" class="role-select-card p-2 sm:p-3 bg-slate-900/90 hover:bg-blue-950/40 border border-slate-700/80 rounded-xl text-left transition duration-150 focus:outline-none focus:ring-2 focus:ring-blue-500 active:scale-95">
+              <div class="flex items-center justify-between mb-0.5 sm:mb-1">
+                <span class="text-[8px] sm:text-[10px] font-extrabold text-amber-400 bg-amber-500/10 px-1 py-0.2 sm:px-1.5 sm:py-0.5 rounded border border-amber-500/20">APEX</span>
+                <i data-lucide="crown" class="w-3 h-3 sm:w-3.5 sm:h-3.5 text-amber-400"></i>
               </div>
-              <div class="font-bold text-white text-xs truncate">DGP Sharma, IPS</div>
-              <div class="text-[10px] text-slate-400 font-mono">DGP-INDIA-01</div>
-              <div class="text-[9px] text-emerald-400 mt-1 flex items-center gap-1 font-semibold">
-                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
-                <span>Full State HQ Scope</span>
+              <div class="font-bold text-white text-[11px] sm:text-xs truncate">DGP Sharma</div>
+              <div class="text-[9px] text-slate-400 font-mono truncate">DGP-INDIA-01</div>
+              <div class="text-[8px] sm:text-[9px] text-emerald-400 mt-0.5 sm:mt-1 flex items-center gap-1 font-semibold truncate">
+                <span class="w-1 h-1 sm:w-1.5 sm:h-1.5 rounded-full bg-emerald-400"></span>
+                <span class="hidden sm:inline">Full State HQ</span><span class="sm:hidden">HQ Scope</span>
               </div>
             </button>
 
             <!-- 2. SP (IPS) -->
-            <button type="button" id="roleBtn-SP" onclick="fillDemo('SP')" class="role-select-card p-3 bg-slate-900/90 hover:bg-blue-950/40 border border-slate-700/80 rounded-xl text-left transition duration-150 focus:outline-none focus:ring-2 focus:ring-blue-500">
-              <div class="flex items-center justify-between mb-1">
-                <span class="text-[10px] font-extrabold text-blue-400 bg-blue-500/10 px-1.5 py-0.5 rounded border border-blue-500/20">DISTRICT SP</span>
-                <i data-lucide="shield" class="w-3.5 h-3.5 text-blue-400"></i>
+            <button type="button" id="roleBtn-SP" onclick="fillDemo('SP')" class="role-select-card p-2 sm:p-3 bg-slate-900/90 hover:bg-blue-950/40 border border-slate-700/80 rounded-xl text-left transition duration-150 focus:outline-none focus:ring-2 focus:ring-blue-500 active:scale-95">
+              <div class="flex items-center justify-between mb-0.5 sm:mb-1">
+                <span class="text-[8px] sm:text-[10px] font-extrabold text-blue-400 bg-blue-500/10 px-1 py-0.2 sm:px-1.5 sm:py-0.5 rounded border border-blue-500/20">DIST. SP</span>
+                <i data-lucide="shield" class="w-3 h-3 sm:w-3.5 sm:h-3.5 text-blue-400"></i>
               </div>
-              <div class="font-bold text-white text-xs truncate">Roy, IPS (SP)</div>
-              <div class="text-[10px] text-slate-400 font-mono">IPS-MH-2024-001</div>
-              <div class="text-[9px] text-blue-400 mt-1 flex items-center gap-1 font-semibold">
-                <span class="w-1.5 h-1.5 rounded-full bg-blue-400"></span>
-                <span>District Division Command</span>
+              <div class="font-bold text-white text-[11px] sm:text-xs truncate">Roy, IPS</div>
+              <div class="text-[9px] text-slate-400 font-mono truncate">IPS-MH-001</div>
+              <div class="text-[8px] sm:text-[9px] text-blue-400 mt-0.5 sm:mt-1 flex items-center gap-1 font-semibold truncate">
+                <span class="w-1 h-1 sm:w-1.5 sm:h-1.5 rounded-full bg-blue-400"></span>
+                <span class="hidden sm:inline">District Division</span><span class="sm:hidden">District</span>
               </div>
             </button>
 
@@ -2116,7 +2149,7 @@
 
       // Initialize Leaflet map centered at Bengaluru Command Sector
       tacticalMap = L.map('tacticalMap', {
-        zoomControl: false,
+        zoomControl: false, tap: false,
         attributionControl: false
       }).setView([currentPatrolPos.lat, currentPatrolPos.lng], 15);
 
@@ -4999,6 +5032,13 @@
           openCmdPalette();
         }
       }
+    });
+
+    window.addEventListener('resize', () => {
+      if (tacticalMap) tacticalMap.invalidateSize();
+    });
+    window.addEventListener('orientationchange', () => {
+      setTimeout(() => { if (tacticalMap) tacticalMap.invalidateSize(); }, 200);
     });
 </script>
 
